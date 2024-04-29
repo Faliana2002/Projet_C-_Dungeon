@@ -1,10 +1,17 @@
 #include <SFML/Graphics.hpp>
 
+#include "../class/Personnages/Joueurs.hpp"
+
+string reference  = "../0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames";
+
 using namespace sf;
 
 int main() {
     RenderWindow window(VideoMode(500,500), "SFML works!");
     //CircleShape shape(100.0f);
+    
+    // Premier joueur
+    //Joueur j1("elf_f_hit_anim_f0.png", 20, 20);
 
     // Load a texture from a PNG file
     Texture texture;

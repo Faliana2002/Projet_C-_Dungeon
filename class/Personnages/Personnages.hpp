@@ -23,8 +23,8 @@ class Personnages {
     // virtual method
     virtual void attaquer()=0;
     virtual void prendre()=0;
-    virtual void seDeplacer(int dx, int dy)=0;
-    
+    virtual void mouvement(int dx, int dy)=0;
+
 };
 
 #endif

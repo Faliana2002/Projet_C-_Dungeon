@@ -8,6 +8,7 @@ class Joueur : public Personnages {
 
     // Attributs
     int nbXp;
+    string nomFichier;
 };
 
 #endif
