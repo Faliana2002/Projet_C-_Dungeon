@@ -12,8 +12,7 @@
 class Distance : public Armes {
     public:
         // Utiliser le constructeur de la classe de base
-        Distance(int degats, int distance, int frequence)
-            : Armes(degats, distance, frequence) {}
+        Distance(int degats, int distance, int frequence) : Armes(degats, distance, frequence) {}
 
         // Implémentation concrète de la méthode d'attaque
         virtual void attaque() const override {

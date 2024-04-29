@@ -11,8 +11,7 @@
 class Armes {
     public:
         // Constructeur avec initialisation des attributs
-        Armes(int degats, int distance, int frequence)
-            : degats_(degats), distance_attaque_(distance), frequence_emission_(frequence) {}
+        Armes(int degats, int distance, int frequence) : degats_(degats), distance_attaque_(distance), frequence_emission_(frequence) {}
 
         // Destructeur virtuel pour une bonne gestion de la mémoire avec l'héritage
         virtual ~Armes() {}
@@ -21,9 +20,9 @@ class Armes {
         virtual void attaque() const = 0;
 
     protected:
-        int degats;               // Dégâts causés par l'arme
-        int distance_attaque;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
-        int frequence_emission;   // Fréquence à laquelle l'arme peut émettre des munitions
+        int degats_;               // Dégâts causés par l'arme
+        int distance_attaque_;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
+        int frequence_emission_;   // Fréquence à laquelle l'arme peut émettre des munitions
 };
 
 
