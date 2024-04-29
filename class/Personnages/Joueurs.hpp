@@ -3,12 +3,16 @@
 
 #include "Personnages.hpp"
 
-class Joueur : public Personnages {
-    Joueur();
+#include <string>
 
-    // Attributs
-    int nbXp;
-    string nomFichier;
+class Joueur : public Personnages {
+    public:
+        Joueur(std::string f, int x, int y) : Personnages(f, x, y) {}
+
+        // Attributs
+        int nbXp;
+
+        void mouvement(int dx, int dy);
 };
 
 #endif

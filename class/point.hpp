@@ -7,8 +7,8 @@ public:
 	Point(): Point(0., 0.) {} ;
 	const float& getX() const {return x; };
 	const float& getY() const {return y; };
-	const float& setX(float px) { x=px; };
-	const float& setY(float py) { y=py; };
+	void setX(float px) { x=px; };
+	void setY(float py) { y=py; };
 	Point & operator=( const Point& p);
 	Point operator+( const Point& p);
 	Point operator-( const Point& p);

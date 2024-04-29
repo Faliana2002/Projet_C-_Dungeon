@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.ipp": "cpp",
+        "atomic": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "string": "cpp",
+        "iostream": "cpp"
+    }
+}

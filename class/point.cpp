@@ -28,8 +28,8 @@ Point Point::operator+=( const Point& p){
 	Point p2;
 	x=getX()+p.getX();
 	y=getY()+p.getY();
-	this->setX(x);
-	this->setY(y);
+	p2.setX(x);
+	p2.setY(y);
 	return(p2);
 }
 
@@ -37,7 +37,7 @@ Point Point::operator-=( const Point& p){
 	Point p2;
 	x=getX()-p.getX();
 	y=getY()-p.getY();
-	this->setX(x);
-	this->setY(y);
+	p2.setX(x);
+	p2.setY(y);
 	return(p2);
 }
