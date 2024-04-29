@@ -24,20 +24,20 @@ Point Point::operator-( const Point& p){
 	return(p2);
 }
 
-int Point::operator+=( const Point& p){
+Point Point::operator+=( const Point& p){
 	Point p2;
 	x=getX()+p.getX();
 	y=getY()+p.getY();
 	this->setX(x);
 	this->setY(y);
-	return(0);
+	return(p2);
 }
 
-int Point::operator+=( const Point& p){
+Point Point::operator-=( const Point& p){
 	Point p2;
 	x=getX()-p.getX();
 	y=getY()-p.getY();
 	this->setX(x);
 	this->setY(y);
-	return(0);
+	return(p2);
 }
