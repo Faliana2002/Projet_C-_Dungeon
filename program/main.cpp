@@ -7,12 +7,42 @@ using namespace sf;
 using namespace std;
 
 std::string reference  = "../0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/";
+std::string idle = "_idle_anim_f";
+std::string run = "_run_anim_f";
+std::string fin_str = ".png";
+
+std::string listeJoueurs[] = {"angel",
+                            "big_demon",
+                            "big_zombie",
+                            "chort",
+                            "doc",
+                            "dwarf_f",
+                            "dwarf_m",
+                            "elf_f",
+                            "elf_m",
+                            "goblin",
+                            "imp",
+                            "knight_f",
+                            "knight_m",
+                            "lizard_f",
+                            "lizard_m",
+                            "masked_orc",
+                            "ogre",
+                            "orc_shaman",
+                            "orc_warrior",
+                            "pumpkin_dude",
+                            "skelet",
+                            "tiny_zombie",
+                            "wizzard_f",
+                            "wizzard_m",
+                            "wogol"};       //25
+// Par 4 (au lieu de 8) : zombie/slug/tiny_slug/ice_zombie/muddy/necromancer/swampy/
 
 int main() {
-    RenderWindow window(VideoMode(200,200), "SFML works!");
+    RenderWindow window(VideoMode(200,200), "Rungeon!");
     
     // Premier joueur
-    Joueur j1("elf_f_hit_anim_f0.png", 20, 80);
+    Joueur j1(listeJoueurs[24], 20, 80);
 
     // Load a texture from a PNG file
     Texture texture;
@@ -26,7 +56,8 @@ int main() {
 
     // Main loop
     while (window.isOpen()) {
-
+        //cout << j1.etat << endl;
+        
         k++;
         if (k == 250) {
             j1.mouvement(speedX,speedY);

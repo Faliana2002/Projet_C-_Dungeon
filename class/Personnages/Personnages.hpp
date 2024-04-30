@@ -8,11 +8,17 @@
 #include <SFML/Graphics.hpp>
 
 extern std::string reference;
+extern std::string idle;
+extern std::string run;
+extern std::string fin_str;
+
+extern std::string listeJoueurs[];
 
 class Personnages {
     public:
         Personnages(std::string textureFile, int x, int y) {
-            texture.loadFromFile(reference + textureFile);
+            this->textureFile = textureFile;
+            texture.loadFromFile(reference + textureFile + run + "0" + fin_str);
             
             position.setX(x);
             position.setY(y);
@@ -23,6 +29,7 @@ class Personnages {
 
         // Attributs
         std::string nom;
+        std::string textureFile;
         Point position;
         bool estVivant;
         int vieMax;

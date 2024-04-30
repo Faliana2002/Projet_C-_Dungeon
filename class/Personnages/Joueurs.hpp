@@ -11,6 +11,10 @@ class Joueur : public Personnages {
 
         // Attributs
         int nbXp;
+        int cpt = 0;
+        int maxCpt = 3;
+        int etat = 0;
+        int maxEtat = 3;
 
         void mouvement(int dx, int dy);
 };
