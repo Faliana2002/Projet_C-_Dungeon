@@ -35,4 +35,7 @@ std::string listeJoueurs[] = {"angel",
                             "wogol"};       //25
 // Par 4 (au lieu de 8) : zombie/slug/tiny_slug/ice_zombie/muddy/necromancer/swampy/
 
+int width = 1280;
+int height = 720;
+
 #endif

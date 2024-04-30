@@ -25,6 +25,9 @@ class Personnages {
 
             sprite.setTexture(texture);
             sprite.setPosition(position.getX(), position.getY());
+
+            // Redimensionner le sprite
+            sprite.scale(scale_factor, scale_factor);
         };
 
         // Attributs
@@ -35,11 +38,14 @@ class Personnages {
         int vieMax;
         int vie;
         int vitesseDeplacement;
-        //int width = 16;
-        //int height = 16;
+        int width_ = 16;
+        int height_ = 28;
         //CorpsaCorps arme;
         sf::Texture texture;
         sf::Sprite sprite;
+
+        // Définir le facteur d'agrandissement
+        float scale_factor = 4.0f;
 
         // virtual method
         //virtual void attaquer()=0;

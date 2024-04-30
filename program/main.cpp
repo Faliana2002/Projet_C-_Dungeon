@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <chrono>
 
 #include "../class/Personnages/Joueurs.hpp"
 #include "../class/declaration.hpp"
@@ -11,14 +12,18 @@ extern std::string reference;
 extern std::string idle;
 extern std::string run;
 extern std::string fin_str;
-
 extern std::string listeJoueurs[];
+extern int width;
+extern int height;
 
 int main() {
-    RenderWindow window(VideoMode(200,200), "Rungeon!");
+    RenderWindow window(VideoMode(width,height), "Rungeon!");
     
     // Premier joueur
-    Joueur j1(listeJoueurs[24], 20, 80);
+    Joueur j1(listeJoueurs[4], 20, 80);
+    Joueur j2(listeJoueurs[18], 400, 300);
+    Joueur j3(listeJoueurs[23], 250, 500);
+    Joueur j4(listeJoueurs[17], 800, 600);
 
     // Load a texture from a PNG file
     Texture texture;
@@ -26,26 +31,27 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    int k = 0;
-    int speedX = 1;
-    int speedY = 1;
+    // Gestion du frame rate
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    long startTime = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+    long currentTime;
 
     // Main loop
     while (window.isOpen()) {
-        //cout << j1.etat << endl;
         
-        k++;
-        if (k == 250) {
-            j1.mouvement(speedX,speedY);
-            k = 0;
-        }
+        // Gestion du frame rate
+        auto now = std::chrono::system_clock::now();
+        auto duration = now.time_since_epoch();
+        currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+        
+        if (currentTime - startTime > 10) { // frame rate 100 Hz (10 ms)
+            j1.debug_mvt();
+            j2.debug_mvt();
+            j3.debug_mvt();
+            j4.debug_mvt();
 
-        if (j1.position.getX() + speedX + 16 > 200 || j1.position.getX() + speedX < 0) {
-            speedX *= -1;
-        }
-
-        if (j1.position.getY() + speedY + 28 > 200 || j1.position.getY() + speedY < 0) {
-            speedY *= -1;
+            startTime = currentTime;
         }
 
         // Handle events
@@ -61,6 +67,9 @@ int main() {
 
         // Draw the sprite
         window.draw(j1.sprite);
+        window.draw(j2.sprite);
+        window.draw(j3.sprite);
+        window.draw(j4.sprite);
 
         // Display the contents of the window
         window.display();

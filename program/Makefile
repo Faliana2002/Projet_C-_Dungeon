@@ -1,6 +1,6 @@
 CC = g++ # Le compilateur
 CFLAGS = -std=c++11 -Wall # Options du compilateur
-LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio -lncurses
 
 # Les fichiers source
 SRC = ../class/Personnages/Joueur.cpp ../class/point.cpp main.cpp 
