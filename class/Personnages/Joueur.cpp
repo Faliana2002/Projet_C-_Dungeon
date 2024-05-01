@@ -25,7 +25,16 @@ void Joueur::mouvement(int dx, int dy) {
 void Joueur::mouvement() {
     int dx = speedX;
     int dy = speedY;
-    position += Point(dx,dy);
+
+    if (position.getX() + speedX + width_*scale_factor < width && position.getX() + speedX > 0) {
+        position += Point(dx, 0);
+    }
+
+    if (position.getY() + speedY + (height_ -6)*scale_factor < height && position.getY() + speedY + 6 > 0) {
+        position += Point(0,dy);
+    }
+
+    //position += Point(dx,dy);
 
     if (dx != 0 || dy != 0) texture.loadFromFile(reference + textureFile + run + std::to_string(etat) + fin_str);
     else texture.loadFromFile(reference + textureFile + idle + std::to_string(etat) + fin_str);

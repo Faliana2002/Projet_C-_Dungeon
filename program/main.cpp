@@ -40,52 +40,15 @@ int main() {
     long startTime = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
     long currentTime;
 
+    void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2);
+
     // Main loop
     while (window.isOpen()) {
 
         // Handle events
         Event event;
         while (window.pollEvent(event)) {
-            if (event.type == Event::Closed) {
-                window.close();
-            }
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Up)
-                    // Gérer l'appui sur la touche Haut
-                    j1.speedY = -2;
-                else if (event.key.code == sf::Keyboard::Down)
-                    // Gérer l'appui sur la touche Bas
-                    j1.speedY = 2;
-                if (event.key.code == sf::Keyboard::Left)
-                    // Gérer l'appui sur la touche Gauche
-                    j1.speedX = -2;
-                else if (event.key.code == sf::Keyboard::Right)
-                    // Gérer l'appui sur la touche Droite
-                    j1.speedX = 2;
-                if (event.key.code == sf::Keyboard::Z)
-                    // Gérer l'appui sur la touche Haut
-                    j2.speedY = -2;
-                else if (event.key.code == sf::Keyboard::S)
-                    // Gérer l'appui sur la touche Bas
-                    j2.speedY = 2;
-                if (event.key.code == sf::Keyboard::Q)
-                    // Gérer l'appui sur la touche Gauche
-                    j2.speedX = -2;
-                else if (event.key.code == sf::Keyboard::D)
-                    // Gérer l'appui sur la touche Droite
-                    j2.speedX = 2;
-            }
-            else if (event.type == sf::Event::KeyReleased) {
-                // Réinitialisation des vitesses lorsque les touches sont relâchées
-                if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down)
-                    j1.speedY = 0;
-                if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right)
-                    j1.speedX = 0;
-                if (event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::S)
-                    j2.speedY = 0;
-                if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::D)
-                    j2.speedX = 0;
-            }
+            entryManager(event, window, j1, j2);
         }
         
         // Gestion du frame rate
@@ -114,4 +77,47 @@ int main() {
     }
 
     return EXIT_SUCCESS;
+}
+
+void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2) {
+    if (event.type == Event::Closed) {
+        window.close();
+    }
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Up)
+            // Gérer l'appui sur la touche Haut
+            j1.speedY = -2;
+        else if (event.key.code == sf::Keyboard::Down)
+            // Gérer l'appui sur la touche Bas
+            j1.speedY = 2;
+        if (event.key.code == sf::Keyboard::Left)
+            // Gérer l'appui sur la touche Gauche
+            j1.speedX = -2;
+        else if (event.key.code == sf::Keyboard::Right)
+            // Gérer l'appui sur la touche Droite
+            j1.speedX = 2;
+        if (event.key.code == sf::Keyboard::Z)
+            // Gérer l'appui sur la touche Haut
+            j2.speedY = -2;
+        else if (event.key.code == sf::Keyboard::S)
+            // Gérer l'appui sur la touche Bas
+            j2.speedY = 2;
+        if (event.key.code == sf::Keyboard::Q)
+            // Gérer l'appui sur la touche Gauche
+            j2.speedX = -2;
+        else if (event.key.code == sf::Keyboard::D)
+            // Gérer l'appui sur la touche Droite
+            j2.speedX = 2;
+    }
+    else if (event.type == sf::Event::KeyReleased) {
+        // Réinitialisation des vitesses lorsque les touches sont relâchées
+        if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down)
+            j1.speedY = 0;
+        if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right)
+            j1.speedX = 0;
+        if (event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::S)
+            j2.speedY = 0;
+        if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::D)
+            j2.speedX = 0;
+    }
 }
