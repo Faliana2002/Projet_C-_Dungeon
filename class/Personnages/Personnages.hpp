@@ -16,6 +16,7 @@ extern std::string listeJoueurs[];
 
 class Personnages {
     public:
+        Personnages();
         Personnages(std::string textureFile, int x, int y) {
             this->textureFile = textureFile;
             texture.loadFromFile(reference + textureFile + run + "0" + fin_str);

@@ -22,6 +22,33 @@ void Joueur::mouvement(int dx, int dy) {
     if (etat > maxEtat) etat = 0;
 }
 
+void Joueur::mouvement() {
+    int dx = speedX;
+    int dy = speedY;
+    position += Point(dx,dy);
+
+    if (dx != 0 || dy != 0) texture.loadFromFile(reference + textureFile + run + std::to_string(etat) + fin_str);
+    else texture.loadFromFile(reference + textureFile + idle + std::to_string(etat) + fin_str);
+
+    //sprite.setTexture(texture);
+    // Redimensionner le sprite
+    //sprite.scale(scale_factor, scale_factor);
+
+    sprite.setPosition(position.getX(), position.getY());
+
+    cpt++;
+
+    if (cpt > maxCpt) {
+        etat++;
+        cpt = 0;
+    }
+    
+    if (etat > maxEtat) etat = 0;
+
+    //speedX = 0;
+    //speedY = 0;
+}
+
 // Vitesse 1 sur les deux axes pour des tests
 void Joueur::debug_mvt() {
     mouvement(speedX,speedY);
