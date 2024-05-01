@@ -12,8 +12,8 @@ public:
 	Point & operator=( const Point& p);
 	Point operator+( const Point& p);
 	Point operator-( const Point& p);
-	Point operator+=( const Point& p);
-	Point operator-=( const Point& p);
+	void operator+=( const Point& p);
+	void operator-=( const Point& p);
 private:
         float x;
         float y;

@@ -4,9 +4,9 @@
 #include "../point.hpp"
 class Salles {
 private:
-	float height;
-	float width;
 	Point center;
+	Rectangle & contour;
+	
 public:
     void waitForExit() =0;
     //on ajoute les 3 fonctions d'affichage, une pour chaque forme, qui seront hérité dans les 2 renderer
