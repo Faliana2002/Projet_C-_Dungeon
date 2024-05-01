@@ -36,5 +36,4 @@ void Point::operator-=( const Point& p){
 	y=getY()-p.getY();
 	this->setX(x);
 	this->setY(y);
-	return(p2);
 }
