@@ -17,12 +17,15 @@ extern std::string listeJoueurs[];
 extern int width;
 extern int height;
 
+void startManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2);
+void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2);
+
 int main() {
     RenderWindow window(VideoMode(width,height), "Rungeon!");
     
     // Premier joueur
-    Joueur j1(listeJoueurs[4], 20, 80);
-    Joueur j2(listeJoueurs[18], 400, 300);
+    Joueur j1(4, 960-16*4/2, 360-28*4/2);
+    Joueur j2(18, 320-16*4/2, 360-28*4/2);
 
 
     // Gestion du jeu
@@ -40,7 +43,7 @@ int main() {
     long startTime = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
     long currentTime;
 
-    void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2);
+    int etatJeu = 0;
 
     // Main loop
     while (window.isOpen()) {
@@ -48,8 +51,23 @@ int main() {
         // Handle events
         Event event;
         while (window.pollEvent(event)) {
-            entryManager(event, window, j1, j2);
+            if (event.type == Event::Closed || event.key.code == sf::Keyboard::Space) {
+                window.close();
+            }
+            switch (etatJeu) {
+                case 0:
+                    startManager(event, window, j1, j2);
+                    break;                
+                case 1:
+                    entryManager(event, window, j1, j2);
+                    break;
+                default:
+                    break;
+            }
         }
+
+        if (j1.rtp > 0 && j2.rtp > 0) etatJeu = 1;
+        else etatJeu = 0;
         
         // Gestion du frame rate
         auto now = std::chrono::system_clock::now();
@@ -80,9 +98,6 @@ int main() {
 }
 
 void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2) {
-    if (event.type == Event::Closed) {
-        window.close();
-    }
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Up)
             // Gérer l'appui sur la touche Haut
@@ -120,4 +135,38 @@ void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2) {
         if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::D)
             j2.speedX = 0;
     }
+
+    if (event.key.code == sf::Keyboard::U) {
+            // Gérer l'appui sur la touche Gauche
+            j1.rtp = 0;
+            j2.rtp = 0;
+    }
+}
+
+void startManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2) {
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down)
+            // Gérer l'appui sur la touche Gauche
+            j1.rtp = 1;
+        if (event.key.code == sf::Keyboard::Left)
+            // Gérer l'appui sur la touche Gauche
+            j1.numPerso--;
+        else if (event.key.code == sf::Keyboard::Right)
+            // Gérer l'appui sur la touche Droite
+            j1.numPerso++;
+        if (event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::S)
+            // Gérer l'appui sur la touche Gauche
+            j2.rtp = 1;
+        if (event.key.code == sf::Keyboard::Q)
+            // Gérer l'appui sur la touche Gauche
+            j2.numPerso--;
+        else if (event.key.code == sf::Keyboard::D)
+            // Gérer l'appui sur la touche Droite
+            j2.numPerso++;
+    } 
+    if (j1.numPerso < 0) j1.numPerso++;
+    if (j1.numPerso > 24) j1.numPerso--;
+    if (j2.numPerso < 0) j2.numPerso++;
+    if (j2.numPerso > 24) j2.numPerso--;
+
 }

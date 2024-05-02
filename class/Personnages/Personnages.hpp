@@ -17,8 +17,9 @@ extern std::string listeJoueurs[];
 class Personnages {
     public:
         Personnages();
-        Personnages(std::string textureFile, int x, int y) {
-            this->textureFile = textureFile;
+        Personnages(int textureFileInt, int x, int y) {
+            numPerso = textureFileInt;
+            textureFile = listeJoueurs[textureFileInt];
             texture.loadFromFile(reference + textureFile + run + "0" + fin_str);
             
             position.setX(x);
@@ -35,12 +36,14 @@ class Personnages {
         std::string nom;
         std::string textureFile;
         Point position;
+        int numPerso = 0;
         bool estVivant;
         int vieMax;
         int vie;
         int vitesseDeplacement;
         int width_ = 16;
         int height_ = 28;
+        int rtp = 0;
         //CorpsaCorps arme;
         sf::Texture texture;
         sf::Sprite sprite;

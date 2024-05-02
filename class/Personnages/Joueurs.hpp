@@ -11,7 +11,7 @@ extern int height;
 class Joueur : public Personnages {
     public:
         Joueur() {};
-        Joueur(std::string f, int x, int y) : Personnages(f, x, y) {}
+        Joueur(int fInt, int x, int y) : Personnages(fInt, x, y) {}
 
         // Attributs
         int nbXp;
