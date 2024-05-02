@@ -44,6 +44,8 @@ class Personnages {
         int width_ = 16;
         int height_ = 28;
         int rtp = 0;
+        bool start = true;
+        int mirrored = 0;
         //CorpsaCorps arme;
         sf::Texture texture;
         sf::Sprite sprite;

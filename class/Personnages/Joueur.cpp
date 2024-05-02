@@ -47,7 +47,21 @@ void Joueur::mouvement() {
     // Redimensionner le sprite
     //sprite.scale(scale_factor, scale_factor);
 
-    sprite.setPosition(position.getX(), position.getY());
+    if (dx != 0 || dy != 0 || start) {
+        if (dx < 0) {
+            sprite.setPosition(position.getX()+width_*scale_factor, position.getY());
+            sprite.setScale(-scale_factor,scale_factor);
+            mirrored = 1;
+        }
+        else if (dx == 0)  {
+            sprite.setPosition(position.getX()+width_*scale_factor*mirrored, position.getY());
+        }
+        else {
+            sprite.setPosition(position.getX(), position.getY());
+            sprite.setScale(scale_factor,scale_factor);
+            mirrored = 0;
+        }
+    }
 
     cpt++;
 
