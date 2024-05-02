@@ -27,6 +27,14 @@ int main() {
     Joueur j1(4, 960-16*4/2, 360-28*4/2);
     Joueur j2(18, 320-16*4/2, 360-28*4/2);
 
+    // Background texture
+    Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile(reference + "page_acceuil.png")) {
+        // Gérer l'échec du chargement de l'image
+        std::cerr << "Impossible de charger l'image en arrière-plan !" << std::endl;
+        return EXIT_FAILURE;
+    }
+    Sprite backgroundSprite(backgroundTexture);
 
     // Gestion du jeu
     //Gestion game(j1, j2);
@@ -86,6 +94,11 @@ int main() {
         // Clear the window
         window.clear();
 
+        // Draw background
+        if (etatJeu == 0) {
+            window.draw(backgroundSprite);
+        }
+
         // Draw the sprite
         window.draw(j1.sprite);
         window.draw(j2.sprite);
@@ -140,6 +153,8 @@ void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2) {
             // Gérer l'appui sur la touche Gauche
             j1.rtp = 0;
             j2.rtp = 0;
+            j1.position = Point(960-16*4/2, 360-28*4/2);
+            j2.position = Point(320-16*4/2, 360-28*4/2);
     }
 }
 
