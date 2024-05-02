@@ -1,9 +1,6 @@
 #include "../point.hpp"
-class Obstacles {
-private:
-	Point center;
-	Rectangle & contour;
+#include "../rectangle.hpp"
+class Obstacles: public Rectangles {
 public:
-    bool on_obstacle =0;
-    void setcenter(Point c);
-    void setcontour(Point & contour);
+	Obstacles(const Point& center, float w, float h) : center(center), width(w), height(h) {} ;
+	bool inobstacles(Point p);
