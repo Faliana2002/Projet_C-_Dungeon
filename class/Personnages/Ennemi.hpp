@@ -2,6 +2,7 @@
 #define ENNEMIS
 
 #include "Personnages.hpp"
+#include "Joueurs.hpp"
 
 #include <string>
 #include <cstdlib>
@@ -31,6 +32,7 @@ class Ennemi : public Personnages {
         void mouvement();
         void debug_mvt();
         void aleatoire_mvt();
+        void suivi(Joueur& j);
 };
 
 #endif

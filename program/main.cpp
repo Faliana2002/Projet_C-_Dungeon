@@ -101,7 +101,7 @@ int main() {
             e2.aleatoire_mvt();
             e3.aleatoire_mvt();
             e4.aleatoire_mvt();
-            e5.aleatoire_mvt();
+            e5.suivi(j1);
 
             startTime = currentTime;
         }

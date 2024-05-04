@@ -161,3 +161,22 @@ void Ennemi::aleatoire_mvt() {
 
     mouvement(speedX,speedY);
 }
+
+void Ennemi::suivi(Joueur& j) {
+    objectif.setX(j.position.getX());
+    objectif.setY(j.position.getY());
+
+    float tx = objectif.getX() - position.getX();
+    float ty = objectif.getY() - position.getY();
+    float tmax;
+    if (abs(tx) > abs(ty)) tmax = abs(tx);
+    else tmax = abs(ty);
+
+    speedX = tx/tmax;
+    speedY = ty/tmax;
+
+    if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
+    else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);
+    
+    mouvement(speedX,speedY);
+}
