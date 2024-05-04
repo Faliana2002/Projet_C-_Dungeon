@@ -1,25 +1,57 @@
-#include "Joueurs.hpp"
+#include "Ennemi.hpp"
 
-Joueur::Joueur(int textureFileInt, float x, float y) {
+Ennemi::Ennemi(int textureFileInt) {
+    // Initialisation du générateur de nombres pseudo-aléatoires
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
+    int maxX = static_cast<int>(width);
+    int maxY = static_cast<int>(height);
+        
+    int x = rand()%maxX;
+    int y = rand()%maxY;
+    
     numPerso = textureFileInt;
     // Set grande taille
-    textureFile = listeJoueurs[2];
+    textureFile = listeEnnemi[10];
     texture.loadFromFile(reference + textureFile + run + "0" + fin_str);
     
     position.setX(x);
     position.setY(y);
+    objectif.setX(x);
+    objectif.setY(y);
 
     sprite.setTexture(texture);
     sprite.setPosition(position.getX(), position.getY());
 
     // Redimensionner le sprite
     sprite.scale(scale_factor, scale_factor);
+}
+
+Ennemi::Ennemi(int textureFileInt, float x, float y) {
+    numPerso = textureFileInt;
+    // Set grande taille
+    textureFile = listeEnnemi[10];
+    texture.loadFromFile(reference + textureFile + run + "0" + fin_str);
+    
+    position.setX(x);
+    position.setY(y);
+    objectif.setX(x);
+    objectif.setY(y);
+
+    sprite.setTexture(texture);
+    sprite.setPosition(position.getX(), position.getY());
+
+    // Redimensionner le sprite
+    sprite.scale(scale_factor, scale_factor);
+
+    // Initialisation du générateur de nombres pseudo-aléatoires
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 };
 
-void Joueur::mouvement(float dx, float dy) {
+void Ennemi::mouvement(float dx, float dy) {
     position += Point(dx,dy);
 
-    textureFile = listeJoueurs[numPerso];
+    textureFile = listeEnnemi[numPerso];
 
     if (dx != 0 && dy != 0) texture.loadFromFile(reference + textureFile + run + std::to_string(etat) + fin_str);
     else texture.loadFromFile(reference + textureFile + idle + std::to_string(etat) + fin_str);
@@ -40,11 +72,11 @@ void Joueur::mouvement(float dx, float dy) {
     if (etat > maxEtat) etat = 0;
 }
 
-void Joueur::mouvement() {
+void Ennemi::mouvement() {
     int dx = speedX;
     int dy = speedY;
 
-    textureFile = listeJoueurs[numPerso];
+    textureFile = listeEnnemi[numPerso];
     
     if (position.getX() + speedX + width_*scale_factor < width && position.getX() + speedX > 0) {
         position += Point(dx, 0);
@@ -93,7 +125,7 @@ void Joueur::mouvement() {
 }
 
 // Vitesse 1 sur les deux axes pour des tests
-void Joueur::debug_mvt() {
+void Ennemi::debug_mvt() {
     mouvement(speedX,speedY);
             
     if (position.getX() + speedX + width_*scale_factor > width || position.getX() + speedX < 0) {
@@ -104,4 +136,28 @@ void Joueur::debug_mvt() {
         speedY *= -1;
     }
 
+}
+
+void Ennemi::aleatoire_mvt() {
+    if (abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) {
+        int maxX = static_cast<int>(width);
+        int maxY = static_cast<int>(height);
+            
+        objectif.setX(rand()%maxX);
+        objectif.setY(rand()%maxY);
+
+        float tx = objectif.getX() - position.getX();
+        float ty = objectif.getY() - position.getY();
+        float tmax;
+        if (abs(tx) > abs(ty)) tmax = abs(tx);
+        else tmax = abs(ty);
+
+        speedX = tx/tmax;
+        speedY = ty/tmax;
+
+        if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
+        else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);    
+    }
+
+    mouvement(speedX,speedY);
 }

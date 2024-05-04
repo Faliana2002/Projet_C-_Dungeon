@@ -13,25 +13,10 @@ extern std::string run;
 extern std::string fin_str;
 
 extern std::string listeJoueurs[];
+extern std::string listeEnnemi[];
 
 class Personnages {
     public:
-        Personnages();
-        Personnages(int textureFileInt, int x, int y) {
-            numPerso = textureFileInt;
-            textureFile = listeJoueurs[textureFileInt];
-            texture.loadFromFile(reference + textureFile + run + "0" + fin_str);
-            
-            position.setX(x);
-            position.setY(y);
-
-            sprite.setTexture(texture);
-            sprite.setPosition(position.getX(), position.getY());
-
-            // Redimensionner le sprite
-            sprite.scale(scale_factor, scale_factor);
-        };
-
         // Attributs
         std::string nom;
         std::string textureFile;
@@ -56,7 +41,7 @@ class Personnages {
         // virtual method
         //virtual void attaquer()=0;
         //virtual void prendre()=0;
-        virtual void mouvement(int dx, int dy)=0;
+        virtual void mouvement(float dx, float dy)=0;
 };
 
 #endif

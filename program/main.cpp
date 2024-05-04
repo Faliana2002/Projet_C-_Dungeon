@@ -3,9 +3,9 @@
 #include <chrono>
 
 #include "../class/Personnages/Joueurs.hpp"
+#include "../class/Personnages/Ennemi.hpp"
 #include "../class/declaration.hpp"
 #include "../class/Gestion.hpp"
-//#include "../class/Gestion.hpp"
 
 using namespace sf;
 using namespace std;
@@ -27,7 +27,13 @@ int main() {
     
     // Premier joueur
     Joueur j1(2, 960-16*4/2, 360-28*4/2);
-    Joueur j2(2, 320-16*4/2, 360-28*4/2);
+    Joueur j2(1, 320-16*4/2, 360-28*4/2);
+
+    Ennemi e1(1, 600,300);
+    Ennemi e2(2,1278, 56);
+    Ennemi e3(3,1074, 449);
+    Ennemi e4(4,612, 273);
+    Ennemi e5(5,532, 145);
 
     // Background texture
     Texture backgroundTexture;
@@ -90,6 +96,13 @@ int main() {
             j1.mouvement();
             j2.mouvement();
 
+            //e1.debug_mvt();
+            e1.aleatoire_mvt();
+            e2.aleatoire_mvt();
+            e3.aleatoire_mvt();
+            e4.aleatoire_mvt();
+            e5.aleatoire_mvt();
+
             startTime = currentTime;
         }
 
@@ -104,6 +117,12 @@ int main() {
         // Draw the sprite
         window.draw(j1.sprite);
         window.draw(j2.sprite);
+
+        window.draw(e1.sprite);
+        window.draw(e2.sprite);
+        window.draw(e3.sprite);
+        window.draw(e4.sprite);
+        window.draw(e5.sprite);
 
         // Display the contents of the window
         window.display();

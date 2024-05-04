@@ -11,7 +11,7 @@ extern int height;
 class Joueur : public Personnages {
     public:
         Joueur() {};
-        Joueur(int fInt, int x, int y) : Personnages(fInt, x, y) {}
+        Joueur(int fInt, float x, float y);
 
         // Attributs
         int nbXp;
@@ -20,12 +20,12 @@ class Joueur : public Personnages {
         int etat = 0;
         int maxEtat = 3;
 
-        int speedX = 0;
-        int speedY = 0;
+        float speedX = 0;
+        float speedY = 0;
 
         int numjoueur = 1;
 
-        void mouvement(int dx, int dy);
+        void mouvement(float dx, float dy);
         void mouvement();
         void debug_mvt();
 };

@@ -38,8 +38,8 @@ std::string listeJoueurs[] = {"angel",
                             //"wogol"};       //25
 
 std::string listeEnnemi[] = {//"angel",
-                            "big_demon",
-                            "big_zombie",
+                            //"big_demon",
+                            //"big_zombie",
                             "chort",
                             "doc",
                             //"dwarf_f",
@@ -61,10 +61,12 @@ std::string listeEnnemi[] = {//"angel",
                             "tiny_zombie",
                             //"wizzard_f",
                             //"wizzard_m",
-                            "wogol"};       //16
+                            "wogol"};       //14
 // Par 4 (au lieu de 8) : zombie/slug/tiny_slug/ice_zombie/muddy/necromancer/swampy/
 
 int width = 1280;
 int height = 720;
+
+float alea_mvt_max = 0.1;
 
 #endif
