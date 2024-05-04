@@ -8,32 +8,24 @@ Point & Point::operator=( const Point& p){
 
 Point Point::operator+( const Point& p){
 	Point p2;
-	x=getX()+p.getX();
-	y=getY()+p.getY();
-	p2.setX(x);
-	p2.setY(y);
+	p2.x=getX()+p.getX();
+	p2.y=getY()+p.getY();
 	return(p2);
 }
 
 Point Point::operator-( const Point& p){
 	Point p2;
-	x=getX()-p.getX();
-	y=getY()-p.getY();
-	p2.setX(x);
-	p2.setY(y);
+	p2.x=getX()-p.getX();
+	p2.y=getY()-p.getY();
 	return(p2);
 }
 
 void Point::operator+=( const Point& p){
 	x=getX()+p.getX();
 	y=getY()+p.getY();
-	this->setX(x);
-	this->setY(y);
 }
 
 void Point::operator-=( const Point& p){
 	x=getX()-p.getX();
 	y=getY()-p.getY();
-	this->setX(x);
-	this->setY(y);
 }
