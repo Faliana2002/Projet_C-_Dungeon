@@ -7,6 +7,7 @@
 #include "../class/declaration.hpp"
 #include "../class/Gestion.hpp"
 #include "../class/Armes/CorpsaCorps.hpp"
+#include "../class/Armes/Distance.hpp"
 
 using namespace sf;
 using namespace std;
@@ -20,8 +21,8 @@ extern std::string listeEnnemi[];
 extern int width;
 extern int height;
 
-void startManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2);
-void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2);
+//void startManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2);
+//void entryManager(Event event, RenderWindow& window, Joueur& j1, Joueur& j2);
 
 int main() {
     RenderWindow window(VideoMode(width,height), "Rungeon!");
@@ -36,7 +37,10 @@ int main() {
     Ennemi e4(4,612, 273);
     Ennemi e5(5,532, 145);
 
-    CorpsaCorps cac1(0);
+    CorpsaCorps c1(0);
+    //j1.armes = &c1;
+    Distance d1(0);
+    //j2.armes = &d1;
 
     // Background texture
     Texture backgroundTexture;
@@ -78,7 +82,7 @@ int main() {
                     game.startManager(event, window, j1, j2);   // Page choix personnages
                     break;                
                 case 1:
-                    game.entryManager(event, window, j1, j2);   // Page de jeu
+                    game.entryManager(event, window, j1, j2, c1, d1);   // Page de jeu
                     break;
                 default:
                     break;
@@ -104,7 +108,8 @@ int main() {
             e2.aleatoire_mvt();
             e3.aleatoire_mvt();
             e4.aleatoire_mvt();
-            e5.suivi(j1);
+            //e5.suivi(j1);
+            e5.aleatoire_mvt();
 
             startTime = currentTime;
         }
@@ -126,7 +131,10 @@ int main() {
         window.draw(e3.sprite);
         window.draw(e4.sprite);
         window.draw(e5.sprite);
-        window.draw(cac1.sprite);
+        if (j1.armes != nullptr) window.draw(j1.armes->sprite);
+        if (c1.portee == false) window.draw(c1.sprite);
+        if (j2.armes != nullptr) window.draw(j2.armes->sprite);
+        if (d1.portee == false) window.draw(d1.sprite);
 
         // Display the contents of the window
         window.display();
