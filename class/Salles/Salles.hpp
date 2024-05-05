@@ -3,6 +3,7 @@
 
 #include "../point.hpp"
 #include "Obstacles.hpp"
+#include <list>
 class Salles {
 //classe Salles, plusieurs chose à disposition, le center qui permettra de possitionner les sections par rapport à ce dernier, mais qui permettra aussi de positionner la salle dans le plan
 // la liste de rectangle section va constituer l'espace de la salle, si on veut faire une grande pièce on crée un grand rectangle, puis on peut lui ajouter de plus petit rectangle pour ajouter du relief
@@ -11,9 +12,9 @@ class Salles {
 //l'entier n permettra de connaitre le nombre de section dont est constituer la salle
 private:
 	Point center;
-	Rectangle & sect;
-	Obstacles & obst;
-	Point & door;
+	list<Rectangle> sect;
+	list<Obstacles> obst;
+	list<Point> & door;
 	int n;
 	
 public:
