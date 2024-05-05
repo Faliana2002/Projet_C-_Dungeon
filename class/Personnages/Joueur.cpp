@@ -54,6 +54,8 @@ void Joueur::mouvement() {
         position += Point(0,dy);
     }
 
+    positionArme.setY(position.getY());
+
     //position += Point(dx,dy);
 
     if (dx != 0 || dy != 0) texture.loadFromFile(reference + textureFile + run + std::to_string(etat) + fin_str);
@@ -68,14 +70,22 @@ void Joueur::mouvement() {
             sprite.setPosition(position.getX()+width_*scale_factor, position.getY());
             sprite.setScale(-scale_factor,scale_factor);
             mirrored = 1;
+            positionArme.setX(position.getX()+width_*scale_factor);
         }
         else if (dx == 0)  {
             sprite.setPosition(position.getX()+width_*scale_factor*mirrored, position.getY());
+            positionArme.setX(position.getX()+width_*scale_factor);
         }
         else {
             sprite.setPosition(position.getX(), position.getY());
             sprite.setScale(scale_factor,scale_factor);
             mirrored = 0;
+            positionArme.setX(position.getX() - width_*2);
+        }
+
+        if (armes != nullptr)  {
+            armes->sprite.setPosition(positionArme.getX(), positionArme.getY());
+            armes->position = positionArme;
         }
     }
 

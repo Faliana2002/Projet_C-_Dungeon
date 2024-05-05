@@ -124,10 +124,13 @@ std::vector<std::tuple<std::string, float, float, float, float, float, float>> l
     std::make_tuple("waraxe", 0,0,0,0,0,0)
 };
 
-std::string listeArmesDistance[] = {"bow",
-                                    "bow_2",
-                                    "green_magic_staff",
-                                    "red_magic_staff"};
+// nom, rate_min, rate_max, degats_min, degats_max, d_min, d_max
+std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesDistance = {
+    std::make_tuple("bow", 2,4,2,5, 128, 192),
+    std::make_tuple("bow_2", 0,0,0,0,0,0),
+    std::make_tuple("green_magic_staff", 0,0,0,0,0,0),
+    std::make_tuple("red_magic_staff", 0,0,0,0,0,0),
+};
 
 std::string arrowFile = "arrow";
 

@@ -8,11 +8,13 @@
 #ifndef ARMES_Distance_HPP
 #define ARMES_Distance_HPP
 
+extern std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesDistance;
+
 // Classe dérivée pour les armes à distance
 class Distance : public Armes {
     public:
         // Utiliser le constructeur de la classe de base
-        Distance(int degats, int distance, int frequence) : Armes(degats, distance, frequence) {}
+        Distance(int indice);
 
         // Implémentation concrète de la méthode d'attaque
         virtual void attaque() const override {

@@ -3,6 +3,7 @@
 
 #include "../point.hpp"
 #include "../Armes/CorpsaCorps.hpp"
+#include "../Armes/Armes.hpp"
 
 #include <string>
 #include <SFML/Graphics.hpp>
@@ -21,6 +22,7 @@ class Personnages {
         std::string nom;
         std::string textureFile;
         Point position;
+        Point positionArme;
         int numPerso = 0;
         bool estVivant;
         int vieMax;
@@ -37,6 +39,8 @@ class Personnages {
 
         // Définir le facteur d'agrandissement
         float scale_factor = 4.0f;
+
+        Armes* armes = nullptr;
 
         // virtual method
         //virtual void attaquer()=0;

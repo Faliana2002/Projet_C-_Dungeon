@@ -8,6 +8,8 @@
 #include <iostream>
 #include "Armes.hpp"
 
+extern std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesCAC;
+
 // Classe dérivée pour les armes de corps à corps
 class CorpsaCorps : public Armes {
     public:

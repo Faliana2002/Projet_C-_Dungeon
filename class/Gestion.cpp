@@ -3,7 +3,7 @@
 extern int nbLJoueur;
 extern int nbLEnnemi;
 
-void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, Joueur& j1, Joueur& j2) {
+void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, Joueur& j1, Joueur& j2, Armes& a1, Armes& a2) {
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Up)
             // Gérer l'appui sur la touche Haut
@@ -29,6 +29,42 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, Joueur& j1
         else if (event.key.code == sf::Keyboard::D)
             // Gérer l'appui sur la touche Droite
             j2.speedX = 2;
+        if (event.key.code == sf::Keyboard::E) {
+            if (j2.armes == nullptr) {
+                if ( abs(a1.position.getX() - j2.position.getX()) < 50 && abs(a1.position.getY() - j2.position.getY()) < 150 && a1.portee == false) {
+                    j2.armes = &a1;
+                    a1.sprite.setPosition(j2.positionArme.getX(), j2.positionArme.getY());
+                    a1.portee = true;
+                }
+                else if ( abs(a2.position.getX() - j2.position.getX()) < 50 && abs(a2.position.getY() - j2.position.getY()) < 150 && a2.portee == false) {
+                    j2.armes = &a2;
+                    a2.sprite.setPosition(j2.positionArme.getX(), j2.positionArme.getY());
+                    a2.portee = true;
+                }
+            } 
+            else {
+                j2.armes->portee = false;
+                j2.armes = nullptr;
+            }
+        }
+        if (event.key.code == sf::Keyboard::RShift) {
+            if (j1.armes == nullptr) {
+                if ( abs(a1.position.getX() - j1.position.getX()) < 50 && abs(a1.position.getY() - j1.position.getY()) < 150 && a1.portee == false) {
+                    j1.armes = &a1;
+                    a1.sprite.setPosition(j1.positionArme.getX(), j1.positionArme.getY());
+                    a1.portee = true;
+                }
+                else if ( abs(a2.position.getX() - j1.position.getX()) < 50 && abs(a2.position.getY() - j1.position.getY()) < 150 && a2.portee == false) {
+                    j1.armes = &a2;
+                    a2.sprite.setPosition(j1.positionArme.getX(), j1.positionArme.getY());
+                    a2.portee = true;
+                }
+            } 
+            else {
+                j1.armes->portee = false;
+                j1.armes = nullptr;
+            }
+        }
     }
     else if (event.type == sf::Event::KeyReleased) {
         // Réinitialisation des vitesses lorsque les touches sont relâchées

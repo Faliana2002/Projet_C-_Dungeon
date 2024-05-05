@@ -13,7 +13,6 @@
 #ifndef ARMES_HPP
 #define ARMES_HPP
 
-extern std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesCAC;
 extern std::string reference;
 extern std::string fin_str;
 extern std::string weapon_str;
@@ -32,12 +31,13 @@ class Armes {
         float distance_attaque_;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
         float rate_;   // Fréquence à laquelle l'arme peut émettre des munitions
         int indice_;
-        Point position;
-        float scale_factor = 1.0;
+        float scale_factor = 2.0;
     public:
         sf::Texture texture;
         sf::Sprite sprite;
         std::string textureFile;
+        Point position;
+        bool portee = false;
 };
 
 
