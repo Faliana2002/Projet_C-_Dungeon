@@ -13,6 +13,7 @@
 #ifndef ARMES_HPP
 #define ARMES_HPP
 
+// 3 variables globales définies dans un fichier source externe
 extern std::string reference;
 extern std::string fin_str;
 extern std::string weapon_str;
@@ -24,7 +25,13 @@ class Armes {
         virtual ~Armes() {}
 
         // Méthode virtuelle pure pour attaquer qui sera implémentée par les classes dérivées
+        // Méthode pour obtenir les dégâts de l'arme
+        float getDegats() const {return degats_;}
         virtual void attaque() const = 0;
+        virtual void infligerDegats() const = 0;
+        virtual void ramasserArme() const = 0;
+        // Méthode pour ajouter une arme à l'inventaire
+        virtual void ajouterArmeInventaire(const Armes& arme){inventaire.push_back(arme);}
 
     protected:
         float degats_;               // Dégâts causés par l'arme
@@ -36,6 +43,7 @@ class Armes {
         sf::Texture texture;
         sf::Sprite sprite;
         std::string textureFile;
+        std::vector<Armes> inventaire; // Inventaire des armes
         Point position;
         bool portee = false;
 };

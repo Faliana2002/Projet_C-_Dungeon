@@ -29,4 +29,8 @@ Distance::Distance(int indice) {
 
     // Redimensionner le sprite
     sprite.scale(scale_factor, scale_factor);
-}        
+}
+
+void Distance::attaque() const override{
+    
+}

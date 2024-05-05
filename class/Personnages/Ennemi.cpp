@@ -180,3 +180,33 @@ void Ennemi::suivi(Joueur& j) {
     
     mouvement(speedX,speedY);
 }
+
+bool Ennemi::detecterEnnemi(const Joueur& j){
+    // Calcul de la distance entre l'ennemi et le joueur
+    float distance = sqrt(pow((j.getX() - getX()), 2) + pow((j.getY() - getY()), 2));
+
+    // Si la distance est inférieure ou égale à la portée de détection
+    // alors on considère que l'ennemi a détecté le joueur
+    if (distance <= porteeDetection) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void Ennemi::recevoirDegats(const Armes& arme){
+    // Soustraire les dégâts des points de vie de l'ennemi en utilisant les dégâts de l'arme
+    pointsDeVie -= arme.getDegats();
+
+    // Vérifier si l'ennemi est toujours en vie
+    if (pointsDeVie <= 0) {
+        // L'ennemi est vaincu
+        pointsDeVie = 0; // Éviter les valeurs négatives
+        estVivant = false; // Marquer l'ennemi comme étant vaincu
+        std::cout << "L'ennemi a été vaincu !" << std::endl;
+        // Autres actions à effectuer lorsque l'ennemi est vaincu...
+    } else {
+        // L'ennemi est toujours en vie
+        std::cout << "L'ennemi subit des dégâts mais est toujours en vie." << std::endl;
+    }
+}
