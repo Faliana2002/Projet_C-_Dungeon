@@ -6,6 +6,7 @@
 #include "../class/Personnages/Ennemi.hpp"
 #include "../class/declaration.hpp"
 #include "../class/Gestion.hpp"
+#include "../class/Armes/CorpsaCorps.hpp"
 
 using namespace sf;
 using namespace std;
@@ -34,6 +35,8 @@ int main() {
     Ennemi e3(3,1074, 449);
     Ennemi e4(4,612, 273);
     Ennemi e5(5,532, 145);
+
+    CorpsaCorps cac1(0);
 
     // Background texture
     Texture backgroundTexture;
@@ -123,6 +126,7 @@ int main() {
         window.draw(e3.sprite);
         window.draw(e4.sprite);
         window.draw(e5.sprite);
+        window.draw(cac1.sprite);
 
         // Display the contents of the window
         window.display();

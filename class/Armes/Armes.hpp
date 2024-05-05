@@ -3,16 +3,24 @@
 // 29/04/2024
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
+#include <SFML/Graphics.hpp>
+
+#include "../point.hpp"
 
 #ifndef ARMES_HPP
 #define ARMES_HPP
 
+extern std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesCAC;
+extern std::string reference;
+extern std::string fin_str;
+extern std::string weapon_str;
+
 // Classe abstraite de base pour les armes
 class Armes {
     public:
-        // Constructeur avec initialisation des attributs
-        Armes(int degats, int distance, int frequence) : degats_(degats), distance_attaque_(distance), frequence_emission_(frequence) {}
-
         // Destructeur virtuel pour une bonne gestion de la mémoire avec l'héritage
         virtual ~Armes() {}
 
@@ -20,9 +28,16 @@ class Armes {
         virtual void attaque() const = 0;
 
     protected:
-        int degats_;               // Dégâts causés par l'arme
-        int distance_attaque_;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
-        int frequence_emission_;   // Fréquence à laquelle l'arme peut émettre des munitions
+        float degats_;               // Dégâts causés par l'arme
+        float distance_attaque_;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
+        float rate_;   // Fréquence à laquelle l'arme peut émettre des munitions
+        int indice_;
+        Point position;
+        float scale_factor = 1.0;
+    public:
+        sf::Texture texture;
+        sf::Sprite sprite;
+        std::string textureFile;
 };
 
 

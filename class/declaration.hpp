@@ -2,6 +2,8 @@
 #define DECLARATION
 
 #include <string>
+#include <vector>
+#include <tuple>
 
 std::string reference  = "../0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/";
 std::string idle = "_idle_anim_f";
@@ -16,6 +18,7 @@ std::string spikes_anim_str = "_anim_f";
 
 int nbLJoueur = 9;
 int nbLEnnemi = 16;
+int nbArmesCAC = 22;
 
 std::string listeJoueurs[] = {"angel",
                             //"big_demon",
@@ -70,10 +73,11 @@ std::string listeEnnemi[] = {//"angel",
                             "wogol"};       //14
 // Par 4 (au lieu de 8) : zombie/slug/tiny_slug/ice_zombie/muddy/necromancer/swampy/
 
+/*
 std::string listeArmesCAC[] = {"anime_sword",
                               "axe",
                               "baton_with_spikes",
-                              "big_hamme",
+                              "big_hammer",
                               "cleaver",
                               "double_axe",
                               "duel_sword",
@@ -92,6 +96,33 @@ std::string listeArmesCAC[] = {"anime_sword",
                               "spear",
                               "throwing_axe",
                               "waraxe"};
+*/
+
+// nom, rate_min, rate_max, degats_min, degats_max, d_min, d_max
+std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesCAC = {
+    std::make_tuple("anime_sword", 2,4,2,5, 128, 192),
+    std::make_tuple("axe", 0,0,0,0,0,0),
+    std::make_tuple("baton_with_spikes", 0,0,0,0,0,0),
+    std::make_tuple("big_hammer", 0,0,0,0,0,0),
+    std::make_tuple("cleaver", 0,0,0,0,0,0),
+    std::make_tuple("double_axe", 0,0,0,0,0,0),
+    std::make_tuple("duel_sword", 0,0,0,0,0,0),
+    std::make_tuple("golden_sword", 0,0,0,0,0,0),
+    std::make_tuple("hammer", 0,0,0,0,0,0),
+    std::make_tuple("katana", 0,0,0,0,0,0),
+    std::make_tuple("knife", 0,0,0,0,0,0),
+    std::make_tuple("knight_sword", 0,0,0,0,0,0),
+    std::make_tuple("lavish_sword", 0,0,0,0,0,0),
+    std::make_tuple("mace", 0,0,0,0,0,0),
+    std::make_tuple("machete", 0,0,0,0,0,0),
+    std::make_tuple("red_gem_sword", 0,0,0,0,0,0),
+    std::make_tuple("regular_sword", 0,0,0,0,0,0),
+    std::make_tuple("rusty_sword", 0,0,0,0,0,0),
+    std::make_tuple("saw_sword", 0,0,0,0,0,0),
+    std::make_tuple("spear_sword", 0,0,0,0,0,0),
+    std::make_tuple("throwing_axe", 0,0,0,0,0,0),
+    std::make_tuple("waraxe", 0,0,0,0,0,0)
+};
 
 std::string listeArmesDistance[] = {"bow",
                                     "bow_2",
@@ -150,7 +181,7 @@ std::string listeFloor[] = {"_1",
                             "ladder",
                             "stairs"};
 
-std::string spikes_anim = "spikes"
+std::string spikes_anim = "spikes";
 
 /*
 bombe

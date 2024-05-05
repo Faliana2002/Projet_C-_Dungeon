@@ -19,6 +19,10 @@
         "bit": "cpp",
         "numeric": "cpp",
         "core": "cpp",
-        "*.txx": "cpp"
+        "*.txx": "cpp",
+        "array": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp",
+        "variant": "cpp"
     }
 }
