@@ -31,16 +31,29 @@ int main() {
     Joueur j1(2, 960-16*4/2, 360-28*4/2);
     Joueur j2(1, 320-16*4/2, 360-28*4/2);
 
+    std::vector<Joueur> lJoueurs;
+    lJoueurs.push_back(j1);
+    lJoueurs.push_back(j2);
+
     Ennemi e1(1, 600,300);
     Ennemi e2(2,1278, 56);
     Ennemi e3(3,1074, 449);
     Ennemi e4(4,612, 273);
     Ennemi e5(5,532, 145);
 
+    std::vector<Ennemi> lEnnemis;
+    lEnnemis.push_back(e1);
+    lEnnemis.push_back(e2);
+    lEnnemis.push_back(e3);
+    lEnnemis.push_back(e4);
+    lEnnemis.push_back(e5);
+
     CorpsaCorps c1(0);
-    //j1.armes = &c1;
     Distance d1(0);
-    //j2.armes = &d1;
+
+    std::vector<Armes*> listeArmes;
+    listeArmes.push_back(&c1);
+    listeArmes.push_back(&d1);
 
     // Background texture
     Texture backgroundTexture;
@@ -82,7 +95,7 @@ int main() {
                     game.startManager(event, window, j1, j2);   // Page choix personnages
                     break;                
                 case 1:
-                    game.entryManager(event, window, j1, j2, c1, d1);   // Page de jeu
+                    game.entryManager(event, window, j1, j2, listeArmes);   // Page de jeu
                     break;
                 default:
                     break;
@@ -98,18 +111,19 @@ int main() {
         currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
         
         if (currentTime - startTime > 20) { // frame rate 100 Hz (10 ms)
-            //j1.debug_mvt();
-            //j2.debug_mvt();
+            //for (Joueur j : listeJoueurs) j.debug_mvt(); 
+            //for (Joueur& j : lJoueurs) j.mouvement();
             j1.mouvement();
             j2.mouvement();
 
-            //e1.debug_mvt();
+            //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
+            //for (Ennemi e : lEnnemis) e.aleatoire_mvt();
             e1.aleatoire_mvt();
             e2.aleatoire_mvt();
             e3.aleatoire_mvt();
             e4.aleatoire_mvt();
-            //e5.suivi(j1);
             e5.aleatoire_mvt();
+            //for (Ennemi e : listeEnnemis) e.suivi();
 
             startTime = currentTime;
         }
@@ -123,18 +137,26 @@ int main() {
         }
 
         // Draw the sprite
+        // Joueur
+        //for (Joueur j : lJoueurs) window.draw(j.sprite);
         window.draw(j1.sprite);
         window.draw(j2.sprite);
-
+        // Ennemi
+        //for (Ennemi e : lEnnemis) window.draw(e.sprite);
         window.draw(e1.sprite);
         window.draw(e2.sprite);
         window.draw(e3.sprite);
         window.draw(e4.sprite);
         window.draw(e5.sprite);
+        // Armes
+        
         if (j1.armes != nullptr) window.draw(j1.armes->sprite);
-        if (c1.portee == false) window.draw(c1.sprite);
         if (j2.armes != nullptr) window.draw(j2.armes->sprite);
+        if (c1.portee == false) window.draw(c1.sprite);
         if (d1.portee == false) window.draw(d1.sprite);
+        // Barre de vie
+        window.draw(j1.barrevie.rectangle_red); window.draw(j1.barrevie.rectangle_white);
+        window.draw(j2.barrevie.rectangle_red); window.draw(j2.barrevie.rectangle_white);
 
         // Display the contents of the window
         window.display();

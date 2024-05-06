@@ -9,6 +9,15 @@ Joueur::Joueur(int textureFileInt, float x, float y) {
     position.setX(x);
     position.setY(y);
 
+    positionVie.setX(x - width_*scale_factor/2);
+    positionVie.setY(y - height*(scale_factor+1));
+
+    // Positionnement barre de vie
+    barrevie.position_red = positionVie;
+    barrevie.position_white.setX(positionVie.getX() + 64);
+    barrevie.position_red.setY(positionVie.getY());
+    barrevie.draw_life();
+
     sprite.setTexture(texture);
     sprite.setPosition(position.getX(), position.getY());
 
@@ -49,14 +58,29 @@ void Joueur::mouvement() {
     if (position.getX() + speedX + width_*scale_factor < width && position.getX() + speedX > 0) {
         position += Point(dx, 0);
     }
+    else if (vie > 0){
+        vie -= 1;
+    }
 
     if (position.getY() + speedY + (height_ -6)*scale_factor < height && position.getY() + speedY + 6 > 0) {
         position += Point(0,dy);
     }
+    else if (vie < vieMax){
+        vie += 1;
+    }
 
     positionArme.setY(position.getY());
 
-    //position += Point(dx,dy);
+    positionVie.setX(position.getX());
+    positionVie.setY(position.getY() + height_*scale_factor);
+    barrevie.width_red = (float)vie/(float)vieMax*64;
+    barrevie.width_white = 64 - barrevie.width_red;
+
+    // Positionnement barre de vie
+    barrevie.position_red = positionVie;
+    barrevie.position_white.setX(positionVie.getX() + barrevie.width_red);
+    barrevie.position_white.setY(positionVie.getY());
+    barrevie.draw_life();
 
     if (dx != 0 || dy != 0) texture.loadFromFile(reference + textureFile + run + std::to_string(etat) + fin_str);
     else texture.loadFromFile(reference + textureFile + idle + std::to_string(etat) + fin_str);

@@ -4,6 +4,7 @@
 #include "../point.hpp"
 #include "../Armes/CorpsaCorps.hpp"
 #include "../Armes/Armes.hpp"
+#include "BarreVie.hpp"
 
 #include <string>
 #include <SFML/Graphics.hpp>
@@ -23,10 +24,11 @@ class Personnages {
         std::string textureFile;
         Point position;
         Point positionArme;
+        Point positionVie;
         int numPerso = 0;
         bool estVivant;
-        int vieMax;
-        int vie;
+        int vieMax = 64;
+        int vie = 64;
         int vitesseDeplacement;
         int width_ = 16;
         int height_ = 28;
@@ -36,6 +38,7 @@ class Personnages {
         //CorpsaCorps arme;
         sf::Texture texture;
         sf::Sprite sprite;
+        BarreVie barrevie;
 
         // Définir le facteur d'agrandissement
         float scale_factor = 4.0f;
@@ -46,6 +49,7 @@ class Personnages {
         //virtual void attaquer()=0;
         //virtual void prendre()=0;
         virtual void mouvement(float dx, float dy)=0;
+        
         Point getPosition() const {
             return position; // Supposons que la position de l'ennemi est stockée dans un objet de type Point
         }
