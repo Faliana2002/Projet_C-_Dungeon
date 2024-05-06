@@ -28,6 +28,7 @@ public:
 	Salles(const std::vector<Rectangle*>& l) : sect(l){
         	nbRectangle = rectangleList.size(); // Nombre de rectangle
         	getPoints();    // Décomposition des rectangles en liste de points
+        	center(0,0);
 	}
 	//la fonction addobs prend en entrée des entiers et 1 point, les obstacles seront constitué de carré d'un certains nombres de pixels, pour faciliter l'affichage, il suffira donc d'indiquer ou on veut ajouter l'obstacle et de combien de portions il doit être constitué, si l'obstacle n'est pas positionnable, il renvoit false, sinon il renvoit true
 	bool addobst(int width, int height, Point pos);

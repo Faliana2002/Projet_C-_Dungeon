@@ -45,8 +45,18 @@ bool addsect(int width, int height, Point pos){
 	}
 }
 //met a jour le centre de la salle pour la placer dans le plan
-void setcenter(Point p)
-	{center=p;}
+void setcenter(Point p){
+	varX=p.getX()-center.getX();
+	varY=p.getY()-center.getY();
+	center=p;
+	Point j,i;
+	for (Rectangle* r : sect){
+		j=r.getCenter();
+		i.setX(j.getX()+varX);
+		i.setY(j.getY()+varY);
+		r.setcenter(i);
+		}	
+	}
 //ajoute les portes, en vérifiant quelles sont dans une zone accesible
 bool setdoor(Point p){
 	Point p1(pos.getX(), pos.getY()-32.0);
