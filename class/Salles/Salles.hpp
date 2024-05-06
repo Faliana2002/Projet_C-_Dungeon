@@ -23,6 +23,7 @@ private:
 	
 	
 public:
+	Salles();
 	//le constructeur de salle permettra d'initialiser les salles avec une section, pas d'obstacle, pas de portes et un placement
 	Salles(const Point& c, float w, float h);
 	Salles(const std::vector<Rectangle*>& l) : sect(l){

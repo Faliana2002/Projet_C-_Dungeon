@@ -1,10 +1,34 @@
 #include "Salles.hpp"
+#include <stdlib.h>
+#include <time.h>
 //constructeur ne créant que le premier rectangle
 Salles::Salles(const Point& c, float w, float h){
 	center=c;
 	sect.push_back(Rectangle(c,w,h);
 	n=n+1;
 }
+
+Salles::Salles(){
+//on intialise le random
+	srand (time(NULL));
+//on intialise la première section
+	int w=rand()%10 +10;
+	int h=rand()%6 +5;
+	Point p(0,0);
+	Salles S(p,w*64,h*64);
+//on définie le nombre de section et d'obstacle a ajouter
+	int nbrelief=rand()%8-(((w+h)/2)-5)/3 + 2;
+	int nbobst=rand()%5;
+//on fait une boucle pour positionner les sections
+	for (int k=0; k<nbrelief; k++){
+		S.contour();
+		int cote=rand()%4*k;
+		Point q=contourList[cote];
+		Point r=contourList[cote+1];
+		
+	}
+}
+
 //ajoute les obstacles en vérifiant qu'ils sont bien contenu dans la salle
 bool addobst(int width, int height, Point pos){
 	 bool ans=false;
@@ -26,16 +50,16 @@ bool addsect(int width, int height, Point pos){
 	Point p2(pos.getX() -width*16*4/2, pos.getY()+height*16*4/2);
 	Point p3(pos.getX() +width*16*4/2, pos.getY()+height*16*4/2);
 	Point p4(pos.getX() +width*16*4/2, pos.getY()-height*16*4/2);
-	if (height<2 || width<2}
+	if (height<2 || width<2}	// Trop petit
 		{return false;}
-	if (pos.getX() -width*16*4/2<minX*64 || pos.getX() +width*16*4/2>maxX*64 || pos.getY() +height*16*4/2>maxY*64 || pos.getY() -height*16*4/2<minY*64)
+	if (pos.getX() -width*16*4/2<minX*64 || pos.getX() +width*16*4/2>maxX*64 || pos.getY() +height*16*4/2>maxY*64 || pos.getY() -height*16*4/2<minY*64)	// En dehors du cadre
 		{return false;}
-	for (Rectangle* r : sect){
+	for (Rectangle* r : sect){	// superpose pas
 		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
 			return false;
 		}	
 	}
-	for (Rectangle* r : sect){
+	for (Rectangle* r : sect){	// En contact avec un autre rectangle
 		if (r.nearrectangle(p1)||r.nearrectangle(p2)||r.nearrectangle(p3)||r.nearrectangle(p4)){
 			sect.push_back(Rectangle(pos,width*4*16,height*4*16))
 			n=n+1;
