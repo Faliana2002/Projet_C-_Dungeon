@@ -7,7 +7,7 @@ Salles::Salles(const Point& c, float w, float h){
 }
 bool addobst(int width, int height, Point pos){
 	 bool ans=false;
-	 for (Rectangle* r : obst){
+	 for (Rectangle* r : sect){
 	 	if r.inrectangle(pos)
 	 		{ans=true;
 	 		obst.push_back(Rectangle(pos,width*4*16,height*4*16));
@@ -16,22 +16,23 @@ bool addobst(int width, int height, Point pos){
 	 } 
 }
 bool addsect(int width, int height, Point pos){
-	bool ans=false;
+	Point p1(p.getX() -width*16*4/2, p.getY()-height*16*4/2);
+	Point p2(p.getX() -width*16*4/2, p.getY()+height*16*4/2);
+	Point p3(p.getX() +width*16*4/2, p.getY()+height*16*4/2);
+	Point p4(p.getX() +width*16*4/2, p.getY()-height*16*4/2);
 	for (Rectangle* r : sect){
-		if r.inrectangle(pos){
+		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
 			return false;
-		}
-	
-			
+		}	
+	}
+	for (Rectangle* r : sect){
+		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
+			return false;
+		}	
 	}
 }
 void setcenter(Point p);
 void setdoor(Point p);
-Obstacles & getobst(){return obst};
-Rectangle & getsect(){return sect};
-Point getcenter(){return center};
-Point & getdoor(){return door};
-int getnbsect(){return n};
 
 // Décomposition des rectangles en une liste de points
 void Salles::getPoints() {
