@@ -7,8 +7,13 @@
 #include <ctime>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 #include "../point.hpp"
+// #include "../Personnages/Ennemi.hpp"
+// #include "../Personnages/Joueurs.hpp"
+class Ennemi;
+class Joueur;
 
 #ifndef ARMES_HPP
 #define ARMES_HPP
@@ -27,11 +32,10 @@ class Armes {
         // Méthode virtuelle pure pour attaquer qui sera implémentée par les classes dérivées
         // Méthode pour obtenir les dégâts de l'arme
         float getDegats() const {return degats_;}
-        virtual void attaque() const = 0;
-        virtual void infligerDegats() const = 0;
-        virtual void ramasserArme() const = 0;
+        virtual void attaque(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const = 0;
+        virtual void infligerDegats(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const = 0;
         // Méthode pour ajouter une arme à l'inventaire
-        virtual void ajouterArmeInventaire(const Armes& arme){inventaire.push_back(arme);}
+        virtual void ajouterArmeInventaire(std::shared_ptr<Armes> arme){inventaire.push_back(arme);}
 
     protected:
         float degats_;               // Dégâts causés par l'arme
@@ -43,10 +47,14 @@ class Armes {
         sf::Texture texture;
         sf::Sprite sprite;
         std::string textureFile;
-        std::vector<Armes> inventaire; // Inventaire des armes
+        std::vector<std::shared_ptr<Armes>> inventaire; // Inventaire des armes
+        float porteeDetection; //= 10.0; La portée de détection (la moitié de la largeur du rectangle)
+        float hauteurDetection; // La moitié de la hauteur du rectangle
         Point position;
         bool portee = false;
 };
 
+// Faire un spawner des armes
+// Friendly allier
 
 #endif // ARMES_HPP

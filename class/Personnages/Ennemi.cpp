@@ -181,32 +181,63 @@ void Ennemi::suivi(Joueur& j) {
     mouvement(speedX,speedY);
 }
 
-bool Ennemi::detecterEnnemi(const Joueur& j){
-    // Calcul de la distance entre l'ennemi et le joueur
-    float distance = sqrt(pow((j.getX() - getX()), 2) + pow((j.getY() - getY()), 2));
+bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme){
+    // // Calcul de la distance entre l'ennemi et le joueur
+    // float distance = sqrt(pow((j.getX() - getX()), 2) + pow((j.getY() - getY()), 2));
 
-    // Si la distance est inférieure ou égale à la portée de détection
-    // alors on considère que l'ennemi a détecté le joueur
-    if (distance <= porteeDetection) {
-        return true;
-    } else {
-        return false;
+    // // Si la distance est inférieure ou égale à la portée de détection
+    // // alors on considère que l'ennemi a détecté le joueur
+    // if (distance <= arme.porteeDetection) {
+    //     return true;
+    // } else {
+    //     return false;
+    // }
+
+    // Vous devez vérifier chaque joueur individuellement.
+    // Assumons que la position de l'ennemi est stockée dans cette classe Ennemi.
+    float x = this->position.getX();
+    float y = this->position.getY();
+
+    float gauche = x - arme.porteeDetection;
+    float droite = x + arme.porteeDetection;
+    float haut = y + arme.hauteurDetection;
+    float bas = y - arme.hauteurDetection;
+
+    for (const auto& joueur : joueurs) {
+        // Déréférencement correct du shared_ptr pour accéder à l'objet Joueur et ensuite à sa position.
+        if (joueur) {  // Vérifiez toujours la validité du pointeur
+            float jx = joueur->position.getX();
+            float jy = joueur->position.getY();
+
+            if (jx >= gauche && jx <= droite && jy <= haut && jy >= bas) {
+                return true; // Le joueur est détecté dans le rectangle
+            }
+        }
     }
+    return false; // Aucun joueur détecté dans le rectangle
 }
 
-void Ennemi::recevoirDegats(const Armes& arme){
-    // Soustraire les dégâts des points de vie de l'ennemi en utilisant les dégâts de l'arme
-    pointsDeVie -= arme.getDegats();
+// bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme) {
+//     // Vous devez vérifier chaque joueur individuellement.
+//     // Assumons que la position de l'ennemi est stockée dans cette classe Ennemi.
+//     float x = this->position.getX();
+//     float y = this->position.getY();
 
-    // Vérifier si l'ennemi est toujours en vie
-    if (pointsDeVie <= 0) {
-        // L'ennemi est vaincu
-        pointsDeVie = 0; // Éviter les valeurs négatives
-        estVivant = false; // Marquer l'ennemi comme étant vaincu
-        std::cout << "L'ennemi a été vaincu !" << std::endl;
-        // Autres actions à effectuer lorsque l'ennemi est vaincu...
-    } else {
-        // L'ennemi est toujours en vie
-        std::cout << "L'ennemi subit des dégâts mais est toujours en vie." << std::endl;
-    }
-}
+//     float gauche = x - arme.porteeDetection;
+//     float droite = x + arme.porteeDetection;
+//     float haut = y + arme.hauteurDetection;
+//     float bas = y - arme.hauteurDetection;
+
+//     for (const auto& joueur : joueurs) {
+//         // Déréférencement correct du shared_ptr pour accéder à l'objet Joueur et ensuite à sa position.
+//         if (joueur) {  // Vérifiez toujours la validité du pointeur
+//             float jx = joueur->position.getX();
+//             float jy = joueur->position.getY();
+
+//             if (jx >= gauche && jx <= droite && jy <= haut && jy >= bas) {
+//                 return true; // Le joueur est détecté dans le rectangle
+//             }
+//         }
+//     }
+//     return false; // Aucun joueur détecté dans le rectangle
+// }

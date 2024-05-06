@@ -4,6 +4,10 @@
 
 #include <iostream>
 #include "Armes.hpp"
+// #include "../Personnages/Ennemi.hpp"
+// #include "../Personnages/Joueurs.hpp"
+class Joueur;
+class Ennemi;
 
 #ifndef ARMES_Distance_HPP
 #define ARMES_Distance_HPP
@@ -17,9 +21,16 @@ class Distance : public Armes {
         Distance(int indice);
 
         // Implémentation concrète de la méthode d'attaque
-        virtual void attaque() const override {
-            // Implémentation spécifique de l'attaque à distance
-        }
+        // virtual void attaque(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const override {
+        //     // Implémentation spécifique de l'attaque à distance
+        // }
+        // Implémentation concrète de la méthode d'attaque
+        void attaque(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const override{};
+        void infligerDegats(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const override{};
+        // Méthode pour vérifier si un ennemi est dans la zone de détection de l'arme
+        float distanceEntreDeuxPoints(const Point& point1, const Point& point2) const;
+        bool estDansZoneDetection(const Point& ennemiPosition, const Point& armePosition, float porteeDetection) const;
+
 };
 
 #endif // ARMES_Distance_HPP

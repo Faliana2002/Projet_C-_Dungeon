@@ -3,7 +3,6 @@
 
 #include "Personnages.hpp"
 #include "Joueurs.hpp"
-#include "Armes.hpp"
 
 #include <string>
 #include <cstdlib>
@@ -24,9 +23,8 @@ class Ennemi : public Personnages {
         int maxCpt = 3;
         int etat = 0;
         int maxEtat = 3;
-        float porteeDetection = 10.0; // Attribut pour la portée de détection
         int pointsDeVie; // Points de vie de l'ennemi
-        bool estVivant; // Indicateur pour savoir si l'ennemi est vivant ou non
+        
         Point objectif;
 
         float speedX = 1;
@@ -37,8 +35,7 @@ class Ennemi : public Personnages {
         void debug_mvt();
         void aleatoire_mvt();
         void suivi(Joueur& j);
-        bool detecterEnnemi(const Joueur& j);
-        void recevoirDegats(const Armes& arme);
+        bool detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme);
 };
 
 #endif

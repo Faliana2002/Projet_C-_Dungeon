@@ -5,8 +5,10 @@
 #ifndef ARMES_CorpsaCorps_HPP
 #define ARMES_CorpsaCorps_HPP
 
-#include <iostream>
 #include "Armes.hpp"
+class Joueur;
+class Ennemi;
+
 
 extern std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesCAC;
 
@@ -18,9 +20,8 @@ class CorpsaCorps : public Armes {
         CorpsaCorps(int indice);
 
         // Implémentation concrète de la méthode d'attaque
-        void attaque() const override;
-        void infligerDegats() const override;
-        void ramasserArme(const Arme& arme) const override;
+        void attaque(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const override;
+        void infligerDegats(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const override;
 };
 
 #endif // ARMES_CorpsaCorps_HPP

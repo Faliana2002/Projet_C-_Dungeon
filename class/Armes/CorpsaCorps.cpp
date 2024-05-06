@@ -1,8 +1,5 @@
 #include "CorpsaCorps.hpp"
-#include "Ennemi.hpp"
-#include "Armes.hpp"
-#include <SFML/Window.hpp> // Nécessaire pour gérer les entrées clavier avec SFML
-#include <iostream> // Pour l'affichage dans la console
+#include "../Personnages/Ennemi.hpp"
 
 CorpsaCorps::CorpsaCorps(int indice) {
     indice_ = indice;
@@ -36,52 +33,41 @@ CorpsaCorps::CorpsaCorps(int indice) {
     sprite.scale(scale_factor, scale_factor);
 }
 
-void CorpsaCorps::infligerDegats() const {
-    // Affichage des dégâts infligés
+void CorpsaCorps::infligerDegats(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const {
     std::cout << "Inflige " << degats_ << " points de dégâts à l'ennemi." << std::endl;
 
-    // Détecter si un ennemi est à portée
     bool ennemiDetecte = false;
-    for (const auto& ennemi : listeEnnemis) {
-        if (ennemi.detecterEnnemi(joueur)) {
-            ennemiDetecte = true;
-            // Appliquer les dégâts à l'ennemi
-            ennemi.recevoirDegats(degats_);
 
-            // Optionnel : Jouer une animation d'attaque
-            sprite.playAnimation("attaque");
+    // Parcourir chaque ennemi pour voir s'il détecte un joueur
+    for (const auto& joueur : joueurs){
+        for (const auto& ennemi : listenn) {
+            // Vérifiez que l'ennemi existe bien avant de tenter d'accéder à ses méthodes
+            if (ennemi && ennemi->detecterEnnemi(joueurs, arme)) {
+                ennemiDetecte = true;
 
-            // Optionnel : Jouer un effet sonore
-            // jouerSon("sonAttaque");
+                // Appliquer les dégâts à l'ennemi détecté
+                ennemi->recevoirDegats(*this);  // Assurez-vous que recevoirDegats attend une référence à Armes
 
-            // Sortir de la boucle car un ennemi a été touché
-            break;
+                // // Optionnel : Jouer une animation d'attaque
+                // sprite.playAnimation("attaque");
+
+                // Optionnel : Jouer un effet sonore
+                // jouerSon("sonAttaque");
+
+                // Un ennemi a été touché, donc sortie de la boucle
+                break;
+            }
         }
     }
+    
 
-    // Vérifier si aucun ennemi n'a été détecté
+    // Vérifier si aucun ennemi n'a été détecté et touché
     if (!ennemiDetecte) {
         std::cout << "Aucun ennemi à portée." << std::endl;
     }
 }
 
-
-void CorpsaCorps::ramasserArme(const Armes& arme) const {
-    std::cout << "Arme ramassée." << std::endl;
-    // Implémenter la logique pour ajouter l'arme à l'inventaire du joueur ou changer son état dans le jeu.
-    if (arme_a_ramasser != nullptr) {
-        joueur->ajouterArmeInventaire(*arme_a_ramasser);
-    } else {
-        std::cerr << "Erreur : Aucune arme à ramasser." << std::endl;
-    }
-}
-
-void CorpsaCorps::attaque() const {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        // Lorsque la touche 'Haut' est pressée, l'arme inflige des dégâts
-        infligerDegats();
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        // Lorsque la touche 'Bas' est pressée, le joueur peut ramasser l'arme
-        ramasserArme();
-    }
+// A modifier, sans specification de touche
+void CorpsaCorps::attaque(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const {
+    infligerDegats(joueurs, listenn, arme);
 }

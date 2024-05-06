@@ -46,6 +46,25 @@ class Personnages {
         //virtual void attaquer()=0;
         //virtual void prendre()=0;
         virtual void mouvement(float dx, float dy)=0;
+        Point getPosition() const {
+            return position; // Supposons que la position de l'ennemi est stockée dans un objet de type Point
+        }
+        void recevoirDegats(const Armes& arme){
+            // Soustraire les dégâts des points de vie de l'ennemi en utilisant les dégâts de l'arme
+            vie -= arme.getDegats();
+
+            // Vérifier si l'ennemi est toujours en vie
+            if (vie <= 0) {
+                // L'ennemi est vaincu
+                vie = 0; // Éviter les valeurs négatives
+                estVivant = false; // Marquer l'ennemi comme étant vaincu
+                std::cout << "L'ennemi a été vaincu !" << std::endl;
+                // Autres actions à effectuer lorsque l'ennemi est vaincu...
+            } else {
+                // L'ennemi est toujours en vie
+                std::cout << "L'ennemi subit des dégâts mais est toujours en vie." << std::endl;
+            }
+        }
 };
 
 #endif
