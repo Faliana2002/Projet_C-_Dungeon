@@ -36,7 +36,7 @@ public:
 	//la fonction setcenter permet de positionner la salle
 	void setcenter(Point p);
 	//la ou les fonction setdoor permet de positionner la porte d'une salle
-	void setdoor(Point p);
+	bool setdoor(Point p);
 	//les fonctions get permette de récupérer les informations d'une salle
 	Obstacles & getobst(){return obst};
 	Rectangle & getsect(){return sect};

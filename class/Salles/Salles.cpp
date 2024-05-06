@@ -1,10 +1,11 @@
 #include "Salles.hpp"
-
+//constructeur ne créant que le premier rectangle
 Salles::Salles(const Point& c, float w, float h){
 	center=c;
 	sect.push_back(Rectangle(c,w,h);
 	n=n+1;
 }
+//ajoute les obstacles en vérifiant qu'ils sont bien contenu dans la salle
 bool addobst(int width, int height, Point pos){
 	 bool ans=false;
 	 for (Rectangle* r : sect){
@@ -15,24 +16,57 @@ bool addobst(int width, int height, Point pos){
 	 return (ans);
 	 } 
 }
+//ajoute des sections pour ajouter des variations dans les salles, en érifiant que ces variations sont compatibles
 bool addsect(int width, int height, Point pos){
-	Point p1(p.getX() -width*16*4/2, p.getY()-height*16*4/2);
-	Point p2(p.getX() -width*16*4/2, p.getY()+height*16*4/2);
-	Point p3(p.getX() +width*16*4/2, p.getY()+height*16*4/2);
-	Point p4(p.getX() +width*16*4/2, p.getY()-height*16*4/2);
+	int maxX=10;
+	int minX=-10;
+	int maxY=5
+	int minY=-5;
+	Point p1(pos.getX() -width*16*4/2, pos.getY()-height*16*4/2);
+	Point p2(pos.getX() -width*16*4/2, pos.getY()+height*16*4/2);
+	Point p3(pos.getX() +width*16*4/2, pos.getY()+height*16*4/2);
+	Point p4(pos.getX() +width*16*4/2, pos.getY()-height*16*4/2);
+	if (height<2 || width<2}
+		{return false;}
+	if (pos.getX() -width*16*4/2<minX*64 || pos.getX() +width*16*4/2>maxX*64 || pos.getY() +height*16*4/2>maxY*64 || pos.getY() -height*16*4/2<minY*64)
+		{return false;}
 	for (Rectangle* r : sect){
 		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
 			return false;
 		}	
 	}
 	for (Rectangle* r : sect){
-		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
-			return false;
-		}	
+		if (r.nearrectangle(p1)||r.nearrectangle(p2)||r.nearrectangle(p3)||r.nearrectangle(p4)){
+			sect.push_back(Rectangle(pos,width*4*16,height*4*16))
+			n=n+1;
+			return true;
+		}
+	return false;	
 	}
 }
-void setcenter(Point p);
-void setdoor(Point p);
+//met a jour le centre de la salle pour la placer dans le plan
+void setcenter(Point p)
+	{center=p;}
+//ajoute les portes, en vérifiant quelles sont dans une zone accesible
+bool setdoor(Point p){
+	Point p1(pos.getX(), pos.getY()-32.0);
+	Point p2(pos.getX(), pos.getY()+32.0);
+	Point p3(pos.getX() -32.0,pos.getY());
+	Point p4(pos.getX() +32.0,pos.getY());
+	if (pos.getX()!=10*64 && pos.getX()!=-10*64 && pos.getY()!=5*64 && pos.getY()!=-5*64)
+		{return false;}
+	for (Rectangle* r : sect){
+		if (r.inrectangle(p1)&&r.inrectangle(p2)){
+			door.push_back(p);
+			return true;
+			}
+		else if (r.inrectangle(p3)&&r.inrectangle(p4)){
+			door.push_back(p);
+			return true;
+			}
+		}
+	return false;
+	}
 
 // Décomposition des rectangles en une liste de points
 void Salles::getPoints() {
@@ -76,12 +110,14 @@ void Salles::printContour() {
 
 // Calcul des points du contour de la salle (alternance horizontale-vertical)
 void Salles::contour() {
-	int maxX = 50;  // Taille max de la salle en x
-	int maxY = 50;  // Taille max de la salle en y
+	int maxX = 10;  // Taille max de la salle en x
+	int minX=-10;
+	int maxY = 5;  // Taille max de la salle en y
+	int minY=-5;
 	int i;
 
 	// Calcul point de départ du contour
-	Point actualPoint(0,0);
+	Point actualPoint(-10,-5);
 	while (pointMapInverted[actualPoint] != 1) {
 		if (actualPoint.getX() < maxX) actualPoint.setX()=actualPoint.getX()+1;
 		else actualPoint.setY()=actual.getY()+1;
