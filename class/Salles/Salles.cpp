@@ -6,21 +6,19 @@ Salles::Salles(const Point& c, float w, float h){
 	n=n+1;
 }
 bool addobst(int width, int height, Point pos){
-	 Rectangle k;
 	 bool ans=false;
-	 for k in sect{
-	 	if k.inrectangle(pos)
+	 for (Rectangle* r : obst){
+	 	if r.inrectangle(pos)
 	 		{ans=true;
-	 		obst.push_back(Rectangle(pos,width,height));
+	 		obst.push_back(Rectangle(pos,width*4*16,height*4*16));
 	 		}
 	 return (ans);
 	 } 
 }
 bool addsect(int width, int height, Point pos){
-	Rectangle k;
 	bool ans=false;
-	for k in sect{
-		if k.inrectangle(pos){
+	for (Rectangle* r : sect){
+		if r.inrectangle(pos){
 			return false;
 		}
 	
@@ -36,8 +34,8 @@ Point & getdoor(){return door};
 int getnbsect(){return n};
 
 // Décomposition des rectangles en une liste de points
-void Salle::getPoints() {
-	for (Rectangle* r : rectangleList) {
+void Salles::getPoints() {
+	for (Rectangle* r : sect) {
 	        // Tri selon x
 	        Point p=r.getCenter();
 	        pointMap[Point(p.getX() -r.getWidth()/2, p.getY()-r.getHeight/2)]++;
@@ -54,7 +52,7 @@ void Salle::getPoints() {
 }
 
 // Affichage des map pointMap et pointMapInverted
-void Salle::printPoints() {
+void Salles::printPoints() {
 	std::cout << "Vertical : " << std::endl;
 	for (const auto& pair : pointMap) {
 		if (pair.second == 1) // Si l'occurrence du point est égale à 1, imprimez le point
@@ -68,7 +66,7 @@ void Salle::printPoints() {
 }
 
 // Affichage du vector contourList
-void Salle::printContour() {
+void Salles::printContour() {
 	std::cout << "\nContour : " << std::endl;
 	for (const Point& point : contourList) {
 		std::cout << point.getX() << " : " << point.getY() << std::endl;
@@ -76,7 +74,7 @@ void Salle::printContour() {
 }
 
 // Calcul des points du contour de la salle (alternance horizontale-vertical)
-void Salle::contour() {
+void Salles::contour() {
 	int maxX = 50;  // Taille max de la salle en x
 	int maxY = 50;  // Taille max de la salle en y
 	int i;

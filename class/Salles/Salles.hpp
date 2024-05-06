@@ -15,7 +15,7 @@ private:
 	Point center;
 	std::vector<Rectangle> sect;
 	std::vector<Obstacles> obst;
-	std::vectorlist<Point> & door;
+	std::vector<Point> & door;
 	std::map<Point, int> pointMap;          // Map pour stocker les points avec leurs occurrences (l'entier associé)
 	std::map<Point, int> pointMapInverted;  // Map inversée pour stocker les points avec leurs occurrences
 	std::vector<Point> contourList;         // Points qui composent le contour
@@ -25,7 +25,7 @@ private:
 public:
 	//le constructeur de salle permettra d'initialiser les salles avec une section, pas d'obstacle, pas de portes et un placement
 	Salles(const Point& c, float w, float h);
-	Salle(const std::vector<Rectangle*>& l) : rectangleList(l){
+	Salles(const std::vector<Rectangle*>& l) : sect(l){
         	nbRectangle = rectangleList.size(); // Nombre de rectangle
         	getPoints();    // Décomposition des rectangles en liste de points
 	}
