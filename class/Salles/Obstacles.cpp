@@ -1,3 +1,5 @@
+#include "Obstacles.hpp"
+
 bool Obstacles::inobstacles(Point p)
 	{
 	if (inrectangle(p))

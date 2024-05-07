@@ -22,11 +22,11 @@ public:
     const float& getX() const {return center.getX(); } ; // X of center
     const float& getY() const {return center.getY(); } ; // Y of center
     //la fonction inrectangle va m'aider a savoir si le joueur est dans la salle ou pas, en composant la salle de plein de rectangle
-    bool inrectangle(Point p);
-    bool nearrectangle(Point P)
+    bool inrectangle(Point P);
+    bool nearrectangle(Point P);
     void setcenter (Point p){center=p;};
     void setwidth (float w){width=w;};
-    void set height (float h){height=h;};
+    void setheight (float h){height=h;};
     
 
 private:
