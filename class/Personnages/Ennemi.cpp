@@ -25,6 +25,7 @@ Ennemi::Ennemi(int textureFileInt) {
 
     // Redimensionner le sprite
     if (numPerso != 14) sprite.scale(scale_factor, scale_factor);
+    else sprite.scale(scale_factor/4,scale_factor/4);
 }
 
 Ennemi::Ennemi(int textureFileInt, float x, float y) {
@@ -46,6 +47,7 @@ Ennemi::Ennemi(int textureFileInt, float x, float y) {
 
     // Redimensionner le sprite
     if (numPerso != 14) sprite.scale(scale_factor, scale_factor);
+    else sprite.scale(scale_factor/4,scale_factor/4);
 
     // Initialisation du générateur de nombres pseudo-aléatoires
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -62,9 +64,10 @@ void Ennemi::mouvement(float dx, float dy) {
     positionArme.setY(position.getY());
 
     positionVie.setX(position.getX());
-    positionVie.setY(position.getY() + height_*scale_factor);
-    barrevie.width_red = (float)vie/(float)vieMax*64;
-    barrevie.width_white = 64 - barrevie.width_red;
+    if (numPerso != 14) positionVie.setY(position.getY() + height_*scale_factor);
+    else positionVie.setY(position.getY() + height_*(scale_factor-1));
+    barrevie.width_red = (float)vie/(float)vieMax*width_*scale_factor;
+    barrevie.width_white = width_*scale_factor - barrevie.width_red;
 
     // Positionnement barre de vie
     barrevie.position_red = positionVie;
@@ -129,7 +132,7 @@ void Ennemi::mouvement() {
         if (dx < 0) {
             sprite.setPosition(position.getX()+width_*scale_factor, position.getY());
             if (numPerso != 14) sprite.setScale(-scale_factor,scale_factor);
-            else sprite.setScale(-1,1);
+            else sprite.setScale(-scale_factor/4,scale_factor/4);
             mirrored = 1;
         }
         else if (dx == 0)  {
@@ -138,7 +141,7 @@ void Ennemi::mouvement() {
         else {
             sprite.setPosition(position.getX(), position.getY());
             if (numPerso != 14) sprite.setScale(scale_factor,scale_factor);
-            else sprite.setScale(1,1);
+            else sprite.setScale(scale_factor/4,scale_factor/4);
             mirrored = 0;
         }
     }
@@ -192,8 +195,8 @@ void Ennemi::aleatoire_mvt() {
             else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);
         }
         else {
-            if (speedX > 0) sprite.setScale(1,1);
-            else if (speedX < 0) sprite.setScale(-1,1);
+            if (speedX > 0) sprite.setScale(scale_factor/4,scale_factor/4);
+            else if (speedX < 0) sprite.setScale(-scale_factor/4,scale_factor/4);
         }
     }
 
@@ -218,8 +221,8 @@ void Ennemi::suivi(Joueur& j) {
         else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);
     }
     else {
-        if (speedX > 0) sprite.setScale(1,1);
-        else if (speedX < 0) sprite.setScale(-1,1);
+        if (speedX > 0) sprite.setScale(scale_factor/4,scale_factor/4);
+        else if (speedX < 0) sprite.setScale(-scale_factor/4,scale_factor/4);
     } 
     
     mouvement(speedX,speedY);

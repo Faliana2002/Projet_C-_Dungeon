@@ -14,7 +14,7 @@ Joueur::Joueur(int textureFileInt, float x, float y) {
 
     // Positionnement barre de vie
     barrevie.position_red = positionVie;
-    barrevie.position_white.setX(positionVie.getX() + 64);
+    barrevie.position_white.setX(positionVie.getX() + width_*scale_factor);
     barrevie.position_red.setY(positionVie.getY());
     barrevie.draw_life();
 
@@ -73,8 +73,8 @@ void Joueur::mouvement() {
 
     positionVie.setX(position.getX());
     positionVie.setY(position.getY() + height_*scale_factor);
-    barrevie.width_red = (float)vie/(float)vieMax*64;
-    barrevie.width_white = 64 - barrevie.width_red;
+    barrevie.width_red = (float)vie/(float)vieMax*width_*scale_factor;
+    barrevie.width_white = width_*scale_factor - barrevie.width_red;
 
     // Positionnement barre de vie
     barrevie.position_red = positionVie;

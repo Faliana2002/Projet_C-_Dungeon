@@ -41,7 +41,7 @@ class Personnages {
         BarreVie barrevie;
 
         // Définir le facteur d'agrandissement
-        float scale_factor = 4.0f;
+        float scale_factor = 3.0f;
 
         Armes* armes = nullptr;
 
