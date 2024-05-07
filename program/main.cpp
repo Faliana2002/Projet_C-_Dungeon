@@ -39,7 +39,7 @@ int main() {
     Ennemi e2(2,1278, 56);
     Ennemi e3(3,1074, 449);
     Ennemi e4(4,612, 273);
-    Ennemi e5(5,532, 145);
+    Ennemi e5(14,532, 145);
 
     std::vector<Ennemi> lEnnemis;
     lEnnemis.push_back(e1);
@@ -48,12 +48,22 @@ int main() {
     lEnnemis.push_back(e4);
     lEnnemis.push_back(e5);
 
+    //cout << "On crée des armes" << endl;
     CorpsaCorps c1(0);
+    CorpsaCorps c2(1);
+    CorpsaCorps c3(2);
+    CorpsaCorps c4(1);
     Distance d1(0);
+    //cout << "On a créé des armes" << endl;
 
     std::vector<Armes*> listeArmes;
+    //cout << "On ajoute des armes" << endl;
     listeArmes.push_back(&c1);
+    listeArmes.push_back(&c2);
+    listeArmes.push_back(&c3);
+    listeArmes.push_back(&c4);
     listeArmes.push_back(&d1);
+    //cout << "On a ajouté des armes" << endl;
 
     // Background texture
     Texture backgroundTexture;
@@ -111,6 +121,8 @@ int main() {
         currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
         
         if (currentTime - startTime > 20) { // frame rate 100 Hz (10 ms)
+
+            //cout << "On commence la bucle" << endl;
             //for (Joueur j : listeJoueurs) j.debug_mvt(); 
             //for (Joueur& j : lJoueurs) j.mouvement();
             j1.mouvement();
@@ -136,6 +148,7 @@ int main() {
             window.draw(backgroundSprite);
         }
 
+        //cout << "On commence l'affichage" << endl;
         // Draw the sprite
         // Joueur
         //for (Joueur j : lJoueurs) window.draw(j.sprite);
@@ -152,11 +165,20 @@ int main() {
         
         if (j1.armes != nullptr) window.draw(j1.armes->sprite);
         if (j2.armes != nullptr) window.draw(j2.armes->sprite);
-        if (c1.portee == false) window.draw(c1.sprite);
-        if (d1.portee == false) window.draw(d1.sprite);
+        for (Armes* a : listeArmes) {
+            if (a->portee == false) window.draw(a->sprite);    
+        }
+        //if (c1.portee == false) window.draw(c1.sprite);
+        //if (d1.portee == false) window.draw(d1.sprite);
         // Barre de vie
         window.draw(j1.barrevie.rectangle_red); window.draw(j1.barrevie.rectangle_white);
         window.draw(j2.barrevie.rectangle_red); window.draw(j2.barrevie.rectangle_white);
+
+        window.draw(e1.barrevie.rectangle_red); window.draw(e1.barrevie.rectangle_red);
+        window.draw(e2.barrevie.rectangle_red); window.draw(e2.barrevie.rectangle_red);
+        window.draw(e3.barrevie.rectangle_red); window.draw(e3.barrevie.rectangle_red);
+        window.draw(e4.barrevie.rectangle_red); window.draw(e4.barrevie.rectangle_red);
+        window.draw(e5.barrevie.rectangle_red); window.draw(e5.barrevie.rectangle_red);
 
         // Display the contents of the window
         window.display();

@@ -12,7 +12,7 @@ Ennemi::Ennemi(int textureFileInt) {
     
     numPerso = textureFileInt;
     // Set grande taille
-    textureFile = listeEnnemi[10];
+    textureFile = listeEnnemi[7];
     texture.loadFromFile(reference + textureFile + run + "0" + fin_str);
     
     position.setX(x);
@@ -24,13 +24,16 @@ Ennemi::Ennemi(int textureFileInt) {
     sprite.setPosition(position.getX(), position.getY());
 
     // Redimensionner le sprite
-    sprite.scale(scale_factor, scale_factor);
+    if (numPerso != 14) sprite.scale(scale_factor, scale_factor);
 }
 
 Ennemi::Ennemi(int textureFileInt, float x, float y) {
+    //if (textureFileInt == 14) scale_factor = 1.0;
+
     numPerso = textureFileInt;
     // Set grande taille
-    textureFile = listeEnnemi[10];
+    if (textureFileInt != 14) textureFile = listeEnnemi[10];
+    else textureFile = listeEnnemi[14];
     texture.loadFromFile(reference + textureFile + run + "0" + fin_str);
     
     position.setX(x);
@@ -42,7 +45,7 @@ Ennemi::Ennemi(int textureFileInt, float x, float y) {
     sprite.setPosition(position.getX(), position.getY());
 
     // Redimensionner le sprite
-    sprite.scale(scale_factor, scale_factor);
+    if (numPerso != 14) sprite.scale(scale_factor, scale_factor);
 
     // Initialisation du générateur de nombres pseudo-aléatoires
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -56,11 +59,38 @@ void Ennemi::mouvement(float dx, float dy) {
     if (dx != 0 && dy != 0) texture.loadFromFile(reference + textureFile + run + std::to_string(etat) + fin_str);
     else texture.loadFromFile(reference + textureFile + idle + std::to_string(etat) + fin_str);
 
+    positionArme.setY(position.getY());
+
+    positionVie.setX(position.getX());
+    positionVie.setY(position.getY() + height_*scale_factor);
+    barrevie.width_red = (float)vie/(float)vieMax*64;
+    barrevie.width_white = 64 - barrevie.width_red;
+
+    // Positionnement barre de vie
+    barrevie.position_red = positionVie;
+    barrevie.position_white.setX(positionVie.getX() + barrevie.width_red);
+    barrevie.position_white.setY(positionVie.getY());
+    barrevie.draw_life();
+
     //sprite.setTexture(texture);
     // Redimensionner le sprite
     //sprite.scale(scale_factor, scale_factor);
 
-    sprite.setPosition(position.getX(), position.getY());
+    if (dx != 0 || dy != 0 || start) {
+        if (dx < 0) {
+            sprite.setPosition(position.getX()+width_*scale_factor, position.getY());
+            //sprite.setScale(-scale_factor,scale_factor);
+            mirrored = 1;
+        }
+        else if (dx == 0)  {
+            sprite.setPosition(position.getX()+width_*scale_factor*mirrored, position.getY());
+        }
+        else {
+            sprite.setPosition(position.getX(), position.getY());
+            //sprite.setScale(scale_factor,scale_factor);
+            mirrored = 0;
+        }
+    }
 
     cpt++;
 
@@ -98,7 +128,8 @@ void Ennemi::mouvement() {
     if (dx != 0 || dy != 0 || start) {
         if (dx < 0) {
             sprite.setPosition(position.getX()+width_*scale_factor, position.getY());
-            sprite.setScale(-scale_factor,scale_factor);
+            if (numPerso != 14) sprite.setScale(-scale_factor,scale_factor);
+            else sprite.setScale(-1,1);
             mirrored = 1;
         }
         else if (dx == 0)  {
@@ -106,7 +137,8 @@ void Ennemi::mouvement() {
         }
         else {
             sprite.setPosition(position.getX(), position.getY());
-            sprite.setScale(scale_factor,scale_factor);
+            if (numPerso != 14) sprite.setScale(scale_factor,scale_factor);
+            else sprite.setScale(1,1);
             mirrored = 0;
         }
     }
@@ -155,8 +187,14 @@ void Ennemi::aleatoire_mvt() {
         speedX = tx/tmax;
         speedY = ty/tmax;
 
-        if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
-        else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);    
+        if (numPerso != 14) {
+            if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
+            else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);
+        }
+        else {
+            if (speedX > 0) sprite.setScale(1,1);
+            else if (speedX < 0) sprite.setScale(-1,1);
+        }
     }
 
     mouvement(speedX,speedY);
@@ -175,8 +213,14 @@ void Ennemi::suivi(Joueur& j) {
     speedX = tx/tmax;
     speedY = ty/tmax;
 
-    if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
-    else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);
+    if (numPerso != 14) {
+        if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
+        else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);
+    }
+    else {
+        if (speedX > 0) sprite.setScale(1,1);
+        else if (speedX < 0) sprite.setScale(-1,1);
+    } 
     
     mouvement(speedX,speedY);
 }

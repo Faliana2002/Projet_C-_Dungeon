@@ -17,7 +17,7 @@ std::string floor_str = "floor_";
 std::string spikes_anim_str = "_anim_f";
 
 int nbLJoueur = 9;
-int nbLEnnemi = 16;
+int nbLEnnemi = 17;
 int nbArmesCAC = 22;
 
 std::string listeJoueurs[] = {"angel",
@@ -70,7 +70,8 @@ std::string listeEnnemi[] = {//"angel",
                             "tiny_zombie",
                             //"wizzard_f",
                             //"wizzard_m",
-                            "wogol"};       //14
+                            "wogol",
+                            "robot"};       //14
 // Par 4 (au lieu de 8) : zombie/slug/tiny_slug/ice_zombie/muddy/necromancer/swampy/
 
 /*
@@ -101,9 +102,9 @@ std::string listeArmesCAC[] = {"anime_sword",
 // nom, rate_min, rate_max, degats_min, degats_max, d_min, d_max
 std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesCAC = {
     std::make_tuple("anime_sword", 2,4,2,5, 128, 192),
-    std::make_tuple("axe", 0,0,0,0,0,0),
-    std::make_tuple("baton_with_spikes", 0,0,0,0,0,0),
-    std::make_tuple("big_hammer", 0,0,0,0,0,0),
+    std::make_tuple("axe", 1,2,3,6, 100, 230),
+    std::make_tuple("baton_with_spikes", 2,3,2,4,80,160),
+    std::make_tuple("big_hammer", 1,1,5,6,150,220),
     std::make_tuple("cleaver", 0,0,0,0,0,0),
     std::make_tuple("double_axe", 0,0,0,0,0,0),
     std::make_tuple("duel_sword", 0,0,0,0,0,0),

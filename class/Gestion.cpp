@@ -32,7 +32,7 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, Joueur& j1
         if (event.key.code == sf::Keyboard::RShift) {
             if (j1.armes == nullptr) {
                 for (Armes* a : lArmes) {
-                    if ( abs(a->position.getX() - j1.position.getX()) < 50 && abs(a->position.getY() - j1.position.getY()) < 150 && a->portee == false) {
+                    if ( abs(a->position.getX() - j1.position.getX()) < 50 && abs(a->position.getY() - j1.position.getY()) < 150 && a->portee == false && j1.armes == nullptr) {
                         j1.armes = a;
                         a->sprite.setPosition(j1.positionArme.getX(), j1.positionArme.getY());
                         a->portee = true;
@@ -47,7 +47,7 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, Joueur& j1
         if (event.key.code == sf::Keyboard::E) {
             if (j2.armes == nullptr) {
                 for (Armes* a : lArmes) {
-                    if ( abs(a->position.getX() - j2.position.getX()) < 50 && abs(a->position.getY() - j2.position.getY()) < 150 && a->portee == false) {
+                    if ( abs(a->position.getX() - j2.position.getX()) < 50 && abs(a->position.getY() - j2.position.getY()) < 150 && a->portee == false && j2.armes == nullptr) {
                         j2.armes = a;
                         a->sprite.setPosition(j2.positionArme.getX(), j2.positionArme.getY());
                         a->portee = true;
