@@ -29,3 +29,26 @@ void Point::operator-=( const Point& p){
 	x=getX()-p.getX();
 	y=getY()-p.getY();
 }
+
+bool Point::operator!=( const Point& p){
+	if (getX()==p.getX() && getY()==p.getY())
+		{return false;}
+	else
+		{return true;}
+}
+
+bool Point::operator==( const Point& p){
+	if (getX()==p.getX() && getY()==p.getY())
+		{return true;}
+	else
+		{return false;}
+}
+
+bool Point::operator<( const Point& p) const{
+	if (getY()<p.getY())
+		{return true;}
+	else if (getX()<p.getX() && getY()==p.getY())
+		{return true;}
+	else
+		{return false;}
+}

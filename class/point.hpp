@@ -14,6 +14,9 @@ public:
 	Point operator-( const Point& p);
 	void operator+=( const Point& p);
 	void operator-=( const Point& p);
+	bool operator!=( const Point& p);
+	bool operator==( const Point& p);
+	bool operator<( const Point& p) const;
 private:
         float x;
         float y;

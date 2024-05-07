@@ -1,6 +1,7 @@
 #include "Salles.hpp"
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 
 int valpix=48;
 int widths=26;
@@ -8,8 +9,8 @@ int heights=14;
 //constructeur ne créant que le premier rectangle
 Salles::Salles(const Point& c, float w, float h){
 	center=c;
-	sect.push_back(Rectangle(c,w,h);
-	n=n+1;
+	sect.push_back(Rectangle(c,w,h));
+	n=1;
 }
 
 Salles::Salles(){
@@ -25,13 +26,15 @@ Salles::Salles(){
 	int wi=rand()%(widths/2) +4;
 	int hi=rand()%(heights/2) +4;
 	Point p(0,0);
-	this->Salles(p,wi*valpix,hi*valpix);
+	center=p;
+	sect.push_back(Rectangle(p,wi*valpix,hi*valpix));
+	n=1;
 //on définie le nombre de section et d'obstacle a ajouter
 	int nbrelief=rand()%4+ 2;
 	int nbobst=rand()%5;
 //on place les 2 sections contenant les portes
-	for (int k=0; k<2;k++)
-		S.contour();
+	for (int k=0; k<2;k++){
+		contour();
 		int cote=rand()%4*k;
 		Point q=contourList[cote];
 		Point r=contourList[cote+1];
@@ -40,11 +43,11 @@ Salles::Salles(){
 			pos=rand()%val+p.getX()/valpix;
 			w=rand()%4 +1;
 			if (q.getY()>this->center.getY()){
-				h=(heigths/2)-q.getY();
+				h=(heights/2)-q.getY();
 				newp=Point(pos,q.getY()+valpix/(h/2));
 				}
 			else{
-				h=(heigths/2)+q.getY();
+				h=(heights/2)+q.getY();
 				newp=Point(pos,q.getY()-valpix/(h/2));
 				}
 			
@@ -55,7 +58,7 @@ Salles::Salles(){
 			val=(q.getY()-r.getY())/valpix;
 			pos=rand()%val+p.getY()/valpix;
 			h=rand()%4 +1;
-			if (q.getX()>this->center.getX()){
+			if (q.getX()>(center.getX())){
 				w=(widths/2)-q.getX();
 				newp=Point(q.getX()+valpix/(h/2),pos);
 				}
@@ -67,9 +70,10 @@ Salles::Salles(){
 			if (this->addsect(w*valpix,h*valpix,newp)==false){
 				k--;}
 			}
+	}
 //on fait une boucle pour positionner les sections
-	for (k=0; k<nbrelief; k++){
-		S.contour();
+	for (int k=0; k<nbrelief; k++){
+		contour();
 		int cote=rand()%4*k;
 		Point q=contourList[cote];
 		Point r=contourList[cote+1];
@@ -78,7 +82,7 @@ Salles::Salles(){
 			pos=rand()%val+p.getX()/valpix;
 			w=rand()%4 +1;
 			h=rand()%4 +1;
-			if (q.getX()>this->center.getY()){
+			if (q.getX()>(center.getY())){
 				newp=Point(pos,q.getY()+valpix/(h/2));
 				}
 			else{
@@ -88,7 +92,7 @@ Salles::Salles(){
 				k--;
 				errcount++;}
 			}
-		else
+		else{
 			val=(q.getY()-r.getY())/valpix;
 			pos=rand()%val;
 			w=rand()%4 +1;
@@ -110,51 +114,52 @@ Salles::Salles(){
 }
 
 //ajoute les obstacles en vérifiant qu'ils sont bien contenu dans la salle
-bool addobst(int width, int height, Point pos){
+bool Salles::addobst(int width, int height, Point pos){
 	 bool ans=false;
-	 for (Rectangle* r : sect){
-	 	if r.inrectangle(pos)
+	 for (Rectangle& r : sect){
+	 	if (r.inrectangle(pos))
 	 		{ans=true;
-	 		obst.push_back(Rectangle(pos,width*valpix,height*valpix));
+	 		obst.push_back(Obstacles(pos,width*valpix,height*valpix));
+	 		return (ans);
 	 		}
-	 return (ans);
-	 } 
+	 }
+	return (ans);
 }
 //ajoute des sections pour ajouter des variations dans les salles, en érifiant que ces variations sont compatibles
-bool addsect(int width, int height, Point pos){
+bool Salles::addsect(int width, int height, Point pos){
 	int maxX=widths/2;
 	int minX=(widths/2)-widths;
-	int maxY=heigths/2:
+	int maxY=heights/2;
 	int minY=(heights/2)-heights;
 	Point p1(pos.getX() -width*valpix/2, pos.getY()-height*valpix/2);
 	Point p2(pos.getX() -width*valpix/2, pos.getY()+height*valpix/2);
 	Point p3(pos.getX() +width*valpix/2, pos.getY()+height*valpix/2);
 	Point p4(pos.getX() +width*valpix/2, pos.getY()-height*valpix/2);
-	if (height<2 || width<2}	// Trop petit
+	if (height<2 || width<2)	// Trop petit
 		{return false;}
 	if (pos.getX() -width*valpix/2<minX*valpix || pos.getX() +width*valpix/2>maxX*valpix || pos.getY() +height*valpix/2>maxY*valpix || pos.getY() -height*valpix/2<minY*valpix)	// En dehors du cadre
 		{return false;}
-	for (Rectangle* r : sect){	// superpose pas
+	for (Rectangle& r : sect){	// superpose pas
 		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
 			return false;
 		}	
 	}
-	for (Rectangle* r : sect){	// En contact avec un autre rectangle
+	for (Rectangle& r : sect){	// En contact avec un autre rectangle
 		if (r.nearrectangle(p1)||r.nearrectangle(p2)||r.nearrectangle(p3)||r.nearrectangle(p4)){
-			sect.push_back(Rectangle(pos,width*valpix,height*valpix))
+			sect.push_back(Rectangle(pos,width*valpix,height*valpix));
 			n=n+1;
 			return true;
 		}
-	return false;	
 	}
+	return false;	
 }
 //met a jour le centre de la salle pour la placer dans le plan
-void setcenter(Point p){
-	varX=p.getX()-center.getX();
-	varY=p.getY()-center.getY();
+void Salles::setcenter(Point p){
+	int varX=p.getX()-center.getX();
+	int varY=p.getY()-center.getY();
 	center=p;
 	Point j,i;
-	for (Rectangle* r : sect){
+	for (Rectangle& r : sect){
 		j=r.getCenter();
 		i.setX(j.getX()+varX);
 		i.setY(j.getY()+varY);
@@ -162,20 +167,20 @@ void setcenter(Point p){
 		}	
 	}
 //ajoute les portes, en vérifiant quelles sont dans une zone accesible
-bool setdoor(Point p){
+bool Salles::setdoor(Point pos){
 	Point p1(pos.getX(), pos.getY()-valpix/2);
 	Point p2(pos.getX(), pos.getY()+valpix/2);
 	Point p3(pos.getX() -valpix/2,pos.getY());
 	Point p4(pos.getX() +valpix/2,pos.getY());
-	if (pos.getX()!=(heigths/2)*valpix && pos.getX()!=-(heigths/2)*valpix && pos.getY()!=(widths/2)*valpix && pos.getY()!=-(widths/2)*valpix)
+	if (pos.getX()!=(heights/2)*valpix && pos.getX()!=-(heights/2)*valpix && pos.getY()!=(widths/2)*valpix && pos.getY()!=-(widths/2)*valpix)
 		{return false;}
-	for (Rectangle* r : sect){
+	for (Rectangle& r : sect){
 		if (r.inrectangle(p1)&&r.inrectangle(p2)){
-			door.push_back(p);
+			door.push_back(pos);
 			return true;
 			}
 		else if (r.inrectangle(p3)&&r.inrectangle(p4)){
-			door.push_back(p);
+			door.push_back(pos);
 			return true;
 			}
 		}
@@ -184,19 +189,24 @@ bool setdoor(Point p){
 
 // Décomposition des rectangles en une liste de points
 void Salles::getPoints() {
-	for (Rectangle* r : sect) {
+	for (int k=0; k<n; k++) {
+		Rectangle r=sect[k];
 	        // Tri selon x
 	        Point p=r.getCenter();
-	        pointMap[Point(p.getX() -r.getWidth()/2, p.getY()-r.getHeight/2)]++;
-	        pointMap[Point(p.getX() +r.getWidth()/2, p.getY()-r.getHeight/2)]++;
-	        pointMap[Point(p.getX() +r.getWidth()/2, p.getY()+r.getHeight/2)]++;
-	        pointMap[Point(p.getX() -r.getWidth()/2, p.getY()+r.getHeight/2)]++;
+	        float x1=p.getX() -r.getWidth()/2;
+	        float x2=p.getX() +r.getWidth()/2;
+	        float y1=p.getY()-r.getHeight()/2;
+	        float y2=p.getY()+r.getHeight()/2;
+	        pointMap[Point(x1,y1)]++;
+	        pointMap[Point(x2,y1)]++;
+	        pointMap[Point(x2,y2)]++;
+	        pointMap[Point(x1,y2)]++;
 	
 	        // Tri selon y
-	        pointMapInverted[Point(p.getY() -r.getHeight()/2, p.getX()-r.getWidth/2)]++;
-	        pointMapInverted[Point(p.getY() -r.getHeight()/2, p.getX()+r.getWidth/2)]++;
-	        pointMapInverted[Point(p.getY() +r.getHeight()/2, p.getX()+r.getWidth/2)]++;
-	        pointMapInverted[Point(p.getY() +r.getHeight()/2, p.getX()-r.getWidth/2)]++;
+	        pointMapInverted[Point(y1, x1)]++;
+	        pointMapInverted[Point(y1, x2)]++;
+	        pointMapInverted[Point(y2, x2)]++;
+	        pointMapInverted[Point(y2, x1)]++;
 	}
 }
 
@@ -226,15 +236,15 @@ void Salles::printContour() {
 void Salles::contour() {
 	int maxX = widths/2;  // Taille max de la salle en x
 	int minX=(widths/2)-widths;
-	int maxY = heigths/2;  // Taille max de la salle en y
-	int minY=(heigths/2)-heigths;
+	int maxY = heights/2;  // Taille max de la salle en y
+	int minY=(heights/2)-heights;
 	int i;
 
 	// Calcul point de départ du contour
 	Point actualPoint(-13,-7);
 	while (pointMapInverted[actualPoint] != 1) {
-		if (actualPoint.getX() < maxX) actualPoint.setX()=actualPoint.getX()+1;
-		else actualPoint.setY()=actual.getY()+1;
+		if (actualPoint.getX() < maxX) actualPoint.setX(actualPoint.getX()+1);
+		else actualPoint.setY(actualPoint.getY()+1);
 	}
 	contourList.push_back(actualPoint); // Ajout du point
 
@@ -256,10 +266,10 @@ void Salles::contour() {
 		contourList.push_back(newPoint);    // Ajout du point
         
 		// Suppresion dans les listes
-		pointMapInverted[Point(newPoint.y_, newPoint.x_)] = 0;
+		pointMapInverted[Point(newPoint.getY(), newPoint.getX())] = 0;
 		pointMap[newPoint] = 0;
 
-		actualX = newPoint.x_;  // Mise à jour de actualX
+		actualX = newPoint.getX();  // Mise à jour de actualX
 
 		//if (newPoint.x_ >= 0 && newPoint.y_ >= 0) std::cout << newPoint << std::endl;
 		// Vertical
@@ -275,10 +285,10 @@ void Salles::contour() {
 		contourList.push_back(newPoint);    // Ajout du point
         
 		// Suppresion dans les listes
-		pointMapInverted[Point(newPoint.y_, newPoint.x_)] = 0;
+		pointMapInverted[Point(newPoint.getY(), newPoint.getX())] = 0;
 		pointMap[newPoint] = 0;
 
-		actualY = newPoint.y_;  // Mise à jour du actualY
+		actualY = newPoint.getY();  // Mise à jour du actualY
         
 		//if (newPoint.x_ >= 0 && newPoint.y_ >= 0) std::cout << newPoint << std::endl;
 	}
