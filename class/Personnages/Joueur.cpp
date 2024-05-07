@@ -1,5 +1,6 @@
 #include "Joueurs.hpp"
 
+// Constructeur à partir de la référence dans la liste listeJoueurs et de la position de départ (x,y)
 Joueur::Joueur(int textureFileInt, float x, float y) {
     numPerso = textureFileInt;
     // Set grande taille
@@ -8,6 +9,8 @@ Joueur::Joueur(int textureFileInt, float x, float y) {
     
     position.setX(x);
     position.setY(y);
+
+    positionOrigine = position;
 
     positionVie.setX(x - width_*scale_factor/2);
     positionVie.setY(y - height*(scale_factor+1));
@@ -25,6 +28,7 @@ Joueur::Joueur(int textureFileInt, float x, float y) {
     sprite.scale(scale_factor, scale_factor);
 };
 
+// Mouvement en fonction de dx et dy
 void Joueur::mouvement(float dx, float dy) {
     position += Point(dx,dy);
 
@@ -49,6 +53,7 @@ void Joueur::mouvement(float dx, float dy) {
     if (etat > maxEtat) etat = 0;
 }
 
+// Mouvement en fonction de dx et dy
 void Joueur::mouvement() {
     int dx = speedX;
     int dy = speedY;

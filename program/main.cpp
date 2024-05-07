@@ -102,10 +102,10 @@ int main() {
             }
             switch (etatJeu) {
                 case 0:
-                    game.startManager(event, window, j1, j2);   // Page choix personnages
+                    game.startManager(event, window, lJoueurs);   // Page choix personnages
                     break;                
                 case 1:
-                    game.entryManager(event, window, j1, j2, listeArmes);   // Page de jeu
+                    game.entryManager(event, window, lJoueurs, listeArmes);   // Page de jeu
                     break;
                 default:
                     break;

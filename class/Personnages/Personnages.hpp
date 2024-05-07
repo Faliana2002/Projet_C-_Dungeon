@@ -23,6 +23,7 @@ class Personnages {
         std::string nom;
         std::string textureFile;
         Point position;
+        Point positionOrigine;
         Point positionArme;
         Point positionVie;
         int numPerso = 0;
