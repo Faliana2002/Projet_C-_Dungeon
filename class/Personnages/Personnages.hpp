@@ -27,7 +27,7 @@ class Personnages {
         Point positionArme;
         Point positionVie;
         int numPerso = 0;
-        bool estVivant;
+        bool estVivant = true;
         int vieMax = 64;
         int vie = 64;
         int vitesseDeplacement;
@@ -54,9 +54,9 @@ class Personnages {
         Point getPosition() const {
             return position; // Supposons que la position de l'ennemi est stockée dans un objet de type Point
         }
-        void recevoirDegats(const Armes& arme){
+        void recevoirDegats(Armes*& arme){
             // Soustraire les dégâts des points de vie de l'ennemi en utilisant les dégâts de l'arme
-            vie -= arme.getDegats();
+            vie -= arme->getDegats();
 
             // Vérifier si l'ennemi est toujours en vie
             if (vie <= 0) {

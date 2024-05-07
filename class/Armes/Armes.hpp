@@ -39,11 +39,11 @@ class Armes {
 
     protected:
         float degats_;               // Dégâts causés par l'arme
-        float distance_attaque_;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
         float rate_;   // Fréquence à laquelle l'arme peut émettre des munitions
         int indice_;
         float scale_factor = 2.0;
     public:
+        float distance_attaque_;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
         sf::Texture texture;
         sf::Sprite sprite;
         std::string textureFile;

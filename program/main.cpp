@@ -30,10 +30,12 @@ int main() {
     // Premier joueur
     Joueur j1(2, 960-16*4/2, 360-28*4/2);
     Joueur j2(1, 320-16*4/2, 360-28*4/2);
+    //Joueur j3(3, 640-16*4/2, 360-16*4/2);
 
     std::vector<Joueur*> lJoueurs;
     lJoueurs.push_back(&j1);
     lJoueurs.push_back(&j2);
+    //lJoueurs.push_back(&j3);
 
     Ennemi e1(1, 600,300);
     Ennemi e2(2,1278, 56);
@@ -105,15 +107,17 @@ int main() {
                     game.startManager(event, window, lJoueurs);   // Page choix personnages
                     break;                
                 case 1:
-                    game.entryManager(event, window, lJoueurs, listeArmes);   // Page de jeu
+                    game.entryManager(event, window, lJoueurs, listeArmes, lEnnemis);   // Page de jeu
                     break;
                 default:
                     break;
             }
         }
 
-        if (j1.rtp > 0 && j2.rtp > 0) etatJeu = 1;
-        else etatJeu = 0;
+        etatJeu = 1;
+        for (Joueur* j : lJoueurs) {
+            if (j->rtp == 0) etatJeu = 0;
+        }
         
         // Gestion du frame rate
         auto now = std::chrono::system_clock::now();
@@ -128,11 +132,6 @@ int main() {
             
             //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
             for (Ennemi* e : lEnnemis) e->aleatoire_mvt();
-            //e1.aleatoire_mvt();
-            //e2.aleatoire_mvt();
-            //e3.aleatoire_mvt();
-            //e4.aleatoire_mvt();
-            //e5.aleatoire_mvt();
             //for (Ennemi e : listeEnnemis) e.suivi();
 
             startTime = currentTime;
@@ -151,7 +150,9 @@ int main() {
         // Joueur
         for (Joueur* j : lJoueurs) window.draw(j->sprite);
         // Ennemi
-        for (Ennemi* e : lEnnemis) window.draw(e->sprite);
+        for (Ennemi* e : lEnnemis) {
+            if (e->estVivant) window.draw(e->sprite);
+        }
         // Armes
         for (Joueur* j : lJoueurs) {
             if (j->armes != nullptr) window.draw(j->armes->sprite);    

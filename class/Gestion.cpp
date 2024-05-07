@@ -1,12 +1,8 @@
 #include "Gestion.hpp"
 
-extern int nbLJoueur;
-extern int nbLEnnemi;
-extern int toucheJoueur[2][5];
-
-void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vector<Joueur*>& lJoueurs, std::vector<Armes*>& lArmes) {
+void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vector<Joueur*>& lJoueurs, std::vector<Armes*>& lArmes, std::vector<Ennemi*>& lEnnemis) {
     if (event.type == sf::Event::KeyPressed) {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < nbJoueur; i++) {
             // Haut-bas
             if (event.key.code == toucheJoueur[i][0]) lJoueurs[i]->speedY = -2;
             else if (event.key.code == toucheJoueur[i][1]) lJoueurs[i]->speedY = 2;
@@ -30,18 +26,22 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vecto
                 }
             }
 
+            if (event.key.code == toucheJoueur[i][5]) {
+                if(lJoueurs[i]->armes != nullptr) lJoueurs[i]->hitEnnemis(lEnnemis, lJoueurs);
+            }
+
         }
     }
     
     else if (event.type == sf::Event::KeyReleased) {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < nbJoueur; i++) {
             if (event.key.code == toucheJoueur[i][0] || event.key.code == toucheJoueur[i][1]) lJoueurs[i]->speedY = 0;
             if (event.key.code == toucheJoueur[i][2] || event.key.code == toucheJoueur[i][3]) lJoueurs[i]->speedX = 0;
         }
     }
 
-    if (event.key.code == sf::Keyboard::U) {
-        for (int i = 0; i < 2; i++) {
+    if (event.key.code == sf::Keyboard::T) {
+        for (int i = 0; i < nbJoueur; i++) {
             lJoueurs[i]->rtp = 0;   // rpt : Ready To Play
             lJoueurs[i]->position = lJoueurs[i]->positionOrigine;
             lJoueurs[i]->start = true;
@@ -51,7 +51,7 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vecto
 
 void Gestion::startManager(sf::Event event, sf::RenderWindow& window, std::vector<Joueur*>& lJoueurs) {
     if (event.type == sf::Event::KeyPressed) {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < nbJoueur; i++) {
             if (event.key.code == toucheJoueur[i][0] || event.key.code == toucheJoueur[i][0]) {
                 lJoueurs[i]->rtp = 1;   // Ready To Play
                 lJoueurs[i]->start = false; // N'est plus dans l'état de start
@@ -60,7 +60,7 @@ void Gestion::startManager(sf::Event event, sf::RenderWindow& window, std::vecto
             else if (event.key.code == toucheJoueur[i][3]) lJoueurs[i]->numPerso++;
 
             if (lJoueurs[i]->numPerso < 0) lJoueurs[i]->numPerso = 0;
-            if (lJoueurs[i]->numPerso >= nbLJoueur) lJoueurs[i]->numPerso == nbLJoueur--;
+            if (lJoueurs[i]->numPerso >= nbLJoueur) lJoueurs[i]->numPerso = nbLJoueur--;
             
         }
     }

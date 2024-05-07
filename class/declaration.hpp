@@ -19,6 +19,7 @@ std::string spikes_anim_str = "_anim_f";
 int nbLJoueur = 9;
 int nbLEnnemi = 17;
 int nbArmesCAC = 22;
+int nbJoueur = 3;
 
 std::string listeJoueurs[] = {"angel",
                             //"big_demon",
@@ -180,9 +181,10 @@ int height = 720;
 float alea_mvt_max = 0.1;
 
 // Haut, bas, gauche, droite, ramasser/jeter armes
-int toucheJoueur[2][5] = {
-    {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::RShift},
-    {sf::Keyboard::Z, sf::Keyboard::S, sf::Keyboard::Q, sf::Keyboard::D, sf::Keyboard::E}
+int toucheJoueur[3][6] = {
+    {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::RShift, sf::Keyboard::Numpad0},
+    {sf::Keyboard::Z, sf::Keyboard::S, sf::Keyboard::Q, sf::Keyboard::D, sf::Keyboard::E, sf::Keyboard::A},
+    {sf::Keyboard::I, sf::Keyboard::K, sf::Keyboard::J, sf::Keyboard::L, sf::Keyboard::O, sf::Keyboard::U}
 };
 
 
