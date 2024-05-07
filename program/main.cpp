@@ -31,9 +31,9 @@ int main() {
     Joueur j1(2, 960-16*4/2, 360-28*4/2);
     Joueur j2(1, 320-16*4/2, 360-28*4/2);
 
-    std::vector<Joueur> lJoueurs;
-    lJoueurs.push_back(j1);
-    lJoueurs.push_back(j2);
+    std::vector<Joueur*> lJoueurs;
+    lJoueurs.push_back(&j1);
+    lJoueurs.push_back(&j2);
 
     Ennemi e1(1, 600,300);
     Ennemi e2(2,1278, 56);
@@ -41,12 +41,12 @@ int main() {
     Ennemi e4(4,612, 273);
     Ennemi e5(14,532, 145);
 
-    std::vector<Ennemi> lEnnemis;
-    lEnnemis.push_back(e1);
-    lEnnemis.push_back(e2);
-    lEnnemis.push_back(e3);
-    lEnnemis.push_back(e4);
-    lEnnemis.push_back(e5);
+    std::vector<Ennemi*> lEnnemis;
+    lEnnemis.push_back(&e1);
+    lEnnemis.push_back(&e2);
+    lEnnemis.push_back(&e3);
+    lEnnemis.push_back(&e4);
+    lEnnemis.push_back(&e5);
 
     //cout << "On crée des armes" << endl;
     CorpsaCorps c1(0);
@@ -124,17 +124,15 @@ int main() {
 
             //cout << "On commence la bucle" << endl;
             //for (Joueur j : listeJoueurs) j.debug_mvt(); 
-            //for (Joueur& j : lJoueurs) j.mouvement();
-            j1.mouvement();
-            j2.mouvement();
-
+            for (Joueur* j : lJoueurs) j->mouvement();
+            
             //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
-            //for (Ennemi e : lEnnemis) e.aleatoire_mvt();
-            e1.aleatoire_mvt();
-            e2.aleatoire_mvt();
-            e3.aleatoire_mvt();
-            e4.aleatoire_mvt();
-            e5.aleatoire_mvt();
+            for (Ennemi* e : lEnnemis) e->aleatoire_mvt();
+            //e1.aleatoire_mvt();
+            //e2.aleatoire_mvt();
+            //e3.aleatoire_mvt();
+            //e4.aleatoire_mvt();
+            //e5.aleatoire_mvt();
             //for (Ennemi e : listeEnnemis) e.suivi();
 
             startTime = currentTime;
@@ -151,34 +149,25 @@ int main() {
         //cout << "On commence l'affichage" << endl;
         // Draw the sprite
         // Joueur
-        //for (Joueur j : lJoueurs) window.draw(j.sprite);
-        window.draw(j1.sprite);
-        window.draw(j2.sprite);
+        for (Joueur* j : lJoueurs) window.draw(j->sprite);
         // Ennemi
-        //for (Ennemi e : lEnnemis) window.draw(e.sprite);
-        window.draw(e1.sprite);
-        window.draw(e2.sprite);
-        window.draw(e3.sprite);
-        window.draw(e4.sprite);
-        window.draw(e5.sprite);
+        for (Ennemi* e : lEnnemis) window.draw(e->sprite);
         // Armes
-        
-        if (j1.armes != nullptr) window.draw(j1.armes->sprite);
-        if (j2.armes != nullptr) window.draw(j2.armes->sprite);
+        for (Joueur* j : lJoueurs) {
+            if (j->armes != nullptr) window.draw(j->armes->sprite);    
+        }
         for (Armes* a : listeArmes) {
             if (a->portee == false) window.draw(a->sprite);    
         }
-        //if (c1.portee == false) window.draw(c1.sprite);
-        //if (d1.portee == false) window.draw(d1.sprite);
         // Barre de vie
-        window.draw(j1.barrevie.rectangle_red); window.draw(j1.barrevie.rectangle_white);
-        window.draw(j2.barrevie.rectangle_red); window.draw(j2.barrevie.rectangle_white);
-
-        window.draw(e1.barrevie.rectangle_red); window.draw(e1.barrevie.rectangle_red);
-        window.draw(e2.barrevie.rectangle_red); window.draw(e2.barrevie.rectangle_red);
-        window.draw(e3.barrevie.rectangle_red); window.draw(e3.barrevie.rectangle_red);
-        window.draw(e4.barrevie.rectangle_red); window.draw(e4.barrevie.rectangle_red);
-        window.draw(e5.barrevie.rectangle_red); window.draw(e5.barrevie.rectangle_red);
+        for (Joueur* j : lJoueurs) {
+            window.draw(j->barrevie.rectangle_red); window.draw(j->barrevie.rectangle_white);
+        }
+        for (Ennemi* e : lEnnemis) {
+            window.draw(e->barrevie.rectangle_red); window.draw(e->barrevie.rectangle_red);
+        }
+        // Pour le calcul du framerate
+        //cout << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << endl;
 
         // Display the contents of the window
         window.display();
