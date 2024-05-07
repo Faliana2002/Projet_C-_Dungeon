@@ -1,116 +1,67 @@
 #include "Gestion.hpp"
 
-extern int nbLJoueur;
-extern int nbLEnnemi;
-
-void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, Joueur& j1, Joueur& j2, std::vector<Armes*>& lArmes) {
+void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vector<Joueur*>& lJoueurs, std::vector<Armes*>& lArmes, std::vector<Ennemi*>& lEnnemis) {
     if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Up)
-            // Gérer l'appui sur la touche Haut
-            j1.speedY = -2;
-        else if (event.key.code == sf::Keyboard::Down)
-            // Gérer l'appui sur la touche Bas
-            j1.speedY = 2;
-        if (event.key.code == sf::Keyboard::Left)
-            // Gérer l'appui sur la touche Gauche
-            j1.speedX = -2;
-        else if (event.key.code == sf::Keyboard::Right)
-            // Gérer l'appui sur la touche Droite
-            j1.speedX = 2;
-        if (event.key.code == sf::Keyboard::Z)
-            // Gérer l'appui sur la touche Haut
-            j2.speedY = -2;
-        else if (event.key.code == sf::Keyboard::S)
-            // Gérer l'appui sur la touche Bas
-            j2.speedY = 2;
-        if (event.key.code == sf::Keyboard::Q)
-            // Gérer l'appui sur la touche Gauche
-            j2.speedX = -2;
-        else if (event.key.code == sf::Keyboard::D)
-            // Gérer l'appui sur la touche Droite
-            j2.speedX = 2;
-        if (event.key.code == sf::Keyboard::RShift) {
-            if (j1.armes == nullptr) {
-                for (Armes* a : lArmes) {
-                    if ( abs(a->position.getX() - j1.position.getX()) < 50 && abs(a->position.getY() - j1.position.getY()) < 150 && a->portee == false && j1.armes == nullptr) {
-                        j1.armes = a;
-                        a->sprite.setPosition(j1.positionArme.getX(), j1.positionArme.getY());
-                        a->portee = true;
-                    }
+        for (int i = 0; i < nbJoueur; i++) {
+            // Haut-bas
+            if (event.key.code == toucheJoueur[i][0]) lJoueurs[i]->speedY = -2;
+            else if (event.key.code == toucheJoueur[i][1]) lJoueurs[i]->speedY = 2;
+            // Gauche-droite
+            if (event.key.code == toucheJoueur[i][2]) lJoueurs[i]->speedX = -2;
+            else if (event.key.code == toucheJoueur[i][3]) lJoueurs[i]->speedX = 2;
+            // Ramasser-jeter
+            if (event.key.code == toucheJoueur[i][4]) {
+                if (lJoueurs[i]->armes == nullptr) {
+                    for (Armes* a : lArmes) {
+                        if ( abs(a->position.getX() - lJoueurs[i]->position.getX()) < 50 && abs(a->position.getY() - lJoueurs[i]->position.getY()) < 150 && a->portee == false && lJoueurs[i]->armes == nullptr) {
+                            lJoueurs[i]->armes = a;
+                            a->sprite.setPosition(lJoueurs[i]->positionArme.getX(), lJoueurs[i]->positionArme.getY());
+                            a->portee = true;
+                        }
+                    }    
                 }
-            } 
-            else {
-                j1.armes->portee = false;
-                j1.armes = nullptr;
-            }
-        }
-        if (event.key.code == sf::Keyboard::E) {
-            if (j2.armes == nullptr) {
-                for (Armes* a : lArmes) {
-                    if ( abs(a->position.getX() - j2.position.getX()) < 50 && abs(a->position.getY() - j2.position.getY()) < 150 && a->portee == false && j2.armes == nullptr) {
-                        j2.armes = a;
-                        a->sprite.setPosition(j2.positionArme.getX(), j2.positionArme.getY());
-                        a->portee = true;
-                    }
+                else {
+                    lJoueurs[i]->armes->portee = false;
+                    lJoueurs[i]->armes = nullptr;
                 }
-            } 
-            else {
-                j2.armes->portee = false;
-                j2.armes = nullptr;
             }
+
+            if (event.key.code == toucheJoueur[i][5]) {
+                if(lJoueurs[i]->armes != nullptr) lJoueurs[i]->hitEnnemis(lEnnemis, lJoueurs);
+            }
+
         }
     }
+    
     else if (event.type == sf::Event::KeyReleased) {
-        // Réinitialisation des vitesses lorsque les touches sont relâchées
-        if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down)
-            j1.speedY = 0;
-        if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right)
-            j1.speedX = 0;
-        if (event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::S)
-            j2.speedY = 0;
-        if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::D)
-            j2.speedX = 0;
+        for (int i = 0; i < nbJoueur; i++) {
+            if (event.key.code == toucheJoueur[i][0] || event.key.code == toucheJoueur[i][1]) lJoueurs[i]->speedY = 0;
+            if (event.key.code == toucheJoueur[i][2] || event.key.code == toucheJoueur[i][3]) lJoueurs[i]->speedX = 0;
+        }
     }
 
-    if (event.key.code == sf::Keyboard::U) {
-            // Gérer l'appui sur la touche Gauche
-            j1.rtp = 0;
-            j2.rtp = 0;
-            j1.position = Point(960-16*4/2, 360-28*4/2);
-            j2.position = Point(320-16*4/2, 360-28*4/2);
-            j1.start = true;
-            j2.start = true;
+    if (event.key.code == sf::Keyboard::T) {
+        for (int i = 0; i < nbJoueur; i++) {
+            lJoueurs[i]->rtp = 0;   // rpt : Ready To Play
+            lJoueurs[i]->position = lJoueurs[i]->positionOrigine;
+            lJoueurs[i]->start = true;
+        }
     }
 }
 
-void Gestion::startManager(sf::Event event, sf::RenderWindow& window, Joueur& j1, Joueur& j2) {
+void Gestion::startManager(sf::Event event, sf::RenderWindow& window, std::vector<Joueur*>& lJoueurs) {
     if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down) {
-            // Gérer l'appui sur la touche Gauche
-            j1.rtp = 1;
-            j1.start = false;
-        }
-        if (event.key.code == sf::Keyboard::Left)
-            // Gérer l'appui sur la touche Gauche
-            j1.numPerso--;
-        else if (event.key.code == sf::Keyboard::Right)
-            // Gérer l'appui sur la touche Droite
-            j1.numPerso++;
-        if (event.key.code == sf::Keyboard::Z || event.key.code == sf::Keyboard::S) {
-            // Gérer l'appui sur la touche Gauche
-            j2.rtp = 1;
-            j2.start = false;
-        }
-        if (event.key.code == sf::Keyboard::Q)
-            // Gérer l'appui sur la touche Gauche
-            j2.numPerso--;
-        else if (event.key.code == sf::Keyboard::D)
-            // Gérer l'appui sur la touche Droite
-            j2.numPerso++;
-    } 
-    if (j1.numPerso < 0) j1.numPerso++;
-    if (j1.numPerso >= nbLJoueur) j1.numPerso--;
-    if (j2.numPerso < 0) j2.numPerso++;
-    if (j2.numPerso >= nbLJoueur) j2.numPerso--;
+        for (int i = 0; i < nbJoueur; i++) {
+            if (event.key.code == toucheJoueur[i][0] || event.key.code == toucheJoueur[i][0]) {
+                lJoueurs[i]->rtp = 1;   // Ready To Play
+                lJoueurs[i]->start = false; // N'est plus dans l'état de start
+            }
+            if (event.key.code == toucheJoueur[i][2]) lJoueurs[i]->numPerso--;
+            else if (event.key.code == toucheJoueur[i][3]) lJoueurs[i]->numPerso++;
 
+            if (lJoueurs[i]->numPerso < 0) lJoueurs[i]->numPerso = 0;
+            if (lJoueurs[i]->numPerso >= nbLJoueur) lJoueurs[i]->numPerso = nbLJoueur--;
+            
+        }
+    }
 }

@@ -46,7 +46,7 @@ void CorpsaCorps::infligerDegats(const std::vector<std::shared_ptr<Joueur>>& jou
                 ennemiDetecte = true;
 
                 // Appliquer les dégâts à l'ennemi détecté
-                ennemi->recevoirDegats(*this);  // Assurez-vous que recevoirDegats attend une référence à Armes
+                //ennemi->recevoirDegats(&arme);  // Assurez-vous que recevoirDegats attend une référence à Armes
 
                 // // Optionnel : Jouer une animation d'attaque
                 // sprite.playAnimation("attaque");

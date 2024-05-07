@@ -2,6 +2,7 @@
 #define JOUEURS
 
 #include "Personnages.hpp"
+#include "Ennemi.hpp"
 
 #include <string>
 
@@ -28,6 +29,7 @@ class Joueur : public Personnages {
         void mouvement(float dx, float dy);
         void mouvement();
         void debug_mvt();
+        void hitEnnemis(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur);
 };
 
 #endif

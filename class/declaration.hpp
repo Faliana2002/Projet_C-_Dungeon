@@ -19,6 +19,7 @@ std::string spikes_anim_str = "_anim_f";
 int nbLJoueur = 9;
 int nbLEnnemi = 17;
 int nbArmesCAC = 22;
+int nbJoueur = 3;
 
 std::string listeJoueurs[] = {"angel",
                             //"big_demon",
@@ -73,31 +74,6 @@ std::string listeEnnemi[] = {//"angel",
                             "wogol",
                             "robot"};       //14
 // Par 4 (au lieu de 8) : zombie/slug/tiny_slug/ice_zombie/muddy/necromancer/swampy/
-
-/*
-std::string listeArmesCAC[] = {"anime_sword",
-                              "axe",
-                              "baton_with_spikes",
-                              "big_hammer",
-                              "cleaver",
-                              "double_axe",
-                              "duel_sword",
-                              "golden_sword",
-                              "hammer",
-                              "katana",
-                              "knife",
-                              "knight_sword",
-                              "lavish_sword",
-                              "mace",
-                              "machete",
-                              "red_gem_sword",
-                              "regular_sword",
-                              "rusty_sword",
-                              "saw_sword",
-                              "spear",
-                              "throwing_axe",
-                              "waraxe"};
-*/
 
 // nom, rate_min, rate_max, degats_min, degats_max, d_min, d_max
 std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesCAC = {
@@ -204,6 +180,12 @@ int height = 720;
 
 float alea_mvt_max = 0.1;
 
+// Haut, bas, gauche, droite, ramasser/jeter armes
+int toucheJoueur[3][6] = {
+    {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::RShift, sf::Keyboard::Numpad0},
+    {sf::Keyboard::Z, sf::Keyboard::S, sf::Keyboard::Q, sf::Keyboard::D, sf::Keyboard::E, sf::Keyboard::A},
+    {sf::Keyboard::I, sf::Keyboard::K, sf::Keyboard::J, sf::Keyboard::L, sf::Keyboard::O, sf::Keyboard::U}
+};
 
 
 #endif
