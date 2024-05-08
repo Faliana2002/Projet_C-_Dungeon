@@ -23,8 +23,8 @@ CorpsaCorps::CorpsaCorps(int indice) {
     texture.loadFromFile(textureFile);
 
     // Positionnement de l'arme sur le monde du jeu
-    position.setX(100);
-    position.setY(620);
+    position.setX(640);
+    position.setY(360);
 
     sprite.setTexture(texture);
     sprite.setPosition(position.getX(), position.getY());
@@ -41,6 +41,7 @@ void CorpsaCorps::infligerDegats(const std::vector<std::shared_ptr<Joueur>>& jou
     // Parcourir chaque ennemi pour voir s'il détecte un joueur
     for (const auto& joueur : joueurs){
         for (const auto& ennemi : listenn) {
+            if (joueur == joueur) {}
             // Vérifiez que l'ennemi existe bien avant de tenter d'accéder à ses méthodes
             if (ennemi && ennemi->detecterEnnemi(joueurs, arme)) {
                 ennemiDetecte = true;

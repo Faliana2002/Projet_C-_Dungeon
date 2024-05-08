@@ -9,6 +9,8 @@
 #include "../class/Armes/CorpsaCorps.hpp"
 #include "../class/Armes/Distance.hpp"
 
+#include "../class/Salles-test/Salles.hpp"
+
 using namespace sf;
 using namespace std;
 
@@ -37,10 +39,10 @@ int main() {
     lJoueurs.push_back(&j2);
     //lJoueurs.push_back(&j3);
 
-    Ennemi e1(1, 600,300);
-    Ennemi e2(2,1278, 56);
-    Ennemi e3(3,1074, 449);
-    Ennemi e4(4,612, 273);
+    Ennemi e1(1, 600,400);
+    Ennemi e2(2,300, 600);
+    Ennemi e3(3,1000, 449);
+    Ennemi e4(4,700, 653);
     Ennemi e5(14,532, 145);
 
     std::vector<Ennemi*> lEnnemis;
@@ -93,6 +95,8 @@ int main() {
 
     int etatJeu = 0;
 
+    Salles salle_test;
+
     // Main loop
     while (window.isOpen()) {
 
@@ -128,10 +132,10 @@ int main() {
 
             //cout << "On commence la bucle" << endl;
             //for (Joueur j : listeJoueurs) j.debug_mvt(); 
-            for (Joueur* j : lJoueurs) j->mouvement();
+            for (Joueur* j : lJoueurs) j->mouvement(salle_test);
             
             //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
-            for (Ennemi* e : lEnnemis) e->aleatoire_mvt();
+            for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
             //for (Ennemi e : listeEnnemis) e.suivi();
 
             startTime = currentTime;
@@ -167,6 +171,10 @@ int main() {
         for (Ennemi* e : lEnnemis) {
             window.draw(e->barrevie.rectangle_red); window.draw(e->barrevie.rectangle_red);
         }
+
+        // Salles-tests
+        for (sf::RectangleShape r : salle_test.lineList) window.draw(r);
+
         // Pour le calcul du framerate
         //cout << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << endl;
 

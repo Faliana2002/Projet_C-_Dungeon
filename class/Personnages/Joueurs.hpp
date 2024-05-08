@@ -1,6 +1,8 @@
 #ifndef JOUEURS
 #define JOUEURS
 
+#include "../Salles-test/Salles.hpp"
+
 #include "Personnages.hpp"
 #include "Ennemi.hpp"
 
@@ -28,6 +30,7 @@ class Joueur : public Personnages {
 
         void mouvement(float dx, float dy);
         void mouvement();
+        void mouvement(Salles s);
         void debug_mvt();
         void hitEnnemis(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur);
 };

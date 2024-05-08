@@ -1,6 +1,8 @@
 #ifndef ENNEMIS
 #define ENNEMIS
 
+#include "../Salles-test/Salles.hpp"
+
 #include "Personnages.hpp"
 #include "Joueurs.hpp"
 
@@ -34,6 +36,7 @@ class Ennemi : public Personnages {
         void mouvement();
         void debug_mvt();
         void aleatoire_mvt();
+        void aleatoire_mvt(Salles s);
         void suivi(Joueur& j);
         bool detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme);
 };

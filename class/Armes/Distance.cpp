@@ -21,8 +21,8 @@ Distance::Distance(int indice) {
     textureFile = reference + weapon_str + std::get<0>(listeArmesDistance[indice]) + fin_str;
     texture.loadFromFile(textureFile);
 
-    position.setX(1180);
-    position.setY(620);
+    position.setX(640);
+    position.setY(360);
 
     sprite.setTexture(texture);
     sprite.setPosition(position.getX(), position.getY());

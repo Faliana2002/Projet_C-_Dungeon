@@ -203,6 +203,43 @@ void Ennemi::aleatoire_mvt() {
     mouvement(speedX,speedY);
 }
 
+// Prise en compte de la salle
+void Ennemi::aleatoire_mvt(Salles s) {
+    if (abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) {
+        int maxX = static_cast<int>(width);
+        int maxY = static_cast<int>(height);
+
+        int w = width_*scale_factor;
+        int h = height_*scale_factor;
+        
+        objectif = Point(0,0);
+        while (!s.isIn(objectif) || !s.isIn(objectif + Point(w,0)) || !s.isIn(objectif + Point(0,h)) || !s.isIn(objectif + Point(w,h))) {
+            objectif.setX(rand()%maxX);
+            objectif.setY(rand()%maxY);
+        }
+
+        float tx = objectif.getX() - position.getX();
+        float ty = objectif.getY() - position.getY();
+        float tmax;
+        if (abs(tx) > abs(ty)) tmax = abs(tx);
+        else tmax = abs(ty);
+
+        speedX = tx/tmax;
+        speedY = ty/tmax;
+
+        if (numPerso != 14) {
+            if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
+            else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);
+        }
+        else {
+            if (speedX > 0) sprite.setScale(scale_factor/4,scale_factor/4);
+            else if (speedX < 0) sprite.setScale(-scale_factor/4,scale_factor/4);
+        }
+    }
+
+    mouvement(speedX,speedY);
+}
+
 void Ennemi::suivi(Joueur& j) {
     objectif.setX(j.position.getX());
     objectif.setY(j.position.getY());

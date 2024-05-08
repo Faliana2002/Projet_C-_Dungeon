@@ -131,6 +131,77 @@ void Joueur::mouvement() {
     //speedY = 0;
 }
 
+// Mouvement en fonction de dx et dy en fonction de la salle
+void Joueur::mouvement(Salles s) {
+    int dx = speedX;
+    int dy = speedY;
+
+    textureFile = listeJoueurs[numPerso];
+
+    int w = width_*scale_factor;
+    int h = height_*scale_factor;
+
+    if (s.isIn(position+Point(dx,dy)) && s.isIn(position+Point(dx+w,dy)) && s.isIn(position+Point(dx+w,dy+h)) && s.isIn(position+Point(dx,dy+h))) {
+        position += Point(dx,dy);
+    }
+
+    positionArme.setY(position.getY());
+
+    positionVie.setX(position.getX());
+    positionVie.setY(position.getY() + height_*scale_factor);
+    barrevie.width_red = (float)vie/(float)vieMax*width_*scale_factor;
+    barrevie.width_white = width_*scale_factor - barrevie.width_red;
+
+    // Positionnement barre de vie
+    barrevie.position_red = positionVie;
+    barrevie.position_white.setX(positionVie.getX() + barrevie.width_red);
+    barrevie.position_white.setY(positionVie.getY());
+    barrevie.draw_life();
+
+    if (dx != 0 || dy != 0) texture.loadFromFile(reference + textureFile + run + std::to_string(etat) + fin_str);
+    else texture.loadFromFile(reference + textureFile + idle + std::to_string(etat) + fin_str);
+
+    //sprite.setTexture(texture);
+    // Redimensionner le sprite
+    //sprite.scale(scale_factor, scale_factor);
+
+    if (dx != 0 || dy != 0 || start) {
+        if (dx < 0) {
+            sprite.setPosition(position.getX()+width_*scale_factor, position.getY());
+            sprite.setScale(-scale_factor,scale_factor);
+            mirrored = 1;
+            positionArme.setX(position.getX()+width_*scale_factor);
+        }
+        else if (dx == 0)  {
+            sprite.setPosition(position.getX()+width_*scale_factor*mirrored, position.getY());
+            positionArme.setX(position.getX()+width_*scale_factor);
+        }
+        else {
+            sprite.setPosition(position.getX(), position.getY());
+            sprite.setScale(scale_factor,scale_factor);
+            mirrored = 0;
+            positionArme.setX(position.getX() - width_*2);
+        }
+
+        if (armes != nullptr)  {
+            armes->sprite.setPosition(positionArme.getX(), positionArme.getY());
+            armes->position = positionArme;
+        }
+    }
+
+    cpt++;
+
+    if (cpt > maxCpt) {
+        etat++;
+        cpt = 0;
+    }
+    
+    if (etat > maxEtat) etat = 0;
+
+    //speedX = 0;
+    //speedY = 0;
+}
+
 // Vitesse 1 sur les deux axes pour des tests
 void Joueur::debug_mvt() {
     mouvement(speedX,speedY);
