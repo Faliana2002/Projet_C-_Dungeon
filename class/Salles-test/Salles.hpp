@@ -8,6 +8,7 @@
 #include "../point.hpp"
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "../rectangle.hpp"
 
 class Salles {
     public:
@@ -29,7 +30,9 @@ class Salles {
         int n = 14, m = 26;
 
         std::vector<Point> contourList = {Point(200,200), Point(400,200), Point(400,100), Point(600,100), Point(600,300), Point(900,300), Point(900,200), Point(1100,200), Point(1100,400), Point(1200,400), Point(1200,600), Point(1100,600), Point(1100,700), Point(200,700), Point(200,200)};
+        std::vector<Rectangle> obstacleList = {Rectangle(Point(432,432), 100, 100)};
         std::vector<sf::RectangleShape> lineList;
+        std::vector<sf::RectangleShape> lineObstacle;
         int thicknessLine = 2;
 
         std::vector<std::vector<std::vector<Point>>> voisins;

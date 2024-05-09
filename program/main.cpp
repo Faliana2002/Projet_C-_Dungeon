@@ -140,7 +140,9 @@ int main() {
             
             //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
             //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
-            for (Ennemi* e : lEnnemis) e->aleatoire_mvt_2(salle_test);
+            for (Ennemi* e : lEnnemis) {
+                if (e->estVivant) e->aleatoire_mvt_2(salle_test);
+            }
             //for (Ennemi e : listeEnnemis) e.suivi();
 
             startTime = currentTime;
@@ -174,11 +176,14 @@ int main() {
             window.draw(j->barrevie.rectangle_red); window.draw(j->barrevie.rectangle_white);
         }
         for (Ennemi* e : lEnnemis) {
-            window.draw(e->barrevie.rectangle_red); window.draw(e->barrevie.rectangle_red);
+            if (e->estVivant) {
+                window.draw(e->barrevie.rectangle_red); window.draw(e->barrevie.rectangle_white);
+            }
         }
 
         // Salles-tests
         for (sf::RectangleShape r : salle_test.lineList) window.draw(r);
+        for (sf::RectangleShape r : salle_test.lineObstacle) window.draw(r);
 
         // Pour le calcul du framerate
         //cout << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << endl;

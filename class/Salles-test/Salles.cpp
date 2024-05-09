@@ -8,7 +8,34 @@ void Salles::getLine() {
         rectangle.setOutlineColor(color);
         lineList.push_back(rectangle);
     }
-    std::cout << lineList.size() << std::endl;
+    //std::cout << lineList.size() << std::endl;
+
+    for (Rectangle& r : obstacleList) {
+        sf::RectangleShape rectangle1;
+        rectangle1.setPosition(sf::Vector2f(r.getX() - r.getWidth()/2, r.getY() - r.getHeight()/2));
+        rectangle1.setSize(sf::Vector2f(r.getWidth(), thicknessLine));
+        rectangle1.setOutlineColor(color);
+        
+        sf::RectangleShape rectangle2;
+        rectangle2.setPosition(sf::Vector2f(r.getX() + r.getWidth()/2, r.getY() - r.getHeight()/2));
+        rectangle2.setSize(sf::Vector2f(thicknessLine, r.getHeight()));
+        rectangle2.setOutlineColor(color);
+
+        sf::RectangleShape rectangle3;
+        rectangle3.setPosition(sf::Vector2f(r.getX() - r.getWidth()/2, r.getY() + r.getHeight()/2));
+        rectangle3.setSize(sf::Vector2f(r.getWidth(), thicknessLine));
+        rectangle3.setOutlineColor(color);
+
+        sf::RectangleShape rectangle4;
+        rectangle4.setPosition(sf::Vector2f(r.getX() - r.getWidth()/2, r.getY() - r.getHeight()/2));
+        rectangle4.setSize(sf::Vector2f(thicknessLine, r.getHeight()));
+        rectangle4.setOutlineColor(color);
+
+        lineObstacle.push_back(rectangle1);
+        lineObstacle.push_back(rectangle2);
+        lineObstacle.push_back(rectangle3);
+        lineObstacle.push_back(rectangle4);
+    }
 }
 
 bool Salles::isIn(Point p) {
@@ -21,6 +48,12 @@ bool Salles::isIn(Point p) {
     for (int i=0; i < l-1; i++) {
         if ( ( (contourList[i].getX() < p.getX() && contourList[i+1].getX() >= p.getX()) || (contourList[i+1].getX() < p.getX() && contourList[i].getX() >= p.getX()) ) && contourList[i].getY() < p.getY() && contourList[i+1].getY() < p.getY() && contourList[i].getX() != contourList[i+1].getX()) cpt2++;
     }
+    for (Rectangle& r : obstacleList) {
+        if (r.inrectangle(p)) {
+            return false;
+        }
+    }
+
     if (cpt1%2 != 0 && cpt2%2 != 0) return true;
     return false;
 }
