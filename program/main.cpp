@@ -96,6 +96,10 @@ int main() {
     int etatJeu = 0;
 
     Salles salle_test;
+    salle_test.printArray(salle_test.listeAvailable);
+    for (const Point& p : salle_test.voisins[0][0]) {
+        std::cout << "Point accessible depuis (" << 0 << "," << 0 << ") : (" << p.getX() << "," << p.getY() << ")" << std::endl;
+    }
 
     // Main loop
     while (window.isOpen()) {
@@ -135,7 +139,8 @@ int main() {
             for (Joueur* j : lJoueurs) j->mouvement(salle_test);
             
             //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
-            for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
+            //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
+            for (Ennemi* e : lEnnemis) e->aleatoire_mvt_2(salle_test);
             //for (Ennemi e : listeEnnemis) e.suivi();
 
             startTime = currentTime;

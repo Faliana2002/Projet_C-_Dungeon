@@ -17,6 +17,14 @@ public:
 	bool operator!=( const Point& p);
 	bool operator==( const Point& p);
 	bool operator<( const Point& p) const;
+	void inverse(Point& p) {
+		float tempx = x;
+		float tempy = y;
+		x = p.getX();
+		y = p.getY();
+		p.setX(tempx);
+		p.setY(tempy);
+	}
 private:
         float x;
         float y;

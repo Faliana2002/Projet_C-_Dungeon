@@ -240,6 +240,41 @@ void Ennemi::aleatoire_mvt(Salles s) {
     mouvement(speedX,speedY);
 }
 
+void Ennemi::aleatoire_mvt_2(Salles s) {
+    if (abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) {
+        int j = (int) (position.getX()/48);
+        int i = (int) (position.getY()/48);
+        //std::cout << i << " " << j << std::endl;
+
+        int l = static_cast<int>(s.voisins[i][j].size());
+        int k = rand() % l;
+
+        objectif.setX(s.voisins[i][j][k].getY()*48);
+        objectif.setY(s.voisins[i][j][k].getX()*48);
+        //std::cout << "Objectif : " << objectif.getX() << " " << objectif.getY() << std::endl;
+
+        float tx = objectif.getX() - position.getX();
+        float ty = objectif.getY() - position.getY();
+        float tmax;
+        if (abs(tx) > abs(ty)) tmax = abs(tx);
+        else tmax = abs(ty);
+
+        speedX = tx/tmax;
+        speedY = ty/tmax;
+
+        if (numPerso != 14) {
+            if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
+            else if (speedX < 0) sprite.setScale(-scale_factor,scale_factor);
+        }
+        else {
+            if (speedX > 0) sprite.setScale(scale_factor/4,scale_factor/4);
+            else if (speedX < 0) sprite.setScale(-scale_factor/4,scale_factor/4);
+        }
+    }
+
+    mouvement(speedX,speedY);
+}
+
 void Ennemi::suivi(Joueur& j) {
     objectif.setX(j.position.getX());
     objectif.setY(j.position.getY());
