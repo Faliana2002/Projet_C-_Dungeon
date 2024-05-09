@@ -15,6 +15,7 @@ Salles::Salles(const Point& c, float w, float h){
 
 Salles::Salles(){
 //on intialise le random
+	printf("test0");
 	srand (time(NULL));
 	int val;
 	int pos;
@@ -50,9 +51,10 @@ Salles::Salles(){
 				h=(heights/2)+q.getY();
 				newp=Point(pos,q.getY()-valpix/(h/2));
 				}
-			
+
 			if (this->addsect(w*valpix,h*valpix,newp)==false){
 				k--;}
+			printf("test1");
 			}
 		else{
 			val=(q.getY()-r.getY())/valpix;
@@ -66,7 +68,7 @@ Salles::Salles(){
 				w=(widths/2)+q.getX();
 				newp=Point(q.getX()-valpix/(h/2),pos);
 				}
-			
+
 			if (this->addsect(w*valpix,h*valpix,newp)==false){
 				k--;}
 			}
@@ -109,7 +111,7 @@ Salles::Salles(){
 			}
 		if (errcount>5)
 			{break;}
-			
+
 	}
 }
 
@@ -142,7 +144,7 @@ bool Salles::addsect(int width, int height, Point pos){
 	for (Rectangle& r : sect){	// superpose pas
 		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
 			return false;
-		}	
+		}
 	}
 	for (Rectangle& r : sect){	// En contact avec un autre rectangle
 		if (r.nearrectangle(p1)||r.nearrectangle(p2)||r.nearrectangle(p3)||r.nearrectangle(p4)){
@@ -151,7 +153,7 @@ bool Salles::addsect(int width, int height, Point pos){
 			return true;
 		}
 	}
-	return false;	
+	return false;
 }
 //met a jour le centre de la salle pour la placer dans le plan
 void Salles::setcenter(Point p){
@@ -164,7 +166,7 @@ void Salles::setcenter(Point p){
 		i.setX(j.getX()+varX);
 		i.setY(j.getY()+varY);
 		r.setcenter(i);
-		}	
+		}
 	}
 //ajoute les portes, en vérifiant quelles sont dans une zone accesible
 bool Salles::setdoor(Point pos){
@@ -201,7 +203,7 @@ void Salles::getPoints() {
 	        pointMap[Point(x2,y1)]++;
 	        pointMap[Point(x2,y2)]++;
 	        pointMap[Point(x1,y2)]++;
-	
+
 	        // Tri selon y
 	        pointMapInverted[Point(y1, x1)]++;
 	        pointMapInverted[Point(y1, x2)]++;
@@ -241,20 +243,22 @@ void Salles::contour() {
 	int i;
 
 	// Calcul point de départ du contour
-	Point actualPoint(-13,-7);
+	Point actualPoint(minX,minY);
 	while (pointMapInverted[actualPoint] != 1) {
 		if (actualPoint.getX() < maxX) actualPoint.setX(actualPoint.getX()+1);
-		else actualPoint.setY(actualPoint.getY()+1);
+		else
+            {actualPoint.setY(actualPoint.getY()+1);
+            actualPoint.setX(minX)
 	}
 	contourList.push_back(actualPoint); // Ajout du point
 
 	int actualX = actualPoint.getX(), actualY = actualPoint.getY();
 	Point newPoint(1,1);
-    
+
 	while (newPoint != actualPoint) {
 		// Horizontal
 		i = 1;
-        
+
 		// Calcul du prochain point selon x
 		while (pointMapInverted[Point(actualY, actualX + i)] != 1 && (pointMapInverted[Point(actualY, actualX - i)] != 1 || actualX-i < 0) && i < maxX) {
 			i++;
@@ -262,9 +266,9 @@ void Salles::contour() {
 		// Séparation entre devant ou derriere
 		if (pointMapInverted[Point(actualY, actualX + i)] == 1) newPoint = Point(actualX+i, actualY);
 		else newPoint = Point(actualX-i, actualY);
-        
+
 		contourList.push_back(newPoint);    // Ajout du point
-        
+
 		// Suppresion dans les listes
 		pointMapInverted[Point(newPoint.getY(), newPoint.getX())] = 0;
 		pointMap[newPoint] = 0;
@@ -283,13 +287,13 @@ void Salles::contour() {
 		else newPoint = Point(actualX, actualY-i);
 
 		contourList.push_back(newPoint);    // Ajout du point
-        
+
 		// Suppresion dans les listes
 		pointMapInverted[Point(newPoint.getY(), newPoint.getX())] = 0;
 		pointMap[newPoint] = 0;
 
 		actualY = newPoint.getY();  // Mise à jour du actualY
-        
+
 		//if (newPoint.x_ >= 0 && newPoint.y_ >= 0) std::cout << newPoint << std::endl;
 	}
 

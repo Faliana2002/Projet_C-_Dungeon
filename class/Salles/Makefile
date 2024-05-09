@@ -3,7 +3,7 @@ CFLAGS = -std=c++11 -Wall # Options du compilateur
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio -lncurses
 
 # Les fichiers source
-SRC = ../point.cpp ../rectangle.cpp Obstacles.cpp  Salles.cpp 
+SRC = ../point.cpp ../rectangle.cpp Obstacles.cpp  Salles.cpp main.cpp
 
 # Les fichiers objets
 OBJ = $(SRC:.cpp=.o)
