@@ -72,6 +72,7 @@ Salles::Salles(){
 			if (this->addsect(w*valpix,h*valpix,newp)==false){
 				k--;}
 			}
+    contourList.clear();
 	}
 //on fait une boucle pour positionner les sections
 	for (int k=0; k<nbrelief; k++){
@@ -111,7 +112,7 @@ Salles::Salles(){
 			}
 		if (errcount>5)
 			{break;}
-
+    contourList.clear();
 	}
 }
 
@@ -199,16 +200,18 @@ void Salles::getPoints() {
 	        float x2=p.getX() +r.getWidth()/2;
 	        float y1=p.getY()-r.getHeight()/2;
 	        float y2=p.getY()+r.getHeight()/2;
-	        pointMap[Point(x1,y1)]++;
-	        pointMap[Point(x2,y1)]++;
-	        pointMap[Point(x2,y2)]++;
-	        pointMap[Point(x1,y2)]++;
-
-	        // Tri selon y
-	        pointMapInverted[Point(y1, x1)]++;
-	        pointMapInverted[Point(y1, x2)]++;
-	        pointMapInverted[Point(y2, x2)]++;
-	        pointMapInverted[Point(y2, x1)]++;
+	        if (pointMap[Point(x1,y1)]<1)
+                {pointMap[Point(x1,y1)]++;
+                pointMapInverted[Point(y1, x1)]++;}
+            if (pointMap[Point(x2,y1)]<1)
+                {pointMap[Point(x2,y1)]++;
+                pointMapInverted[Point(y1, x2)]++;}
+            if (pointMap[Point(x2,y2)]<1)
+                {pointMap[Point(x2,y2)]++;
+                pointMapInverted[Point(y2, x2)]++;}
+            if (pointMap[Point(x2,y1)]<1)
+                {pointMap[Point(x1,y2)]++;
+                pointMapInverted[Point(y2, x1)]++;}
 	}
 }
 
@@ -236,19 +239,19 @@ void Salles::printContour() {
 
 // Calcul des points du contour de la salle (alternance horizontale-vertical)
 void Salles::contour() {
-	int maxX = widths/2;  // Taille max de la salle en x
-	int minX=(widths/2)-widths;
-	int maxY = heights/2;  // Taille max de la salle en y
-	int minY=(heights/2)-heights;
+	int maxX = (widths/2)*valpix;  // Taille max de la salle en x
+	int minX=((widths/2)-widths)*valpix;
+	int maxY = (heights/2)*valpix;  // Taille max de la salle en y
+	int minY=((heights/2)-heights)*valpix;
 	int i;
-
+    getPoints();
 	// Calcul point de départ du contour
 	Point actualPoint(minX,minY);
 	while (pointMapInverted[actualPoint] != 1) {
 		if (actualPoint.getX() < maxX) actualPoint.setX(actualPoint.getX()+1);
 		else
             {actualPoint.setY(actualPoint.getY()+1);
-            actualPoint.setX(minX)
+            actualPoint.setX(minX);}
 	}
 	contourList.push_back(actualPoint); // Ajout du point
 
@@ -260,7 +263,7 @@ void Salles::contour() {
 		i = 1;
 
 		// Calcul du prochain point selon x
-		while (pointMapInverted[Point(actualY, actualX + i)] != 1 && (pointMapInverted[Point(actualY, actualX - i)] != 1 || actualX-i < 0) && i < maxX) {
+		while ((pointMapInverted[Point(actualY, actualX + i)] < 1) && (pointMapInverted[Point(actualY, actualX - i)] < 1) && i < maxX*2) {
 			i++;
 		}
 		// Séparation entre devant ou derriere
@@ -279,7 +282,7 @@ void Salles::contour() {
 		// Vertical
 		i = 1;
 		// Calcul du prochain point selon y
-		while (pointMap[Point(actualX, actualY+i)] != 1 && (pointMap[Point(actualX, actualY-i)] != 1 || actualY-i<0) && i < maxY) {
+		while (pointMap[Point(actualX, actualY+i)] != 1 && (pointMap[Point(actualX, actualY-i)] != 1 || actualY-i<0) && i < maxY*2) {
 			i++;
 		}
 		// Séparation entre haut et bas
