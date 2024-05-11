@@ -37,6 +37,8 @@
 		<Unit filename="../class/Salles/Obstacles.hpp" />
 		<Unit filename="../class/Salles/Salles.cpp" />
 		<Unit filename="../class/Salles/Salles.hpp" />
+		<Unit filename="../class/Salles/Sallesv2.cpp" />
+		<Unit filename="../class/Salles/Sallesv2.hpp" />
 		<Unit filename="../class/Salles/jeu" />
 		<Unit filename="../class/Salles/main.cpp" />
 		<Unit filename="../class/point.cpp" />
