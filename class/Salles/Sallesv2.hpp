@@ -52,6 +52,7 @@ public:
 	void printPoints();     // Affichage des map pointMap et pointMapInverted (terminal)    Trié selon y
 	void contour();         // Calcul du contour de la salle
 	void printContour();    // Affichage de contourList (terminal)
+	bool Salles::insalles(Point pos);
 
 
 
