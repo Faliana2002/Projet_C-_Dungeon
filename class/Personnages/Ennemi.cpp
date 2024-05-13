@@ -379,19 +379,23 @@ bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs,
 }
 
 void Ennemi::hitEnnemis(std::vector<Joueur*>& lJoueur) {
-    for (Joueur* j : lJoueur) {
-        int d_attaque = (int) armes->distance_attaque_;
+    if (etatHitRate > 1000/20/armes->rate_) {
+        for (Joueur* j : lJoueur) {
+            int d_attaque = (int) armes->distance_attaque_;
 
-        int gauche = j->position.getX() - d_attaque;
-        int haut = j->position.getY() - d_attaque;
+            int gauche = j->position.getX() - d_attaque;
+            int haut = j->position.getY() - d_attaque;
 
-        int droite = gauche + j->width_*j->scale_factor + 2*d_attaque;
-        int bas = haut + j->height_*j->scale_factor + 2*d_attaque;
+            int droite = gauche + j->width_*j->scale_factor + 2*d_attaque;
+            int bas = haut + j->height_*j->scale_factor + 2*d_attaque;
 
-        int ex = position.getX(), ey = position.getY();
+            int ex = position.getX(), ey = position.getY();
 
-        if (ex >= gauche && ex <= droite && ey >= haut && ey <= bas) j->recevoirDegats(armes);
+            if (ex >= gauche && ex <= droite && ey >= haut && ey <= bas) j->recevoirDegats(armes);
+        }
+        etatHitRate = 0;
     }
+    etatHitRate++;
 }
 
 // bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme) {
