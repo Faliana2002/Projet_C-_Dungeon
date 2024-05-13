@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-
 int valpix=48;
 int widths=26;
 int heights=14;
@@ -12,7 +11,6 @@ Salles::Salles(const Point& c, float w, float h){
 	sect.push_back(Rectangle(c,w,h));
 	n=1;
 }
-
 Salles::Salles(){
 //on intialise le random
 	printf("test0");
@@ -51,7 +49,6 @@ Salles::Salles(){
 				h=(heights/2)+q.getY();
 				newp=Point(pos,q.getY()-valpix/(h/2));
 				}
-
 			if (this->addsect(w*valpix,h*valpix,newp)==false){
 				k--;}
 			printf("test1");
@@ -68,7 +65,6 @@ Salles::Salles(){
 				w=(widths/2)+q.getX();
 				newp=Point(q.getX()-valpix/(h/2),pos);
 				}
-
 			if (this->addsect(w*valpix,h*valpix,newp)==false){
 				k--;}
 			}
@@ -112,6 +108,7 @@ Salles::Salles(){
 			}
 		if (errcount>5)
 			{break;}
+
     contourList.clear();
 	}
 }
@@ -128,7 +125,6 @@ bool Salles::addobst(int width, int height, Point pos){
 	 }
 	return (ans);
 }
-<<<<<<< HEAD
 //ajoute des sections pour ajouter des variations dans les salles, en érifiant que ces variations sont compatibles
 bool Salles::addsect(int width, int height, Point pos){
 	int maxX=widths/2;
@@ -147,12 +143,6 @@ bool Salles::addsect(int width, int height, Point pos){
 		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
 			return false;
 		}
-=======
-bool addsect(int width, int height, Point pos){
-	Rectangle k;
-	for k in sect{
-		
->>>>>>> parent of 7b38a0c... salles_test_v5
 	}
 	for (Rectangle& r : sect){	// En contact avec un autre rectangle
 		if (r.nearrectangle(p1)||r.nearrectangle(p2)||r.nearrectangle(p3)||r.nearrectangle(p4)){
@@ -163,7 +153,6 @@ bool addsect(int width, int height, Point pos){
 	}
 	return false;
 }
-<<<<<<< HEAD
 //met a jour le centre de la salle pour la placer dans le plan
 void Salles::setcenter(Point p){
 	int varX=p.getX()-center.getX();
@@ -197,7 +186,6 @@ bool Salles::setdoor(Point pos){
 		}
 	return false;
 	}
-
 // Décomposition des rectangles en une liste de points
 void Salles::getPoints() {
 	for (int k=0; k<n; k++) {
@@ -208,6 +196,16 @@ void Salles::getPoints() {
 	        float x2=p.getX() +r.getWidth()/2;
 	        float y1=p.getY()-r.getHeight()/2;
 	        float y2=p.getY()+r.getHeight()/2;
+	        pointMap[Point(x1,y1)]++;
+	        pointMap[Point(x2,y1)]++;
+	        pointMap[Point(x2,y2)]++;
+	        pointMap[Point(x1,y2)]++;
+
+	        // Tri selon y
+	        pointMapInverted[Point(y1, x1)]++;
+	        pointMapInverted[Point(y1, x2)]++;
+	        pointMapInverted[Point(y2, x2)]++;
+	        pointMapInverted[Point(y2, x1)]++;
 	        if (pointMap[Point(x1,y1)]<1)
                 {pointMap[Point(x1,y1)]++;
                 pointMapInverted[Point(y1, x1)]++;}
@@ -236,7 +234,6 @@ void Salles::printPoints() {
 			std::cout << pair.first.getY() << " : " << pair.first.getX() << std::endl;
 	}
 }
-
 // Affichage du vector contourList
 void Salles::printContour() {
 	std::cout << "\nContour : " << std::endl;
@@ -247,11 +244,16 @@ void Salles::printContour() {
 
 // Calcul des points du contour de la salle (alternance horizontale-vertical)
 void Salles::contour() {
+	int maxX = widths/2;  // Taille max de la salle en x
+	int minX=(widths/2)-widths;
+	int maxY = heights/2;  // Taille max de la salle en y
+	int minY=(heights/2)-heights;
 	int maxX = (widths/2)*valpix;  // Taille max de la salle en x
 	int minX=((widths/2)-widths)*valpix;
 	int maxY = (heights/2)*valpix;  // Taille max de la salle en y
 	int minY=((heights/2)-heights)*valpix;
 	int i;
+
     getPoints();
 	// Calcul point de départ du contour
 	Point actualPoint(minX,minY);
@@ -259,62 +261,46 @@ void Salles::contour() {
 		if (actualPoint.getX() < maxX) actualPoint.setX(actualPoint.getX()+1);
 		else
             {actualPoint.setY(actualPoint.getY()+1);
+            actualPoint.setX(minX)
             actualPoint.setX(minX);}
 	}
 	contourList.push_back(actualPoint); // Ajout du point
 
 	int actualX = actualPoint.getX(), actualY = actualPoint.getY();
 	Point newPoint(1,1);
-
 	while (newPoint != actualPoint) {
 		// Horizontal
 		i = 1;
 
 		// Calcul du prochain point selon x
+		while (pointMapInverted[Point(actualY, actualX + i)] != 1 && (pointMapInverted[Point(actualY, actualX - i)] != 1 || actualX-i < 0) && i < maxX) {
 		while ((pointMapInverted[Point(actualY, actualX + i)] < 1) && (pointMapInverted[Point(actualY, actualX - i)] < 1) && i < maxX*2) {
 			i++;
 		}
 		// Séparation entre devant ou derriere
 		if (pointMapInverted[Point(actualY, actualX + i)] == 1) newPoint = Point(actualX+i, actualY);
 		else newPoint = Point(actualX-i, actualY);
-
 		contourList.push_back(newPoint);    // Ajout du point
-
 		// Suppresion dans les listes
 		pointMapInverted[Point(newPoint.getY(), newPoint.getX())] = 0;
 		pointMap[newPoint] = 0;
-
 		actualX = newPoint.getX();  // Mise à jour de actualX
-
 		//if (newPoint.x_ >= 0 && newPoint.y_ >= 0) std::cout << newPoint << std::endl;
 		// Vertical
 		i = 1;
 		// Calcul du prochain point selon y
+		while (pointMap[Point(actualX, actualY+i)] != 1 && (pointMap[Point(actualX, actualY-i)] != 1 || actualY-i<0) && i < maxY) {
 		while (pointMap[Point(actualX, actualY+i)] != 1 && (pointMap[Point(actualX, actualY-i)] != 1 || actualY-i<0) && i < maxY*2) {
 			i++;
 		}
 		// Séparation entre haut et bas
 		if (pointMap[Point(actualX, actualY+i)] == 1) newPoint = Point(actualX, actualY+i);
 		else newPoint = Point(actualX, actualY-i);
-
 		contourList.push_back(newPoint);    // Ajout du point
-
 		// Suppresion dans les listes
 		pointMapInverted[Point(newPoint.getY(), newPoint.getX())] = 0;
 		pointMap[newPoint] = 0;
-
 		actualY = newPoint.getY();  // Mise à jour du actualY
-
 		//if (newPoint.x_ >= 0 && newPoint.y_ >= 0) std::cout << newPoint << std::endl;
 	}
-
 }
-=======
-void setcenter(Point p);
-void setdoor(Point p);
-Obstacles & getobst(){return obst};
-Rectangle & getsect(){return sect};
-Point getcenter(){return center};
-Point & getdoor(){return door};
-int getnbsect(){return n};
->>>>>>> parent of 7b38a0c... salles_test_v5
