@@ -1,4 +1,4 @@
-#include "Salles.hpp"
+#include "Sallesv2.hpp"
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
@@ -8,33 +8,296 @@ int widths=26;
 int heights=14;
 //constructeur ne créant que le premier rectangle
 Salles::Salles(const Point& c, float w, float h){
-	center=c;
-	if (w%(w-1)==1){
-        float x1=c.getX()+w/2+1/2;
-        float x2=c.getX()-w/2-1/2;
-	}
-	else {
-        float x1=c.getX()+w/2;
-        float x2=c.getX()-w/2;
-    }
-	if (h%(h-1)==1){
-        float y1=c.getY()+h/2+1/2;
-        float y2=c.getY()-h/2-1/2;
-	}
-	else {
-        float y1=c.getX()+h/2;
-        float y2=c.getX()-h/2;
-    }
-	pointMap.push_back(Point(x1,y1));
-	pointMap.push_back(Point(x1,y2));
-	pointMap.push_back(Point(x2,y2));
-	pointMap.push_back(Point(x2,y1));
+	srand (time(NULL));
+	float a=w-(w/2.0)*2.0;
+	float x1,y1,x2,y2,posx,posy,debx,deby,finx,finy;
+    x1=c.getX();
+    x2=c.getX()+w;
+	y1=c.getY();
+    y2=c.getY()-h;
+    int aleatoire=3;
+    int nbes;
+    int deb;
+    int fin;
+    int val;
+    if (x1>=widths || y1<=-heights)
+        {printf("t'as données des valeurs foireuse, fait controle c vite ou ca va planté");}
+    if (x2>widths || y2<-heights)
+        {x2=26.0;
+        y2=14.0;
+        aleatoire=0;}
+    nbes=rand()%aleatoire +2;
 
-	pointMapInverted.push_back(Point(y1,x1));
-	pointMapInverted.push_back(Point(y2,x1));
-	pointMapInverted.push_back(Point(y2,x2));
-	pointMapInverted.push_back(Point(y1,x2));
+    pointMap[Point(x1,y1)]++;
+    pointMap[Point(x1,y2)]++;
+    pointMap[Point(x2,y2)]++;
+    pointMap[Point(x2,y1)]++;
 
+    if (aleatoire==0)
+        {
+        deb=rand()%2;
+        if (deb==0){
+            posx=rand()%(int)(x2-x1-1.0)+x1;
+            posy=0.0;
+            pointMap[Point(posx,posy)]++;
+            pointMap[Point(posx+1,posy)]++;
+            pointMap[Point(posx,y1)]++;
+            pointMap[Point(posx+1,y1)]++;
+            setdoor(Point(posx,posy));
+            debx=posx;
+            deby=posy;
+            posx=0.0;
+            posy=-rand()%(int)(y1-y2-1.0)+y1;
+            pointMap[Point(posx,posy)]++;
+            pointMap[Point(posx+1,posy)]++;
+            pointMap[Point(posx,y1)]++;
+            pointMap[Point(posx+1,y1)]++;
+            setdoor(Point(posx,posy));
+            //    {return false;}
+            }
+        else{
+            posx=0.0;
+            posy=-rand()%(int)(y1-y2-1.0)+y1;
+            pointMap[Point(posx,posy)]++;
+            pointMap[Point(posx+1,posy)]++;
+            pointMap[Point(posx,y1)]++;
+            pointMap[Point(posx+1,y1)]++;
+            setdoor(Point(posx,posy));
+            //    {return false;}
+            }
+            debx=posx;
+            deby=posy;
+            posx=rand()%(int)(x2-x1-1.0)+x1;
+            posy=0.0;
+            pointMap[Point(posx,posy)]++;
+            pointMap[Point(posx+1,posy)]++;
+            pointMap[Point(posx,y1)]++;
+            pointMap[Point(posx+1,y1)]++;
+            setdoor(Point(posx,posy));
+            //    {return false;}
+        }
+    else
+        {
+        deb=rand()%3;
+        if (deb==0){
+            posx=rand()%(int)(x2-x1-1.0)+x1;
+            posy=0.0;
+            pointMap[Point(posx,posy)]++;
+            pointMap[Point(posx+1,posy)]++;
+            pointMap[Point(posx,y1)]++;
+            pointMap[Point(posx+1,y1)]++;
+            setdoor(Point(posx,posy));
+            //    {return false;}
+            debx=posx;
+            deby=posy;
+            fin=rand()%(nbes-1)+1;
+            if (fin==1)
+                {posx=0.0;
+                posy=-rand()%(int)(y1-y2-1.0)+y1;
+                pointMap[Point(posx,posy)]++;
+                pointMap[Point(posx+1,posy)]++;
+                pointMap[Point(posx,y1)]++;
+                pointMap[Point(posx+1,y1)]++;
+                setdoor(Point(posx,posy));
+                //    {return false;}
+                for (int k=2; k<nbes;k++){
+                    if (k==3){
+                        posx=widths;
+                        posy=-rand()%(int)(y1-y2-1.0)+y1;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+                    if (k==2){
+                        posx=rand()%(int)(x2-x1-1.0)+x1;
+                        posy=-heights;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+
+                    }
+                }
+            if (fin==2)
+                {posx=rand()%(int)(x2-x1-1.0)+x1;
+                posy=-heights;
+                pointMap[Point(posx,posy)]++;
+                pointMap[Point(posx+1,posy)]++;
+                pointMap[Point(posx,y1)]++;
+                pointMap[Point(posx+1,y1)]++;
+                setdoor(Point(posx,posy));
+                //    {return false;}
+                for (int k=2; k<nbes;k++){
+                    if (k==3){
+                        posx=widths;
+                        posy=-rand()%(int)(y1-y2-1.0)+y1;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+                    if (k==2){
+                        posx=0.0;
+                        posy=-rand()%(int)(y1-y2-1.0)+y1;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+
+                    }
+                }
+            if (fin==3)
+                {
+                posx=widths;
+                posy=-rand()%(int)(y1-y2-1.0)+y1;
+                pointMap[Point(posx,posy)]++;
+                pointMap[Point(posx+1,posy)]++;
+                pointMap[Point(posx,y1)]++;
+                pointMap[Point(posx+1,y1)]++;
+                setdoor(Point(posx,posy));
+                //    {return false;}
+                for (int k=2; k<nbes;k++){
+                    if (k==3){
+                        posx=rand()%(int)(x2-x1-1.0)+x1;
+                        posy=-heights;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+                    if (k==2){
+                        posx=0.0;
+                        posy=-rand()%(int)(y1-y2-1.0)+y1;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+                    }
+                }
+            }
+        else if (deb==1){
+            posx=0.0;
+            posy=-rand()%(int)(y1-y2-1.0)+y1;
+            pointMap[Point(posx,posy)]++;
+            pointMap[Point(posx+1,posy)]++;
+            pointMap[Point(posx,y1)]++;
+            pointMap[Point(posx+1,y1)]++;
+            setdoor(Point(posx,posy));
+            //    {return false;}
+            debx=posx;
+            deby=posy;
+            fin=rand()%(nbes-2)+2;
+            if (fin==2)
+                {posx=rand()%(int)(x2-x1-1.0)+x1;
+                posy=-heights;
+                pointMap[Point(posx,posy)]++;
+                pointMap[Point(posx+1,posy)]++;
+                pointMap[Point(posx,y1)]++;
+                pointMap[Point(posx+1,y1)]++;
+                setdoor(Point(posx,posy));
+                //    {return false;}
+                for (int k=2; k<(nbes-2);k++){
+                    if (k==3){
+                        posx=widths;
+                        posy=-rand()%(int)(y1-y2-1.0)+y1;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+                    if (k==2){
+                        posx=rand()%(int)(x2-x1-1.0)+x1;
+                        posy=0.0;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+
+                    }
+                }
+            if (fin==3)
+                {posx=widths;
+                posy=-rand()%(int)(y1-y2-1.0)+y1;
+                pointMap[Point(posx,posy)]++;
+                pointMap[Point(posx+1,posy)]++;
+                pointMap[Point(posx,y1)]++;
+                pointMap[Point(posx+1,y1)]++;
+                setdoor(Point(posx,posy));
+                //    {return false;}
+                for (int k=2; k<nbes;k++){
+                    if (k==3){
+                        posx=rand()%(int)(x2-x1-1.0)+x1;
+                        posy=-heights;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+                    if (k==2){
+                        posx=0.0;
+                        posy=-rand()%(int)(y1-y2-1.0)+y1;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+
+                    }
+                }
+            }
+        else if (deb==2){
+            posx=rand()%(int)(x2-x1-1.0)+x1;
+            posy=-heights;
+            pointMap[Point(posx,posy)]++;
+            pointMap[Point(posx+1,posy)]++;
+            pointMap[Point(posx,y1)]++;
+            pointMap[Point(posx+1,y1)]++;
+            setdoor(Point(posx,posy));
+            //    {return false;}
+            debx=posx;
+            deby=posy;
+            fin=rand()%(nbes-3)+3;
+            if (fin==3)
+                {posx=widths;
+                posy=-rand()%(int)(y1-y2-1.0)+y1;
+                pointMap[Point(posx,posy)]++;
+                pointMap[Point(posx+1,posy)]++;
+                pointMap[Point(posx,y1)]++;
+                pointMap[Point(posx+1,y1)]++;
+                setdoor(Point(posx,posy));
+                //    {return false;}
+                for (int k=2; k<nbes;k++){
+                    if (k==3){
+                        posx=rand()%(int)(x2-x1-1.0)+x1;
+                        posy=0.0;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        setdoor(Point(posx,posy));
+                        }
+                    if (k==2){
+                        posx=0.0;
+                        posy=-rand()%(int)(y1-y2-1.0)+y1;
+                        pointMap[Point(posx,posy)]++;
+                        pointMap[Point(posx+1,posy)]++;
+                        pointMap[Point(posx,y1)]++;
+                        pointMap[Point(posx+1,y1)]++;
+                        }
+
+                    }
+                }
+            }
+    }
+    contourList.push_back(Point(x1,y1));
+    contourList.push_back(Point(x1,y2));
+    contourList.push_back(Point(x2,y2));
+    contourList.push_back(Point(x2,y1));
 	n=4;
 }
 
@@ -60,20 +323,23 @@ Salles::Salles(){
         x=-heights/2;
         y=rand()%widths -widths/2;
     }
-
+    contourList.push_back(Point(x,y));
+    pointMap[Point(x,y)]++;
+    pointMapInverted[Point(y,x)]++;
+    setdoor(Point(x,y));
 }
 
 bool Salles::insalles(Point pos){
     bool ans=false;
-    float distyh=heights+1;
+    float distyh=1.0;
     float distyl=-heights-1;
-    for (Point &P: pointMap){
+    for (Point &P: contourList){
         if (P.getX()==pos.getX()  && P.getY()-pos.getY()<distyh && P.getY()-pos.getY()>0)
             {distyh=P.getY()-pos.getY();}
         if (P.getX()==pos.getX()  && P.getY()-pos.getY()>distyl && P.getY()-pos.getY()<0)
             {distyl=P.getY()-pos.getY();}
     }
-    if (distyh!=heights+1 && distyl!=-heights-1){
+    if (distyh!=1.0 && distyl!=-heights-1){
         ans=true;
     }
     return(ans);
@@ -82,7 +348,7 @@ bool Salles::insalles(Point pos){
 bool Salles::addobst(Point pos){
 	bool ans=false;
 	float ymax=30,ymin=-30;
-    for (Point &O: Obst){
+    for (Point &O: obst){
         if (O==pos)
             {return (ans);}
 	}
@@ -90,29 +356,14 @@ bool Salles::addobst(Point pos){
     obst.push_back(pos);
 	return (ans);
 }
-
-//met a jour le centre de la salle pour la placer dans le plan
-void Salles::setcenter(Point p){
-	int varX=p.getX()-center.getX();
-	int varY=p.getY()-center.getY();
-	center=p;
-	Point j,i;
-	for (Point& P : pointMap){
-		P.setX(P.getX()+varX);
-		P.setX(P.getY()+varY);
-		}
-    for (Point& P : pointMapInverted){
-		P.setX(P.getX()+varY);
-		P.setX(P.getY()+varX);
-		}
-	}
 //ajoute les portes, en vérifiant quelles sont dans une zone accesible
 bool Salles::setdoor(Point pos){
+    printf("test");
 	Point p1(pos.getX(), pos.getY());
 	Point p2(pos.getX(), pos.getY()-1.0);
 	Point p3(pos.getX() +1.0,pos.getY()-1.0);
 	Point p4(pos.getX() +1.0,pos.getY());
-	if (pos.getX()!=heights/2 && pos.getX()!=-heights/2 && pos.getY()!=widths/2 && pos.getY()!=-widths/2)
+	if (pos.getX()!=0.0 && pos.getX()!=widths && pos.getY()!=0.0 && pos.getY()!=heights)
 		{return false;}
 	if (insalles(pos)==true){
         door.push_back(pos);
@@ -141,69 +392,4 @@ void Salles::printContour() {
 	for (const Point& point : contourList) {
 		std::cout << point.getX() << " : " << point.getY() << std::endl;
 	}
-}
-
-// Calcul des points du contour de la salle (alternance horizontale-vertical)
-void Salles::contour() {
-	int maxX = (widths/2)*valpix;  // Taille max de la salle en x
-	int minX=((widths/2)-widths)*valpix;
-	int maxY = (heights/2)*valpix;  // Taille max de la salle en y
-	int minY=((heights/2)-heights)*valpix;
-	int i;
-    getPoints();
-	// Calcul point de départ du contour
-	Point actualPoint(minX,minY);
-	while (pointMapInverted[actualPoint] != 1) {
-		if (actualPoint.getX() < maxX) actualPoint.setX(actualPoint.getX()+1);
-		else
-            {actualPoint.setY(actualPoint.getY()+1);
-            actualPoint.setX(minX);}
-	}
-	contourList.push_back(actualPoint); // Ajout du point
-
-	int actualX = actualPoint.getX(), actualY = actualPoint.getY();
-	Point newPoint(1,1);
-
-	while (newPoint != actualPoint) {
-		// Horizontal
-		i = 1;
-
-		// Calcul du prochain point selon x
-		while ((pointMapInverted[Point(actualY, actualX + i)] < 1) && (pointMapInverted[Point(actualY, actualX - i)] < 1) && i < maxX*2) {
-			i++;
-		}
-		// Séparation entre devant ou derriere
-		if (pointMapInverted[Point(actualY, actualX + i)] == 1) newPoint = Point(actualX+i, actualY);
-		else newPoint = Point(actualX-i, actualY);
-
-		contourList.push_back(newPoint);    // Ajout du point
-
-		// Suppresion dans les listes
-		pointMapInverted[Point(newPoint.getY(), newPoint.getX())] = 0;
-		pointMap[newPoint] = 0;
-
-		actualX = newPoint.getX();  // Mise à jour de actualX
-
-		//if (newPoint.x_ >= 0 && newPoint.y_ >= 0) std::cout << newPoint << std::endl;
-		// Vertical
-		i = 1;
-		// Calcul du prochain point selon y
-		while (pointMap[Point(actualX, actualY+i)] != 1 && (pointMap[Point(actualX, actualY-i)] != 1 || actualY-i<0) && i < maxY*2) {
-			i++;
-		}
-		// Séparation entre haut et bas
-		if (pointMap[Point(actualX, actualY+i)] == 1) newPoint = Point(actualX, actualY+i);
-		else newPoint = Point(actualX, actualY-i);
-
-		contourList.push_back(newPoint);    // Ajout du point
-
-		// Suppresion dans les listes
-		pointMapInverted[Point(newPoint.getY(), newPoint.getX())] = 0;
-		pointMap[newPoint] = 0;
-
-		actualY = newPoint.getY();  // Mise à jour du actualY
-
-		//if (newPoint.x_ >= 0 && newPoint.y_ >= 0) std::cout << newPoint << std::endl;
-	}
-
 }

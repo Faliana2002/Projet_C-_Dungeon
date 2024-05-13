@@ -1,4 +1,4 @@
-#include "Salles.hpp"
+#include "Sallesv2.hpp"
 
 int main(){
 	Salles s;
