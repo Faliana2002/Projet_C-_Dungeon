@@ -41,6 +41,9 @@ class Personnages {
         sf::Sprite sprite;
         BarreVie barrevie;
 
+        // Hit rate
+        int etatHitRate = 0;
+
         // Définir le facteur d'agrandissement
         float scale_factor = 3.0f;
 
