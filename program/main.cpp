@@ -31,7 +31,7 @@ int main() {
     
     // Premier joueur
     Joueur j1(2, 960-16*4/2, 360-28*4/2);
-    Joueur j2(1, 320-16*4/2-96, 360-28*4/2-48);
+    Joueur j2(1, 320-16*4/2, 360-28*4/2);
     //Joueur j3(3, 640-16*4/2, 360-16*4/2);
 
     std::vector<Joueur*> lJoueurs;
@@ -97,6 +97,7 @@ int main() {
     long currentTime;
 
     int etatJeu = 0;
+    int memEtatJeu = 0;
 
     Salles salle_test;
     salle_test.printArray(salle_test.listeAvailable);
@@ -124,7 +125,7 @@ int main() {
                     break;
             }
         }
-
+        
         etatJeu = 1;
         for (Joueur* j : lJoueurs) {
             if (j->rtp == 0) etatJeu = 0;
@@ -139,7 +140,9 @@ int main() {
 
             //cout << "On commence la bucle" << endl;
             //for (Joueur j : listeJoueurs) j.debug_mvt(); 
-            for (Joueur* j : lJoueurs) j->mouvement(salle_test);
+            for (Joueur* j : lJoueurs) {
+                if (j->estVivant) j->mouvement(salle_test);
+            }
             
             //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
             //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
@@ -163,17 +166,23 @@ int main() {
             window.draw(backgroundSprite);
         }
 
+        if (memEtatJeu == 0 && etatJeu == 1) {
+            for (Joueur* j : lJoueurs) j->position = Point(0,144);
+        }
+
         //cout << "On commence l'affichage" << endl;
         // Draw the sprite
         // Joueur
-        for (Joueur* j : lJoueurs) window.draw(j->sprite);
+        for (Joueur* j : lJoueurs)  {
+            if (j->estVivant) window.draw(j->sprite);
+        }
         // Ennemi
         for (Ennemi* e : lEnnemis) {
             if (e->estVivant) window.draw(e->sprite);
         }
         // Armes
         for (Joueur* j : lJoueurs) {
-            if (j->armes != nullptr) window.draw(j->armes->sprite);    
+            if (j->armes != nullptr && j->estVivant) window.draw(j->armes->sprite);    
         }
         for (Ennemi* e : lEnnemis) {
             if (e->armes != nullptr && e->estVivant) window.draw(e->armes->sprite);    
@@ -183,7 +192,9 @@ int main() {
         }
         // Barre de vie
         for (Joueur* j : lJoueurs) {
-            window.draw(j->barrevie.rectangle_red); window.draw(j->barrevie.rectangle_white);
+            if (j->estVivant) {
+                window.draw(j->barrevie.rectangle_red); window.draw(j->barrevie.rectangle_white);
+            }
         }
         for (Ennemi* e : lEnnemis) {
             if (e->estVivant) {
@@ -202,6 +213,8 @@ int main() {
 
         // Display the contents of the window
         window.display();
+
+        memEtatJeu = etatJeu;
     }
 
     return EXIT_SUCCESS;

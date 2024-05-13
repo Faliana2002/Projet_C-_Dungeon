@@ -326,15 +326,17 @@ Point Ennemi::detecteJoueur(const std::vector<Joueur*>& lJoueurs, Salles s) {
     Point obj(-1,-1);
     float distance = width;
     for (Joueur* j : lJoueurs) {
-        int jx = j->position.getX() / 48;
-        int jy = j->position.getY() / 48;
-        int ex = position.getX() / 48;
-        int ey = position.getY() / 48;
-        for (Point p : s.voisins[ey][ex]) {
-            if (p == Point(jy, jx) && distance >= sqrt(pow(p.getX() - ey,2) + pow(p.getY() - ex, 2))) {
-                obj = Point(p.getY()*48, p.getX()*48);
-                distance = sqrt(pow(obj.getX()/48 - ey,2) + pow(obj.getY()/48 - ex, 2));
-            } 
+        if (j->estVivant) {
+            int jx = j->position.getX() / 48;
+            int jy = j->position.getY() / 48;
+            int ex = position.getX() / 48;
+            int ey = position.getY() / 48;
+            for (Point p : s.voisins[ey][ex]) {
+                if (p == Point(jy, jx) && distance >= sqrt(pow(p.getX() - ey,2) + pow(p.getY() - ex, 2))) {
+                    obj = Point(p.getY()*48, p.getX()*48);
+                    distance = sqrt(pow(obj.getX()/48 - ey,2) + pow(obj.getY()/48 - ex, 2));
+                } 
+            }
         }
     }
     return obj;
