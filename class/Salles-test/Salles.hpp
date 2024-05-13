@@ -10,6 +10,8 @@
 #include <SFML/Graphics.hpp>
 #include "../rectangle.hpp"
 
+extern std::string reference;
+
 class Salles {
     public:
         Salles() {
@@ -18,7 +20,17 @@ class Salles {
             buildListeAvailable();
             buildVoisins();
             std::cout << "Voisins terminés" << std::endl;
+
+            init_texture();
+            std::cout << "Init texture terminé" << std::endl;
         };
+
+        void init_texture() {
+            texture.loadFromFile(reference + "salle.png");
+            sprite.setTexture(texture);
+            sprite.setScale(1,1);
+            sprite.setPosition(0,0);
+        }
         /*~Salles() {
             // Destruct pointers
             for (int i = 0; i < n; i++) {
@@ -29,8 +41,8 @@ class Salles {
 
         int n = 14, m = 26;
 
-        std::vector<Point> contourList = {Point(200,200), Point(400,200), Point(400,100), Point(600,100), Point(600,300), Point(900,300), Point(900,200), Point(1100,200), Point(1100,400), Point(1200,400), Point(1200,600), Point(1100,600), Point(1100,700), Point(200,700), Point(200,200)};
-        std::vector<Rectangle> obstacleList = {Rectangle(Point(432,432), 100, 100)};
+        std::vector<Point> contourList = {Point(0,96),Point(96,96),Point(96,48),Point(288,48),Point(288,144),Point(432,144),Point(432,192),Point(672,192),Point(672,48),Point(720,48),Point(720,0),Point(864,0),Point(864,96),Point(912,96),Point(912,144),Point(960,144),Point(960,192),Point(1056,192),Point(1056,96),Point(1152,96),Point(1152,480),Point(1008,480),Point(1008,576),Point(624,576),Point(624,624),Point(288,624),Point(288,480),Point(192,480),Point(192,384),Point(48,384),Point(48,240),Point(0,240),Point(0,96)};
+        std::vector<Rectangle> obstacleList = {Rectangle(Point(624+240/2, 336+144/2), 240, 144), Rectangle(Point(288+48, 288+48), 96, 96)};
         std::vector<sf::RectangleShape> lineList;
         std::vector<sf::RectangleShape> lineObstacle;
         int thicknessLine = 2;
@@ -41,6 +53,8 @@ class Salles {
         void buildVoisins();
         void buildListeAvailable();
         void printArray(int** ll);
+        sf::Texture texture;
+        sf::Sprite sprite;
 
         sf::Color color = sf::Color::White;
         

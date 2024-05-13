@@ -31,7 +31,7 @@ int main() {
     
     // Premier joueur
     Joueur j1(2, 960-16*4/2, 360-28*4/2);
-    Joueur j2(1, 320-16*4/2, 360-28*4/2);
+    Joueur j2(1, 320-16*4/2-96, 360-28*4/2-48);
     //Joueur j3(3, 640-16*4/2, 360-16*4/2);
 
     std::vector<Joueur*> lJoueurs;
@@ -40,10 +40,10 @@ int main() {
     //lJoueurs.push_back(&j3);
 
     Ennemi e1(1, 600,400);
-    Ennemi e2(2,300, 600);
-    Ennemi e3(3,1000, 449);
-    Ennemi e4(4,700, 653);
-    Ennemi e5(14,532, 145);
+    Ennemi e2(2,300, 384);
+    Ennemi e3(3,1000, 432);
+    Ennemi e4(4,700, 353);
+    Ennemi e5(14,532, 528);
 
     std::vector<Ennemi*> lEnnemis;
     lEnnemis.push_back(&e1);
@@ -156,6 +156,7 @@ int main() {
 
         // Clear the window
         window.clear();
+        window.draw(salle_test.sprite);
 
         // Draw background
         if (etatJeu == 0) {
@@ -175,7 +176,7 @@ int main() {
             if (j->armes != nullptr) window.draw(j->armes->sprite);    
         }
         for (Ennemi* e : lEnnemis) {
-            if (e->armes != nullptr) window.draw(e->armes->sprite);    
+            if (e->armes != nullptr && e->estVivant) window.draw(e->armes->sprite);    
         }
         for (Armes* a : listeArmes) {
             if (a->portee == false) window.draw(a->sprite);    
@@ -191,8 +192,10 @@ int main() {
         }
 
         // Salles-tests
+        /*
         for (sf::RectangleShape r : salle_test.lineList) window.draw(r);
         for (sf::RectangleShape r : salle_test.lineObstacle) window.draw(r);
+        */
 
         // Pour le calcul du framerate
         //cout << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << endl;
