@@ -128,6 +128,7 @@ bool Salles::addobst(int width, int height, Point pos){
 	 }
 	return (ans);
 }
+<<<<<<< HEAD
 //ajoute des sections pour ajouter des variations dans les salles, en érifiant que ces variations sont compatibles
 bool Salles::addsect(int width, int height, Point pos){
 	int maxX=widths/2;
@@ -146,6 +147,12 @@ bool Salles::addsect(int width, int height, Point pos){
 		if (r.inrectangle(p1)||r.inrectangle(p2)||r.inrectangle(p3)||r.inrectangle(p4)){
 			return false;
 		}
+=======
+bool addsect(int width, int height, Point pos){
+	Rectangle k;
+	for k in sect{
+		
+>>>>>>> parent of 7b38a0c... salles_test_v5
 	}
 	for (Rectangle& r : sect){	// En contact avec un autre rectangle
 		if (r.nearrectangle(p1)||r.nearrectangle(p2)||r.nearrectangle(p3)||r.nearrectangle(p4)){
@@ -156,6 +163,7 @@ bool Salles::addsect(int width, int height, Point pos){
 	}
 	return false;
 }
+<<<<<<< HEAD
 //met a jour le centre de la salle pour la placer dans le plan
 void Salles::setcenter(Point p){
 	int varX=p.getX()-center.getX();
@@ -301,3 +309,12 @@ void Salles::contour() {
 	}
 
 }
+=======
+void setcenter(Point p);
+void setdoor(Point p);
+Obstacles & getobst(){return obst};
+Rectangle & getsect(){return sect};
+Point getcenter(){return center};
+Point & getdoor(){return door};
+int getnbsect(){return n};
+>>>>>>> parent of 7b38a0c... salles_test_v5

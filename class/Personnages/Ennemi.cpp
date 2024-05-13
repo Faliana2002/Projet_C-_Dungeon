@@ -84,14 +84,21 @@ void Ennemi::mouvement(float dx, float dy) {
             sprite.setPosition(position.getX()+width_*scale_factor, position.getY());
             //sprite.setScale(-scale_factor,scale_factor);
             mirrored = 1;
+            positionArme.setX(position.getX()+width_*scale_factor);
         }
         else if (dx == 0)  {
             sprite.setPosition(position.getX()+width_*scale_factor*mirrored, position.getY());
+            positionArme.setX(position.getX()+width_*scale_factor);
         }
         else {
             sprite.setPosition(position.getX(), position.getY());
             //sprite.setScale(scale_factor,scale_factor);
             mirrored = 0;
+            positionArme.setX(position.getX() - width_*2);
+        }
+        if (armes != nullptr)  {
+            armes->sprite.setPosition(positionArme.getX(), positionArme.getY());
+            armes->position = positionArme;
         }
     }
 
@@ -240,17 +247,25 @@ void Ennemi::aleatoire_mvt(Salles s) {
     mouvement(speedX,speedY);
 }
 
-void Ennemi::aleatoire_mvt_2(Salles s) {
-    if (abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) {
-        int j = (int) (position.getX()/48);
-        int i = (int) (position.getY()/48);
-        //std::cout << i << " " << j << std::endl;
+void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
+    //Point positionJoueur = detecteJoueur(lJoueurs, s);
+    if ((abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) || detecteJoueur(lJoueurs, s) != Point(-1,-1)) {
+        if (detecteJoueur(lJoueurs, s) != Point(-1,-1)) {
+            objectif = detecteJoueur(lJoueurs, s);
+            //std::cout << "Joueur vu (" << objectif.getX() << "," << objectif.getY() << ")" << std::endl;
+            //std::cout << "Distance (" << abs(objectif.getX() - position.getX()) << "," << abs(objectif.getY() - position.getY()) << ")" << std::endl;
+        }
+        else {
+            int j = (int) (position.getX()/48);
+            int i = (int) (position.getY()/48);
+            //std::cout << i << " " << j << std::endl;
 
-        int l = static_cast<int>(s.voisins[i][j].size());
-        int k = rand() % l;
+            int l = static_cast<int>(s.voisins[i][j].size());
+            int k = rand() % l;
 
-        objectif.setX(s.voisins[i][j][k].getY()*48);
-        objectif.setY(s.voisins[i][j][k].getX()*48);
+            objectif.setX(s.voisins[i][j][k].getY()*48);
+            objectif.setY(s.voisins[i][j][k].getX()*48);
+        }
         //std::cout << "Objectif : " << objectif.getX() << " " << objectif.getY() << std::endl;
 
         float tx = objectif.getX() - position.getX();
@@ -259,8 +274,15 @@ void Ennemi::aleatoire_mvt_2(Salles s) {
         if (abs(tx) > abs(ty)) tmax = abs(tx);
         else tmax = abs(ty);
 
-        speedX = tx/tmax;
-        speedY = ty/tmax;
+        if ((abs(objectif.getX() - position.getX()) > 30 || abs(objectif.getY() - position.getY()) > 30)) {
+            speedX = tx/tmax;
+            speedY = ty/tmax;    
+        }
+        else {
+            speedX = 0;
+            speedY = 0;
+        }
+        
 
         if (numPerso != 14) {
             if (speedX > 0) sprite.setScale(scale_factor,scale_factor);
@@ -300,6 +322,24 @@ void Ennemi::suivi(Joueur& j) {
     mouvement(speedX,speedY);
 }
 
+Point Ennemi::detecteJoueur(const std::vector<Joueur*>& lJoueurs, Salles s) {
+    Point obj(-1,-1);
+    float distance = width;
+    for (Joueur* j : lJoueurs) {
+        int jx = j->position.getX() / 48;
+        int jy = j->position.getY() / 48;
+        int ex = position.getX() / 48;
+        int ey = position.getY() / 48;
+        for (Point p : s.voisins[ey][ex]) {
+            if (p == Point(jy, jx) && distance >= sqrt(pow(p.getX() - ey,2) + pow(p.getY() - ex, 2))) {
+                obj = Point(p.getY()*48, p.getX()*48);
+                distance = sqrt(pow(obj.getX()/48 - ey,2) + pow(obj.getY()/48 - ex, 2));
+            } 
+        }
+    }
+    return obj;
+}
+
 bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme){
     // // Calcul de la distance entre l'ennemi et le joueur
     // float distance = sqrt(pow((j.getX() - getX()), 2) + pow((j.getY() - getY()), 2));
@@ -334,6 +374,22 @@ bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs,
         }
     }
     return false; // Aucun joueur détecté dans le rectangle
+}
+
+void Ennemi::hitEnnemis(std::vector<Joueur*>& lJoueur) {
+    for (Joueur* j : lJoueur) {
+        int d_attaque = (int) armes->distance_attaque_;
+
+        int gauche = j->position.getX() - d_attaque;
+        int haut = j->position.getY() - d_attaque;
+
+        int droite = gauche + j->width_*j->scale_factor + 2*d_attaque;
+        int bas = haut + j->height_*j->scale_factor + 2*d_attaque;
+
+        int ex = position.getX(), ey = position.getY();
+
+        if (ex >= gauche && ex <= droite && ey >= haut && ey <= bas) j->recevoirDegats(armes);
+    }
 }
 
 // bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme) {

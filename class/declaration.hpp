@@ -77,7 +77,7 @@ std::string listeEnnemi[] = {//"angel",
 
 // nom, rate_min, rate_max, degats_min, degats_max, d_min, d_max
 std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesCAC = {
-    std::make_tuple("anime_sword", 2,4,2,5, 128, 192),
+    std::make_tuple("anime_sword", 2,4,2,5, 50, 70),
     std::make_tuple("axe", 1,2,3,6, 100, 230),
     std::make_tuple("baton_with_spikes", 2,3,2,4,80,160),
     std::make_tuple("big_hammer", 1,1,5,6,150,220),
@@ -180,7 +180,7 @@ int height = 720;
 
 float alea_mvt_max = 0.1;
 
-// Haut, bas, gauche, droite, ramasser/jeter armes
+// Haut, bas, gauche, droite, ramasser/jeter armes attaquer
 int toucheJoueur[3][6] = {
     {sf::Keyboard::Up, sf::Keyboard::Down, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::RShift, sf::Keyboard::Numpad0},
     {sf::Keyboard::Z, sf::Keyboard::S, sf::Keyboard::Q, sf::Keyboard::D, sf::Keyboard::E, sf::Keyboard::A},

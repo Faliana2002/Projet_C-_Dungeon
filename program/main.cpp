@@ -60,6 +60,9 @@ int main() {
     Distance d1(0);
     //cout << "On a créé des armes" << endl;
 
+    CorpsaCorps c5(0);
+    e1.armes = &c5;
+
     std::vector<Armes*> listeArmes;
     //cout << "On ajoute des armes" << endl;
     listeArmes.push_back(&c1);
@@ -132,7 +135,7 @@ int main() {
         auto duration = now.time_since_epoch();
         currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
         
-        if (currentTime - startTime > 20) { // frame rate 100 Hz (10 ms)
+        if (currentTime - startTime > 20) { // frame rate 50 Hz (20 ms)
 
             //cout << "On commence la bucle" << endl;
             //for (Joueur j : listeJoueurs) j.debug_mvt(); 
@@ -141,7 +144,10 @@ int main() {
             //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
             //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
             for (Ennemi* e : lEnnemis) {
-                if (e->estVivant) e->aleatoire_mvt_2(salle_test);
+                if (e->estVivant) e->aleatoire_mvt_2(lJoueurs ,salle_test);
+            }
+            for (Ennemi* e : lEnnemis) {
+                if (e->estVivant && e->armes != nullptr) e->hitEnnemis(lJoueurs);
             }
             //for (Ennemi e : listeEnnemis) e.suivi();
 
@@ -167,6 +173,9 @@ int main() {
         // Armes
         for (Joueur* j : lJoueurs) {
             if (j->armes != nullptr) window.draw(j->armes->sprite);    
+        }
+        for (Ennemi* e : lEnnemis) {
+            if (e->armes != nullptr) window.draw(e->armes->sprite);    
         }
         for (Armes* a : listeArmes) {
             if (a->portee == false) window.draw(a->sprite);    
