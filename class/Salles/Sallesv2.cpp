@@ -21,7 +21,7 @@ Salles::Salles(const Point& c, float w, float h){
     int fin;
     int val;
     if (x1>=widths || y1<=-heights)
-        {printf("t'as données des valeurs foireuse, fait controle c vite ou ca va planté");}
+        {printf("t'as donné des valeurs foireuses, fait controle c vite ou ca va planté");}
     if (x2>widths || y2<-heights)
         {x2=26.0;
         y2=14.0;
@@ -49,9 +49,9 @@ Salles::Salles(const Point& c, float w, float h){
             posx=0.0;
             posy=-rand()%(int)(y1-y2-1.0)+y1;
             pointMap[Point(posx,posy)]++;
-            pointMap[Point(posx+1,posy)]++;
-            pointMap[Point(posx,y1)]++;
-            pointMap[Point(posx+1,y1)]++;
+            pointMap[Point(x1,posy)]++;
+            pointMap[Point(posx,posy-1)]++;
+            pointMap[Point(x1,posy-1)]++;
             setdoor(Point(posx,posy));
             //    {return false;}
             }
@@ -59,9 +59,9 @@ Salles::Salles(const Point& c, float w, float h){
             posx=0.0;
             posy=-rand()%(int)(y1-y2-1.0)+y1;
             pointMap[Point(posx,posy)]++;
-            pointMap[Point(posx+1,posy)]++;
-            pointMap[Point(posx,y1)]++;
-            pointMap[Point(posx+1,y1)]++;
+            pointMap[Point(x1,posy)]++;
+            pointMap[Point(posx,posy-1)]++;
+            pointMap[Point(x1,posy-1)]++;
             setdoor(Point(posx,posy));
             //    {return false;}
             }
@@ -95,9 +95,9 @@ Salles::Salles(const Point& c, float w, float h){
                 {posx=0.0;
                 posy=-rand()%(int)(y1-y2-1.0)+y1;
                 pointMap[Point(posx,posy)]++;
-                pointMap[Point(posx+1,posy)]++;
-                pointMap[Point(posx,y1)]++;
-                pointMap[Point(posx+1,y1)]++;
+                pointMap[Point(x1,posy)]++;
+                pointMap[Point(posx,posy-1)]++;
+                pointMap[Point(x1,posy-1)]++;
                 setdoor(Point(posx,posy));
                 //    {return false;}
                 for (int k=2; k<nbes;k++){
@@ -105,17 +105,17 @@ Salles::Salles(const Point& c, float w, float h){
                         posx=widths;
                         posy=-rand()%(int)(y1-y2-1.0)+y1;
                         pointMap[Point(posx,posy)]++;
-                        pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(x2,posy)]++;
+                        pointMap[Point(posx,posy-1)]++;
+                        pointMap[Point(x2,posy-1)]++;
                         }
                     if (k==2){
                         posx=rand()%(int)(x2-x1-1.0)+x1;
                         posy=-heights;
                         pointMap[Point(posx,posy)]++;
                         pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(posx,y2)]++;
+                        pointMap[Point(posx+1,y2)]++;
                         }
 
                     }
@@ -125,8 +125,8 @@ Salles::Salles(const Point& c, float w, float h){
                 posy=-heights;
                 pointMap[Point(posx,posy)]++;
                 pointMap[Point(posx+1,posy)]++;
-                pointMap[Point(posx,y1)]++;
-                pointMap[Point(posx+1,y1)]++;
+                pointMap[Point(posx,y2)]++;
+                pointMap[Point(posx+1,y2)]++;
                 setdoor(Point(posx,posy));
                 //    {return false;}
                 for (int k=2; k<nbes;k++){
@@ -134,17 +134,17 @@ Salles::Salles(const Point& c, float w, float h){
                         posx=widths;
                         posy=-rand()%(int)(y1-y2-1.0)+y1;
                         pointMap[Point(posx,posy)]++;
-                        pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(x2,posy)]++;
+                        pointMap[Point(posx,posy-1)]++;
+                        pointMap[Point(x2,posy-1)]++;
                         }
                     if (k==2){
                         posx=0.0;
                         posy=-rand()%(int)(y1-y2-1.0)+y1;
                         pointMap[Point(posx,posy)]++;
-                        pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(x1,posy)]++;
+                        pointMap[Point(posx,posy-1)]++;
+                        pointMap[Point(x1,posy-1)]++;
                         }
 
                     }
@@ -154,9 +154,9 @@ Salles::Salles(const Point& c, float w, float h){
                 posx=widths;
                 posy=-rand()%(int)(y1-y2-1.0)+y1;
                 pointMap[Point(posx,posy)]++;
-                pointMap[Point(posx+1,posy)]++;
-                pointMap[Point(posx,y1)]++;
-                pointMap[Point(posx+1,y1)]++;
+                pointMap[Point(x2,posy)]++;
+                pointMap[Point(posx,posy-1)]++;
+                pointMap[Point(x2,posy-1)]++;
                 setdoor(Point(posx,posy));
                 //    {return false;}
                 for (int k=2; k<nbes;k++){
@@ -165,16 +165,16 @@ Salles::Salles(const Point& c, float w, float h){
                         posy=-heights;
                         pointMap[Point(posx,posy)]++;
                         pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(posx,y2)]++;
+                        pointMap[Point(posx+1,y2)]++;
                         }
                     if (k==2){
                         posx=0.0;
                         posy=-rand()%(int)(y1-y2-1.0)+y1;
                         pointMap[Point(posx,posy)]++;
-                        pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(x1,posy)]++;
+                        pointMap[Point(posx,posy-1)]++;
+                        pointMap[Point(x1,posy-1)]++;
                         }
                     }
                 }
@@ -183,9 +183,9 @@ Salles::Salles(const Point& c, float w, float h){
             posx=0.0;
             posy=-rand()%(int)(y1-y2-1.0)+y1;
             pointMap[Point(posx,posy)]++;
-            pointMap[Point(posx+1,posy)]++;
-            pointMap[Point(posx,y1)]++;
-            pointMap[Point(posx+1,y1)]++;
+            pointMap[Point(x1,posy)]++;
+            pointMap[Point(posx,posy-1)]++;
+            pointMap[Point(x1,posy-1)]++;
             setdoor(Point(posx,posy));
             //    {return false;}
             debx=posx;
@@ -196,8 +196,8 @@ Salles::Salles(const Point& c, float w, float h){
                 posy=-heights;
                 pointMap[Point(posx,posy)]++;
                 pointMap[Point(posx+1,posy)]++;
-                pointMap[Point(posx,y1)]++;
-                pointMap[Point(posx+1,y1)]++;
+                pointMap[Point(posx,y2)]++;
+                pointMap[Point(posx+1,y2)]++;
                 setdoor(Point(posx,posy));
                 //    {return false;}
                 for (int k=2; k<(nbes-2);k++){
@@ -205,9 +205,9 @@ Salles::Salles(const Point& c, float w, float h){
                         posx=widths;
                         posy=-rand()%(int)(y1-y2-1.0)+y1;
                         pointMap[Point(posx,posy)]++;
-                        pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(x2,posy)]++;
+                        pointMap[Point(posx,posy-1)]++;
+                        pointMap[Point(x2,posy-1)]++;
                         }
                     if (k==2){
                         posx=rand()%(int)(x2-x1-1.0)+x1;
@@ -224,9 +224,9 @@ Salles::Salles(const Point& c, float w, float h){
                 {posx=widths;
                 posy=-rand()%(int)(y1-y2-1.0)+y1;
                 pointMap[Point(posx,posy)]++;
-                pointMap[Point(posx+1,posy)]++;
-                pointMap[Point(posx,y1)]++;
-                pointMap[Point(posx+1,y1)]++;
+                pointMap[Point(x2,posy)]++;
+                pointMap[Point(posx,posy-1)]++;
+                pointMap[Point(x2,posy-1)]++;
                 setdoor(Point(posx,posy));
                 //    {return false;}
                 for (int k=2; k<nbes;k++){
@@ -235,8 +235,8 @@ Salles::Salles(const Point& c, float w, float h){
                         posy=-heights;
                         pointMap[Point(posx,posy)]++;
                         pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(posx,y2)]++;
+                        pointMap[Point(posx+1,y2)]++;
                         }
                     if (k==2){
                         posx=0.0;
@@ -255,8 +255,8 @@ Salles::Salles(const Point& c, float w, float h){
             posy=-heights;
             pointMap[Point(posx,posy)]++;
             pointMap[Point(posx+1,posy)]++;
-            pointMap[Point(posx,y1)]++;
-            pointMap[Point(posx+1,y1)]++;
+            pointMap[Point(posx,y2)]++;
+            pointMap[Point(posx+1,y2)]++;
             setdoor(Point(posx,posy));
             //    {return false;}
             debx=posx;
@@ -266,9 +266,9 @@ Salles::Salles(const Point& c, float w, float h){
                 {posx=widths;
                 posy=-rand()%(int)(y1-y2-1.0)+y1;
                 pointMap[Point(posx,posy)]++;
-                pointMap[Point(posx+1,posy)]++;
-                pointMap[Point(posx,y1)]++;
-                pointMap[Point(posx+1,y1)]++;
+                pointMap[Point(x2,posy)]++;
+                pointMap[Point(posx,posy-1)]++;
+                pointMap[Point(x2,posy-1)]++;
                 setdoor(Point(posx,posy));
                 //    {return false;}
                 for (int k=2; k<nbes;k++){
@@ -285,20 +285,64 @@ Salles::Salles(const Point& c, float w, float h){
                         posx=0.0;
                         posy=-rand()%(int)(y1-y2-1.0)+y1;
                         pointMap[Point(posx,posy)]++;
-                        pointMap[Point(posx+1,posy)]++;
-                        pointMap[Point(posx,y1)]++;
-                        pointMap[Point(posx+1,y1)]++;
+                        pointMap[Point(x1,posy)]++;
+                        pointMap[Point(posx,posy-1)]++;
+                        pointMap[Point(x1,posy-1)]++;
                         }
 
                     }
                 }
             }
     }
-    contourList.push_back(Point(x1,y1));
-    contourList.push_back(Point(x1,y2));
-    contourList.push_back(Point(x2,y2));
-    contourList.push_back(Point(x2,y1));
-	n=4;
+    n=0;
+    int dirx=1;
+    int diry=1;
+    int i=0;
+    int j=0;
+    if (debx+i==widths)
+        {i--;
+        dirx=0;}
+    else
+        {i++;}
+    if (deby+j==-heights)
+        {diry=0;}
+    Point P(debx+i,deby+j);
+    contourList.push_back(Point(debx,deby));
+    val=1;
+    while (P!=Point(debx,deby))
+        {
+        if (val==1)
+            {while (pointMap[P]!=1)
+                {P=Point(debx+i,deby+j);
+                if (dirx==1)
+                    {i++;}
+                else
+                    {i--;}
+                }
+            if (debx+i==widths)
+                {dirx=0;}
+            else if (debx+i==0.0)
+                {dirx=1;}
+            contourList.push_back(Point(debx+i,deby+j));
+            val=0;
+            }
+        else
+            {while (pointMap[P]!=1)
+                {P=Point(debx+i,deby+j);
+                if (diry==1)
+                    {j++;}
+                else
+                    {j--;}
+                }
+            if (deby+j==heights)
+                {diry=0;}
+            else if (deby+j==0.0)
+                {diry=1;}
+            contourList.push_back(Point(debx+i,deby+j));
+            val=1;
+            }
+        n++;
+        }
 }
 
 Salles::Salles(){
