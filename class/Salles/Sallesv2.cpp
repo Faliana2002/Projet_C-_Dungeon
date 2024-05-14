@@ -6,7 +6,7 @@
 int valpix=48;
 int widths=26;
 int heights=14;
-//constructeur ne créant que le premier rectangle
+//constructeur créant une salle avec un rectangle (dont on place le coin en haut à gauche, la taille) et créant la salle avec les couloirs d'entré et sorti
 Salles::Salles(const Point& c, float w, float h){
 	srand (time(NULL));
 	float a=w-(w/2.0)*2.0;
@@ -20,19 +20,21 @@ Salles::Salles(const Point& c, float w, float h){
     int deb;
     int fin;
     int val;
+    //on vérifie si le point de création est dans l'écran ou pas
     if (x1>=widths || y1<=-heights)
         {printf("t'as donné des valeurs foireuses, fait controle c vite ou ca va planté");}
+    //on vérifie si les dimensions sont dans le cadre
     if (x2>widths || y2<-heights)
         {x2=26.0;
         y2=14.0;
         aleatoire=0;}
     nbes=rand()%aleatoire +2;
-
+//on stocke l'ensemble des point dans point map, cela va permettre de recréer la liste de point dans l'ordre à la fin
     pointMap[Point(x1,y1)]++;
     pointMap[Point(x1,y2)]++;
     pointMap[Point(x2,y2)]++;
     pointMap[Point(x2,y1)]++;
-
+//si le rectangle est en bord d'écran, on ne crée que 2 couloirs, un entreé, un en sortie
     if (aleatoire==0)
         {
         deb=rand()%2;
@@ -76,6 +78,7 @@ Salles::Salles(const Point& c, float w, float h){
             setdoor(Point(posx,posy));
             //    {return false;}
         }
+        //sinon on peut créer entre 2 à 4 couloirs, placé aléatoirement
     else
         {
         deb=rand()%3;
@@ -294,6 +297,7 @@ Salles::Salles(const Point& c, float w, float h){
                 }
             }
     }
+    //on parcourt ensuite la liste en faisant des déplacement haut, bas alternés avec gauche, droite
     n=0;
     int dirx=1;
     int diry=1;
@@ -307,6 +311,7 @@ Salles::Salles(const Point& c, float w, float h){
     if (deby+j==-heights)
         {diry=0;}
     Point P(debx+i,deby+j);
+    //quand on tombe sur un point correspondant, on l'implémente dans la liste
     contourList.push_back(Point(debx,deby));
     val=1;
     while (P!=Point(debx,deby))
@@ -378,9 +383,9 @@ bool Salles::insalles(Point pos){
     float distyh=1.0;
     float distyl=-heights-1;
     for (Point &P: contourList){
-        if (P.getX()==pos.getX()  && P.getY()-pos.getY()<distyh && P.getY()-pos.getY()>0)
+        if (P.getX()<=pos.getX() && P.getX()+1>=pos.getX()  && P.getY()-pos.getY()<distyh && P.getY()-pos.getY()>0)
             {distyh=P.getY()-pos.getY();}
-        if (P.getX()==pos.getX()  && P.getY()-pos.getY()>distyl && P.getY()-pos.getY()<0)
+        if (P.getX()<=pos.getX() && P.getX()+1>=pos.getX() && P.getY()-pos.getY()>distyl && P.getY()-pos.getY()<0)
             {distyl=P.getY()-pos.getY();}
     }
     if (distyh!=1.0 && distyl!=-heights-1){
