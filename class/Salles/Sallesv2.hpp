@@ -5,6 +5,10 @@
 #include "Obstacles.hpp"
 #include <vector>
 #include <map>
+#include <SFML/Graphics.hpp>
+
+extern std::string reference;
+
 class Salles {
 //classe Salles, plusieurs chose à disposition, le center qui permettra de possitionner les sections par rapport à ce dernier, mais qui permettra aussi de positionner la salle dans le plan
 // la liste de rectangle section va constituer l'espace de la salle, si on veut faire une grande pièce on crée un grand rectangle, puis on peut lui ajouter de plus petit rectangle pour ajouter du relief
@@ -18,7 +22,10 @@ private:
 	std::vector<Point> obst;            //liste des obstacles
 	std::vector<Point> contourList;         // Points qui composent le contour
 	int n;
-
+    std::vector<sf::Texture> texture[8];
+    std::vector<sf::Texture> wall[5];
+    std::vector<sf::Texture> wallsection[8];
+    std::vector<sf::Sprite> sprite[26*14];
 
 public:
 	Salles();
@@ -49,7 +56,7 @@ public:
 	//void contour();         // Calcul du contour de la salle
 	void printContour();    // Affichage de contourList (terminal)
 	bool insalles(Point pos);
-
+    void init_texture()
 
 
 };

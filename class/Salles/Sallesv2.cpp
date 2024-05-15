@@ -405,7 +405,7 @@ bool Salles::addobst(Point pos){
     obst.push_back(pos);
 	return (ans);
 }
-//ajoute les portes, en vérifiant quelles sont dans une zone accesible
+//ajoute les portes, en vérifiant qu'elles sont dans une zone accesible
 bool Salles::setdoor(Point pos){
     printf("test");
 	Point p1(pos.getX(), pos.getY());
@@ -441,4 +441,44 @@ void Salles::printContour() {
 	for (const Point& point : contourList) {
 		std::cout << point.getX() << " : " << point.getY() << std::endl;
 	}
+}
+
+void init_texture() {
+    srand (time(NULL));
+    texture[0].loadFromFile(reference + "floor_1.png");
+    texture[1].loadFromFile(reference + "floor_2.png");
+    texture[2].loadFromFile(reference + "floor_3.png");
+    texture[3].loadFromFile(reference + "floor_4.png");
+    texture[4].loadFromFile(reference + "floor_5.png");
+    texture[5].loadFromFile(reference + "floor_6.png");
+    texture[6].loadFromFile(reference + "floor_7.png");
+    texture[7].loadFromFile(reference + "floor_8.png");
+    wall[0].loadFromFile(reference + "wall_hole_1.png");
+    wall[1].loadFromFile(reference + "wall_hole_2.png");
+    wall[2].loadFromFile(reference + "wall_left.png");
+    wall[3].loadFromFile(reference + "wall_mid.png");
+    wall[4].loadFromFile(reference + "wall_right.png");
+    wallsection[0].loadFromFile(reference + "wall_edge_bottom_left.png");
+    wallsection[1].loadFromFile(reference + "wall_edge_bottom_right.png");
+    wallsection[2].loadFromFile(reference + "wall_edge_mid_left.png");
+    wallsection[3].loadFromFile(reference + "wall_edge_mid_right.png");
+    wallsection[4].loadFromFile(reference + "wall_edge_top_left.png");
+    wallsection[5].loadFromFile(reference + "wall_edge_top_right.png");
+    int val;
+    for (float x=0; x<widths;x++){
+        for (float y=0; y<heights; y++){
+            if (insalles(Point(x,-y))==true){
+                val=rand()%8;
+                sprite.setTexture(texture[val]);
+                sprite.setScale(1,1);
+                sprite.setPosition(x*valpix,-y*valpix);
+            }
+            else {
+                val=rand()%5;
+                sprite.setTexture(wall[val]);
+                sprite.setScale(1,1);
+                sprite.setPosition(x*valpix,-y*valpix);
+            }
+        }
+    }
 }
