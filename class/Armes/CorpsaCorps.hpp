@@ -20,8 +20,8 @@ class CorpsaCorps : public Armes {
         CorpsaCorps(int indice);
 
         // Implémentation concrète de la méthode d'attaque
-        void attaque(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const override;
-        void infligerDegats(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const override;
+        void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const override;
+        void infligerDegats(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme) const;
 };
 
 #endif // ARMES_CorpsaCorps_HPP

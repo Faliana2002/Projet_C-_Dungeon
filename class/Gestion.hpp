@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 
 #include "Personnages/Joueurs.hpp"
+#include "Armes/Distance.hpp"
+#include "Armes/Projectile.cpp"
 
 extern int nbJoueur;
 extern int nbLJoueur;

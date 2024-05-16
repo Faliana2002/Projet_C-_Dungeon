@@ -33,17 +33,17 @@ CorpsaCorps::CorpsaCorps(int indice) {
     sprite.scale(scale_factor, scale_factor);
 }
 
-void CorpsaCorps::infligerDegats(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const {
+void CorpsaCorps::infligerDegats(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme) const {
     std::cout << "Inflige " << degats_ << " points de dégâts à l'ennemi." << std::endl;
 
     bool ennemiDetecte = false;
 
     // Parcourir chaque ennemi pour voir s'il détecte un joueur
-    for (const auto& joueur : joueurs){
-        for (const auto& ennemi : listenn) {
-            if (joueur == joueur) {}
-            // Vérifiez que l'ennemi existe bien avant de tenter d'accéder à ses méthodes
-            if (ennemi && ennemi->detecterEnnemi(joueurs, arme)) {
+    for (const auto& joueur : lJoueur){
+        for (const auto& ennemi : lEnnemis) {
+            // if (joueur == joueur) {}
+            // // Vérifiez que l'ennemi existe bien avant de tenter d'accéder à ses méthodes
+            if (ennemi && ennemi->detecterEnnemi(lJoueur, arme)) {
                 ennemiDetecte = true;
 
                 // Appliquer les dégâts à l'ennemi détecté
@@ -69,6 +69,6 @@ void CorpsaCorps::infligerDegats(const std::vector<std::shared_ptr<Joueur>>& jou
 }
 
 // A modifier, sans specification de touche
-void CorpsaCorps::attaque(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const {
-    infligerDegats(joueurs, listenn, arme);
+void CorpsaCorps::attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const {
+    infligerDegats(lEnnemis, lJoueur, arme);
 }

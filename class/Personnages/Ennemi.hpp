@@ -40,7 +40,7 @@ class Ennemi : public Personnages {
         void aleatoire_mvt(Salles s);
         void aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s);
         void suivi(Joueur& j);
-        bool detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme);
+        bool detecterEnnemi(std::vector<Joueur*>& lJoueur, const Armes& arme);
         Point detecteJoueur(const std::vector<Joueur*>& lJoueurs, Salles s);
         void hitEnnemis(std::vector<Joueur*>& lJoueur);
 };

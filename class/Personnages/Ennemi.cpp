@@ -355,18 +355,7 @@ Point Ennemi::detecteJoueur(const std::vector<Joueur*>& lJoueurs, Salles s) {
     return obj;
 }
 
-bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme){
-    // // Calcul de la distance entre l'ennemi et le joueur
-    // float distance = sqrt(pow((j.getX() - getX()), 2) + pow((j.getY() - getY()), 2));
-
-    // // Si la distance est inférieure ou égale à la portée de détection
-    // // alors on considère que l'ennemi a détecté le joueur
-    // if (distance <= arme.porteeDetection) {
-    //     return true;
-    // } else {
-    //     return false;
-    // }
-
+bool Ennemi::detecterEnnemi(std::vector<Joueur*>& lJoueur, const Armes& arme){
     // Vous devez vérifier chaque joueur individuellement.
     // Assumons que la position de l'ennemi est stockée dans cette classe Ennemi.
     float x = this->position.getX();
@@ -377,7 +366,7 @@ bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs,
     float haut = y + arme.hauteurDetection;
     float bas = y - arme.hauteurDetection;
 
-    for (const auto& joueur : joueurs) {
+    for (const auto& joueur : lJoueur) {
         // Déréférencement correct du shared_ptr pour accéder à l'objet Joueur et ensuite à sa position.
         if (joueur) {  // Vérifiez toujours la validité du pointeur
             float jx = joueur->position.getX();
@@ -392,7 +381,7 @@ bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs,
 }
 
 void Ennemi::hitEnnemis(std::vector<Joueur*>& lJoueur) {
-    if (etatHitRate > 1000/20/armes->rate_) {
+    if (etatHitRate > 1000/20/armes->getRate()) {
         for (Joueur* j : lJoueur) {
             int d_attaque = (int) armes->distance_attaque_;
 

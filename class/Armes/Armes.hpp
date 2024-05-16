@@ -1,6 +1,8 @@
 // Projet C++ Dungeon
 // ROB4 | Polytech Sorbonne
 // 29/04/2024
+#ifndef ARMES_HPP
+#define ARMES_HPP
 
 #include <iostream>
 #include <cstdlib>
@@ -10,13 +12,14 @@
 #include <memory>
 
 #include "../point.hpp"
+// #include "Projectile.hpp"
 // #include "../Personnages/Ennemi.hpp"
 // #include "../Personnages/Joueurs.hpp"
+class Projectile;
 class Ennemi;
 class Joueur;
 
-#ifndef ARMES_HPP
-#define ARMES_HPP
+
 
 // 3 variables globales définies dans un fichier source externe
 extern std::string reference;
@@ -32,17 +35,19 @@ class Armes {
         // Méthode virtuelle pure pour attaquer qui sera implémentée par les classes dérivées
         // Méthode pour obtenir les dégâts de l'arme
         float getDegats() const {return degats_;}
-        virtual void attaque(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const = 0;
-        virtual void infligerDegats(const std::vector<std::shared_ptr<Joueur>>& joueurs, const std::vector<std::shared_ptr<Ennemi>>& listenn, const Armes& arme) const = 0;
+        int getIndice() const {return indice_;}
+        float getRate() const {return rate_;}
+        virtual void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const = 0;
+        // virtual void infligerDegats(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme) const = 0;
         // Méthode pour ajouter une arme à l'inventaire
         virtual void ajouterArmeInventaire(std::shared_ptr<Armes> arme){inventaire.push_back(arme);}
 
     protected:
         float degats_;               // Dégâts causés par l'arme
-        int indice_;
-        float scale_factor = 2.0;
-    public:
         float rate_;   // Fréquence à laquelle l'arme peut émettre des munitions
+        int indice_;
+        float scale_factor = 1.0;
+    public:
         float distance_attaque_;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
         sf::Texture texture;
         sf::Sprite sprite;

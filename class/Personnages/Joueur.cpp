@@ -217,7 +217,7 @@ void Joueur::debug_mvt() {
 }
 
 void Joueur::hitEnnemis(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur) {
-    if (etatHitRate > 1000/20/armes->rate_*0.75) {
+    if (etatHitRate > 1000/20/armes->getRate()*0.75) {
         for (Ennemi* e : lEnnemis) {
             int d_attaque = (int) armes->distance_attaque_;
 
