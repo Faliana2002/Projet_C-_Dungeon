@@ -216,6 +216,7 @@ void Joueur::debug_mvt() {
 
 }
 
+// Inflige des dégats à tous les ennemis proches
 void Joueur::hitEnnemis(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur) {
     if (etatHitRate > 1000/20/armes->getRate()*0.75) {
         for (Ennemi* e : lEnnemis) {

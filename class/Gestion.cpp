@@ -3,40 +3,41 @@
 void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vector<Joueur*>& lJoueurs, std::vector<Armes*>& lArmes, std::vector<Ennemi*>& lEnnemis) {
     if (event.type == sf::Event::KeyPressed) {
         for (int i = 0; i < nbJoueur; i++) {
-            // Haut-bas
-            if (event.key.code == toucheJoueur[i][0]) lJoueurs[i]->speedY = -2;
-            else if (event.key.code == toucheJoueur[i][1]) lJoueurs[i]->speedY = 2;
-            // Gauche-droite
-            if (event.key.code == toucheJoueur[i][2]) lJoueurs[i]->speedX = -2;
-            else if (event.key.code == toucheJoueur[i][3]) lJoueurs[i]->speedX = 2;
-            // Ramasser-jeter
-            if (event.key.code == toucheJoueur[i][4]) {
-                if (lJoueurs[i]->armes == nullptr) {
-                    for (Armes* a : lArmes) {
-                        if ( abs(a->position.getX() - lJoueurs[i]->position.getX()) < 50 && abs(a->position.getY() - lJoueurs[i]->position.getY()) < 150 && a->portee == false && lJoueurs[i]->armes == nullptr) {
-                            lJoueurs[i]->armes = a;
-                            a->sprite.setPosition(lJoueurs[i]->positionArme.getX(), lJoueurs[i]->positionArme.getY());
-                            a->portee = true;
-                        }
-                    }    
+            if (lJoueurs[i]->estVivant) {
+                // Haut-bas
+                if (event.key.code == toucheJoueur[i][0]) lJoueurs[i]->speedY = -2;
+                else if (event.key.code == toucheJoueur[i][1]) lJoueurs[i]->speedY = 2;
+                // Gauche-droite
+                if (event.key.code == toucheJoueur[i][2]) lJoueurs[i]->speedX = -2;
+                else if (event.key.code == toucheJoueur[i][3]) lJoueurs[i]->speedX = 2;
+                // Ramasser-jeter
+                if (event.key.code == toucheJoueur[i][4]) {
+                    if (lJoueurs[i]->armes == nullptr) {
+                        for (Armes* a : lArmes) {
+                            if ( abs(a->position.getX() - lJoueurs[i]->position.getX()) < 50 && abs(a->position.getY() - lJoueurs[i]->position.getY()) < 150 && a->portee == false && lJoueurs[i]->armes == nullptr) {
+                                lJoueurs[i]->armes = a;
+                                a->sprite.setPosition(lJoueurs[i]->positionArme.getX(), lJoueurs[i]->positionArme.getY());
+                                a->portee = true;
+                            }
+                        }    
+                    }
+                    else {
+                        lJoueurs[i]->armes->portee = false;
+                        lJoueurs[i]->armes = nullptr;
+                    }
                 }
-                else {
-                    lJoueurs[i]->armes->portee = false;
-                    lJoueurs[i]->armes = nullptr;
+
+                if (event.key.code == toucheJoueur[i][5]) {
+                    if(lJoueurs[i]->armes != nullptr) lJoueurs[i]->hitEnnemis(lEnnemis, lJoueurs);
+                    // Test attaque_distance
+                    if (lJoueurs[i]->armes != nullptr && lJoueurs[i]->armes->getIndice() == 0) { // Vérifiez ici si l'indice 0 correspond bien aux armes à distance
+                        Projectile munition(0, Vec2(1, 0)); // Exemple avec un vecteur directionnel prédéfini
+                        Distance distanceObj;
+                        distanceObj.attaque(lEnnemis, lJoueurs, *lJoueurs[i]->armes, munition);
+                    }
+                    //
                 }
             }
-
-            if (event.key.code == toucheJoueur[i][5]) {
-                if(lJoueurs[i]->armes != nullptr) lJoueurs[i]->hitEnnemis(lEnnemis, lJoueurs);
-                // Test attaque_distance
-                if (lJoueurs[i]->armes != nullptr && lJoueurs[i]->armes->getIndice() == 0) { // Vérifiez ici si l'indice 0 correspond bien aux armes à distance
-                    Projectile munition(0, Vec2(1, 0)); // Exemple avec un vecteur directionnel prédéfini
-                    Distance distanceObj;
-                    distanceObj.attaque(lEnnemis, lJoueurs, *lJoueurs[i]->armes, munition);
-                }
-                //
-            }
-
         }
     }
     

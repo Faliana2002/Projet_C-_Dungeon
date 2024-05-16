@@ -31,6 +31,8 @@ Ennemi::Ennemi(int textureFileInt) {
 }
 
 Ennemi::Ennemi(int textureFileInt, float x, float y) {
+    vieMax = 16;
+    vie = vieMax;
     //if (textureFileInt == 14) scale_factor = 1.0;
 
     numPerso = textureFileInt;
@@ -252,11 +254,12 @@ void Ennemi::aleatoire_mvt(Salles s) {
 
 void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
     //std::cout << "Dans alea mvt 2" << std::endl;
+    
     //Point positionJoueur = detecteJoueur(lJoueurs, s);
     if ((abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) || detecteJoueur(lJoueurs, s) != Point(-1,-1)) {
-        std::cout << "Change d'objectif" << std::endl;
+        //std::cout << "Change d'objectif" << std::endl;
         if (detecteJoueur(lJoueurs, s) != Point(-1,-1)) {
-            std::cout << "Vers le joueur" << std::endl;
+            //std::cout << "Vers le joueur" << std::endl;
             objectif = detecteJoueur(lJoueurs, s);
             objectif.setX(objectif.getX() - width_/2);
             objectif.setY(objectif.getY() - height_/2);
@@ -265,13 +268,13 @@ void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
             //std::cout << "Distance (" << abs(objectif.getX() - position.getX()) << "," << abs(objectif.getY() - position.getY()) << ")" << std::endl;
         }
         else {
-            std::cout << "Vers un point" << std::endl;
+            //std::cout << "Vers un point" << std::endl;
             int j = (int) (position.getX()/48);
             int i = (int) (position.getY()/48);
             //std::cout << i << " " << j << std::endl;
 
             int l = static_cast<int>(s.voisins[i][j].size());
-            std::cout << "nombre de points accessible : " << l << std::endl;
+            //std::cout << "nombre de points accessible : " << l << std::endl;
             if (l > 0) {
                 int k = rand() % l;
                 objectif.setX(s.voisins[i][j][k].getY()*48);
@@ -307,7 +310,8 @@ void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
         }
     }
 
-    mouvement(speedX,speedY);
+    if (s.voisins[(int) ((position.getY() + speedY) / 48) ][(int) ((position.getX() + speedX) / 48)].size() != 0) mouvement(speedX,speedY);
+    //else std::cout << "l'enemi est bloqué l'enemi est bloqué l'enemi est bloqué l'enemi est bloqué" << std::endl;
 }
 
 void Ennemi::suivi(Joueur& j) {
