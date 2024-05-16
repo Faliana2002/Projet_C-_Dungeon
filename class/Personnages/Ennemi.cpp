@@ -1,6 +1,8 @@
 #include "Ennemi.hpp"
 
 Ennemi::Ennemi(int textureFileInt) {
+    vieMax = 16;
+    vie = vieMax;
     // Initialisation du générateur de nombres pseudo-aléatoires
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
@@ -54,6 +56,7 @@ Ennemi::Ennemi(int textureFileInt, float x, float y) {
 };
 
 void Ennemi::mouvement(float dx, float dy) {
+    //std::cout << "Dans mouvement dx dy" << std::endl;
     position += Point(dx,dy);
 
     textureFile = listeEnnemi[numPerso];
@@ -248,23 +251,33 @@ void Ennemi::aleatoire_mvt(Salles s) {
 }
 
 void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
+    //std::cout << "Dans alea mvt 2" << std::endl;
     //Point positionJoueur = detecteJoueur(lJoueurs, s);
     if ((abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) || detecteJoueur(lJoueurs, s) != Point(-1,-1)) {
+        std::cout << "Change d'objectif" << std::endl;
         if (detecteJoueur(lJoueurs, s) != Point(-1,-1)) {
+            std::cout << "Vers le joueur" << std::endl;
             objectif = detecteJoueur(lJoueurs, s);
+            objectif.setX(objectif.getX() - width_/2);
+            objectif.setY(objectif.getY() - height_/2);
+
             //std::cout << "Joueur vu (" << objectif.getX() << "," << objectif.getY() << ")" << std::endl;
             //std::cout << "Distance (" << abs(objectif.getX() - position.getX()) << "," << abs(objectif.getY() - position.getY()) << ")" << std::endl;
         }
         else {
+            std::cout << "Vers un point" << std::endl;
             int j = (int) (position.getX()/48);
             int i = (int) (position.getY()/48);
             //std::cout << i << " " << j << std::endl;
 
             int l = static_cast<int>(s.voisins[i][j].size());
-            int k = rand() % l;
-
-            objectif.setX(s.voisins[i][j][k].getY()*48);
-            objectif.setY(s.voisins[i][j][k].getX()*48);
+            std::cout << "nombre de points accessible : " << l << std::endl;
+            if (l > 0) {
+                int k = rand() % l;
+                objectif.setX(s.voisins[i][j][k].getY()*48);
+                objectif.setY(s.voisins[i][j][k].getX()*48);
+            }
+            
         }
         //std::cout << "Objectif : " << objectif.getX() << " " << objectif.getY() << std::endl;
 
@@ -332,9 +345,9 @@ Point Ennemi::detecteJoueur(const std::vector<Joueur*>& lJoueurs, Salles s) {
             int ex = position.getX() / 48;
             int ey = position.getY() / 48;
             for (Point p : s.voisins[ey][ex]) {
-                if (p == Point(jy, jx) && distance >= sqrt(pow(p.getX() - ey,2) + pow(p.getY() - ex, 2))) {
+                if (p == Point(jy, jx) && sqrt(pow(p.getX() - ey,2) + pow(p.getY() - ex, 2)) <= distance) {
                     obj = Point(p.getY()*48, p.getX()*48);
-                    distance = sqrt(pow(obj.getX()/48 - ey,2) + pow(obj.getY()/48 - ex, 2));
+                    distance = sqrt(pow(p.getX() - ey,2) + pow(p.getY() - ex, 2));
                 } 
             }
         }

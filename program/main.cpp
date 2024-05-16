@@ -84,12 +84,6 @@ int main() {
     // Gestion du jeu
     Gestion game;
 
-    // Load a texture from a PNG file
-    Texture texture;
-    if (!texture.loadFromFile("../assets/players/img_64.png")) {
-        return EXIT_FAILURE;
-    }
-
     // Gestion du frame rate
     auto now = std::chrono::system_clock::now();
     auto duration = now.time_since_epoch();
@@ -144,15 +138,19 @@ int main() {
                 if (j->estVivant) j->mouvement(salle_test);
             }
             
-            //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
-            //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
-            for (Ennemi* e : lEnnemis) {
-                if (e->estVivant) e->aleatoire_mvt_2(lJoueurs ,salle_test);
+            
+
+            if (etatJeu == 1){
+                //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
+                //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
+                for (Ennemi* e : lEnnemis) {
+                    if (e->estVivant) e->aleatoire_mvt_2(lJoueurs ,salle_test);
+                }
+                for (Ennemi* e : lEnnemis) {
+                    if (e->estVivant && e->armes != nullptr) e->hitEnnemis(lJoueurs);
+                }
+                //for (Ennemi e : listeEnnemis) e.suivi();
             }
-            for (Ennemi* e : lEnnemis) {
-                if (e->estVivant && e->armes != nullptr) e->hitEnnemis(lJoueurs);
-            }
-            //for (Ennemi e : listeEnnemis) e.suivi();
 
             startTime = currentTime;
         }
@@ -167,46 +165,37 @@ int main() {
         }
 
         if (memEtatJeu == 0 && etatJeu == 1) {
-            for (Joueur* j : lJoueurs) j->position = Point(0,144);
+            for (Joueur* j : lJoueurs) {
+                j->position = Point(0,144);
+                j->mouvement(0,0);
+            }
         }
 
-        //cout << "On commence l'affichage" << endl;
         // Draw the sprite
+        
         // Joueur
         for (Joueur* j : lJoueurs)  {
-            if (j->estVivant) window.draw(j->sprite);
-        }
-        // Ennemi
-        for (Ennemi* e : lEnnemis) {
-            if (e->estVivant) window.draw(e->sprite);
-        }
-        // Armes
-        for (Joueur* j : lJoueurs) {
-            if (j->armes != nullptr && j->estVivant) window.draw(j->armes->sprite);    
-        }
-        for (Ennemi* e : lEnnemis) {
-            if (e->armes != nullptr && e->estVivant) window.draw(e->armes->sprite);    
-        }
-        for (Armes* a : listeArmes) {
-            if (a->portee == false) window.draw(a->sprite);    
-        }
-        // Barre de vie
-        for (Joueur* j : lJoueurs) {
             if (j->estVivant) {
+                window.draw(j->sprite);
+                if (j->armes != nullptr) window.draw(j->armes->sprite);
                 window.draw(j->barrevie.rectangle_red); window.draw(j->barrevie.rectangle_white);
             }
         }
-        for (Ennemi* e : lEnnemis) {
-            if (e->estVivant) {
-                window.draw(e->barrevie.rectangle_red); window.draw(e->barrevie.rectangle_white);
+
+        // Ennemi
+        if (etatJeu == 1) {
+            for (Ennemi* e : lEnnemis) {
+                if (e->estVivant) {
+                    window.draw(e->sprite);
+                    if (e->armes != nullptr) window.draw(e->armes->sprite);
+                    window.draw(e->barrevie.rectangle_red); window.draw(e->barrevie.rectangle_white);
+                }
+            }
+            for (Armes* a : listeArmes) {
+                if (a->portee == false) window.draw(a->sprite);    
             }
         }
 
-        // Salles-tests
-        /*
-        for (sf::RectangleShape r : salle_test.lineList) window.draw(r);
-        for (sf::RectangleShape r : salle_test.lineObstacle) window.draw(r);
-        */
 
         // Pour le calcul du framerate
         //cout << std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() << endl;
