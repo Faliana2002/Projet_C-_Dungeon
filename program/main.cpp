@@ -46,10 +46,10 @@ int main() {
     //Ennemi e3(3,1000, 432);
     //Ennemi e4(4,700, 353);
     //Ennemi e5(14,532, 528);
-    Ennemi e1(1, salle_test, 0);
-    Ennemi e2(2, salle_test, 1);
-    Ennemi e3(3, salle_test, 2);
-    Ennemi e4(4, salle_test, 3);
+    Ennemi e1(1, salle_test, -1);
+    Ennemi e2(2, salle_test, -1);
+    Ennemi e3(3, salle_test, -1);
+    Ennemi e4(4, salle_test, -1);
     Ennemi e5(14,salle_test, -1);
 
     std::vector<Ennemi*> lEnnemis;
@@ -143,7 +143,7 @@ int main() {
             for (Joueur* j : lJoueurs) {
                 if (j->estVivant) j->mouvement(salle_test);
             }
-
+            
             if (etatJeu == 1){
                 //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
                 //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);

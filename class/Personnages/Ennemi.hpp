@@ -35,10 +35,11 @@ class Ennemi : public Personnages {
         float speedY = 0.5;
 
         void mouvement(float dx, float dy);
-        void mouvement();
+        void mouvement(float dx, float dy, Salles s);
+        //void mouvement();
         void debug_mvt();
-        void aleatoire_mvt();
-        void aleatoire_mvt(Salles s);
+        //void aleatoire_mvt();
+        //void aleatoire_mvt(Salles s);
         void aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s);
         void suivi(Joueur& j);
         bool detecterEnnemi(std::vector<Joueur*>& lJoueur, const Armes& arme);

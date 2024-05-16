@@ -1,5 +1,6 @@
 # Ignorer les fichiers compilés
 *.o
+jeu
 
 # Ignorer les fichiers de configuration des éditeurs de texte
 .vscode/

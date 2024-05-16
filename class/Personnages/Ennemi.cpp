@@ -1,5 +1,6 @@
 #include "Ennemi.hpp"
 
+// Initialisation sur les zones définies
 Ennemi::Ennemi(int textureFileInt, Salles s, int n) {
     vieMax = 16;
     vie = vieMax;
@@ -45,6 +46,7 @@ Ennemi::Ennemi(int textureFileInt, Salles s, int n) {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
+// Initialisation sur un point donné
 Ennemi::Ennemi(int textureFileInt, float x, float y) {
     vieMax = 16;
     vie = vieMax;
@@ -71,6 +73,7 @@ Ennemi::Ennemi(int textureFileInt, float x, float y) {
     // Initialisation du générateur de nombres pseudo-aléatoires
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 };
+
 
 void Ennemi::mouvement(float dx, float dy) {
     //std::cout << "Dans mouvement dx dy" << std::endl;
@@ -132,6 +135,77 @@ void Ennemi::mouvement(float dx, float dy) {
     if (etat > maxEtat) etat = 0;
 }
 
+void Ennemi::mouvement(float dx, float dy, Salles s) {
+    //std::cout << "Dans mouvement dx dy" << std::endl;
+    //position += Point(dx,dy);
+
+    int w = width_*scale_factor;
+    int h = height_*scale_factor;
+    
+    if (s.isIn(position+Point(dx,0)) && s.isIn(position+Point(dx+w,0)) && s.isIn(position+Point(dx+w,0+h)) && s.isIn(position+Point(dx,0+h))) {
+        position += Point(dx,0);
+    }
+    if (s.isIn(position+Point(0,dy)) && s.isIn(position+Point(0+w,dy)) && s.isIn(position+Point(0+w,dy+h)) && s.isIn(position+Point(0,dy+h))) {
+        position += Point(0,dy);
+    }
+
+    textureFile = listeEnnemi[numPerso];
+
+    if (dx != 0 && dy != 0) texture.loadFromFile(reference + textureFile + run + std::to_string(etat) + fin_str);
+    else texture.loadFromFile(reference + textureFile + idle + std::to_string(etat) + fin_str);
+
+    positionArme.setY(position.getY());
+
+    positionVie.setX(position.getX());
+    if (numPerso != 14) positionVie.setY(position.getY() + height_*scale_factor);
+    else positionVie.setY(position.getY() + height_*(scale_factor-1));
+    barrevie.width_red = (float)vie/(float)vieMax*width_*scale_factor;
+    barrevie.width_white = width_*scale_factor - barrevie.width_red;
+
+    // Positionnement barre de vie
+    barrevie.position_red = positionVie;
+    barrevie.position_white.setX(positionVie.getX() + barrevie.width_red);
+    barrevie.position_white.setY(positionVie.getY());
+    barrevie.draw_life();
+
+    //sprite.setTexture(texture);
+    // Redimensionner le sprite
+    //sprite.scale(scale_factor, scale_factor);
+
+    if (dx != 0 || dy != 0 || start) {
+        if (dx < 0) {
+            sprite.setPosition(position.getX()+width_*scale_factor, position.getY());
+            //sprite.setScale(-scale_factor,scale_factor);
+            mirrored = 1;
+            positionArme.setX(position.getX()+width_*scale_factor);
+        }
+        else if (dx == 0)  {
+            sprite.setPosition(position.getX()+width_*scale_factor*mirrored, position.getY());
+            positionArme.setX(position.getX()+width_*scale_factor);
+        }
+        else {
+            sprite.setPosition(position.getX(), position.getY());
+            //sprite.setScale(scale_factor,scale_factor);
+            mirrored = 0;
+            positionArme.setX(position.getX() - width_*2);
+        }
+        if (armes != nullptr)  {
+            armes->sprite.setPosition(positionArme.getX(), positionArme.getY());
+            armes->position = positionArme;
+        }
+    }
+
+    cpt++;
+
+    if (cpt > maxCpt) {
+        etat++;
+        cpt = 0;
+    }
+    
+    if (etat > maxEtat) etat = 0;
+}
+
+/*
 void Ennemi::mouvement() {
     int dx = speedX;
     int dy = speedY;
@@ -185,6 +259,7 @@ void Ennemi::mouvement() {
     //speedX = 0;
     //speedY = 0;
 }
+*/
 
 // Vitesse 1 sur les deux axes pour des tests
 void Ennemi::debug_mvt() {
@@ -200,6 +275,7 @@ void Ennemi::debug_mvt() {
 
 }
 
+/*
 void Ennemi::aleatoire_mvt() {
     if (abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) {
         int maxX = static_cast<int>(width);
@@ -229,7 +305,9 @@ void Ennemi::aleatoire_mvt() {
 
     mouvement(speedX,speedY);
 }
+*/
 
+/*
 // Prise en compte de la salle
 void Ennemi::aleatoire_mvt(Salles s) {
     if (abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) {
@@ -266,7 +344,9 @@ void Ennemi::aleatoire_mvt(Salles s) {
 
     mouvement(speedX,speedY);
 }
+*/
 
+// Prise en compte de la salle et de la présence des joueurs
 void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
     //std::cout << "Dans alea mvt 2" << std::endl;
 
@@ -325,10 +405,11 @@ void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
         }
     }
 
-    if (s.voisins[(int) ((position.getY() + speedY) / 48) ][(int) ((position.getX() + speedX) / 48)].size() != 0) mouvement(speedX,speedY);
+    if (s.voisins[(int) ((position.getY() + speedY) / 48) ][(int) ((position.getX() + speedX) / 48)].size() != 0) mouvement(speedX,speedY, s);
     //else std::cout << "l'enemi est bloqué l'enemi est bloqué l'enemi est bloqué l'enemi est bloqué" << std::endl;
 }
 
+// Suivi d'un joueur donné
 void Ennemi::suivi(Joueur& j) {
     objectif.setX(j.position.getX());
     objectif.setY(j.position.getY());
