@@ -469,15 +469,33 @@ void init_texture() {
         for (float y=0; y<heights; y++){
             if (insalles(Point(x,-y))==true){
                 val=rand()%8;
-                sprite.setTexture(texture[val]);
-                sprite.setScale(1,1);
-                sprite.setPosition(x*valpix,-y*valpix);
+                sprite[y*widths+x].setTexture(texture[val]);
+                sprite[y*widths+x].setScale(1,1);
+                sprite[y*widths+x].setPosition(x*valpix,-y*valpix);
             }
             else {
                 val=rand()%5;
-                sprite.setTexture(wall[val]);
-                sprite.setScale(1,1);
-                sprite.setPosition(x*valpix,-y*valpix);
+                sprite[y*widths+x].setTexture(wall[val]);
+                sprite[y*widths+x].setScale(1,1);
+                sprite[y*widths+x].setPosition(x*valpix,-y*valpix);
+            }
+        }
+    }
+    Point P=contourList[0];
+    float difx=0;
+    float dify=0;
+    for (int k=1;k<=n;k++){
+        if (k==n){
+            difx=contourList[0].getX()-P.getX();
+            dify=contourList[0].getY()-P.getY();
+        }
+        else{
+            difx=contourList[k].getX()-P.getX();
+            dify=contourList[k].getY()-P.getY();
+        }
+        if (difx!=0){
+            for (int i=0;i<(int)difx;i++){
+
             }
         }
     }
