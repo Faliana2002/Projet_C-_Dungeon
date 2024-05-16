@@ -64,12 +64,8 @@ void Gestion::startManager(sf::Event event, sf::RenderWindow& window, std::vecto
                 lJoueurs[i]->rtp = 1;   // Ready To Play
                 lJoueurs[i]->start = false; // N'est plus dans l'état de start
             }
-            if (event.key.code == toucheJoueur[i][2]) lJoueurs[i]->numPerso--;
-            else if (event.key.code == toucheJoueur[i][3]) lJoueurs[i]->numPerso++;
-
-            if (lJoueurs[i]->numPerso < 0) lJoueurs[i]->numPerso = 0;
-            if (lJoueurs[i]->numPerso >= nbLJoueur) lJoueurs[i]->numPerso = nbLJoueur--;
-            
+            if (event.key.code == toucheJoueur[i][2] && lJoueurs[i]->numPerso > 0) lJoueurs[i]->numPerso--;
+            else if (event.key.code == toucheJoueur[i][3] && lJoueurs[i]->numPerso < nbLJoueur-1) lJoueurs[i]->numPerso++;            
         }
     }
 }

@@ -137,8 +137,6 @@ int main() {
             for (Joueur* j : lJoueurs) {
                 if (j->estVivant) j->mouvement(salle_test);
             }
-            
-            
 
             if (etatJeu == 1){
                 //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
@@ -157,7 +155,8 @@ int main() {
 
         // Clear the window
         window.clear();
-        window.draw(salle_test.sprite);
+
+        if (etatJeu == 1) window.draw(salle_test.sprite);
 
         // Draw background
         if (etatJeu == 0) {
@@ -177,8 +176,10 @@ int main() {
         for (Joueur* j : lJoueurs)  {
             if (j->estVivant) {
                 window.draw(j->sprite);
-                if (j->armes != nullptr) window.draw(j->armes->sprite);
-                window.draw(j->barrevie.rectangle_red); window.draw(j->barrevie.rectangle_white);
+                if (etatJeu == 1) {
+                    if (j->armes != nullptr) window.draw(j->armes->sprite);
+                    window.draw(j->barrevie.rectangle_red); window.draw(j->barrevie.rectangle_white);
+                }
             }
         }
 
