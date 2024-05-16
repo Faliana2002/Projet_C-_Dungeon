@@ -52,7 +52,7 @@ void Joueur::mouvement(float dx, float dy) {
     
     if (etat > maxEtat) etat = 0;
 }
-
+/*
 // Mouvement en fonction de dx et dy
 void Joueur::mouvement() {
     int dx = speedX;
@@ -129,7 +129,7 @@ void Joueur::mouvement() {
 
     //speedX = 0;
     //speedY = 0;
-}
+}*/
 
 // Mouvement en fonction de dx et dy en fonction de la salle
 void Joueur::mouvement(Salles s) {
@@ -141,8 +141,11 @@ void Joueur::mouvement(Salles s) {
     int w = width_*scale_factor;
     int h = height_*scale_factor;
 
-    if (s.isIn(position+Point(dx,dy)) && s.isIn(position+Point(dx+w,dy)) && s.isIn(position+Point(dx+w,dy+h)) && s.isIn(position+Point(dx,dy+h))) {
-        position += Point(dx,dy);
+    if (s.isIn(position+Point(dx,0)) && s.isIn(position+Point(dx+w,0)) && s.isIn(position+Point(dx+w,0+h)) && s.isIn(position+Point(dx,0+h))) {
+        position += Point(dx,0);
+    }
+    if (s.isIn(position+Point(0,dy)) && s.isIn(position+Point(0+w,dy)) && s.isIn(position+Point(0+w,dy+h)) && s.isIn(position+Point(0,dy+h))) {
+        position += Point(0,dy);
     }
 
     positionArme.setY(position.getY());

@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <random>
 
 extern int width;
 extern int height;
@@ -19,7 +20,7 @@ class Ennemi : public Personnages {
     public:
         Ennemi() {};
         Ennemi(int fInt, float x, float y);
-        Ennemi(int fInt);
+        Ennemi(int fInt, Salles s, int n);
 
         // Attributs
         int cpt = 0;

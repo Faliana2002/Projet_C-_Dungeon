@@ -1,20 +1,32 @@
 #include "Ennemi.hpp"
 
-Ennemi::Ennemi(int textureFileInt) {
+Ennemi::Ennemi(int textureFileInt, Salles s, int n) {
     vieMax = 16;
     vie = vieMax;
-    // Initialisation du générateur de nombres pseudo-aléatoires
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    int l;
+    if (n == -1) {
+        // Initialisation du générateur de nombres pseudo-aléatoires
+        static std::mt19937 generator(static_cast<unsigned int>(std::time(nullptr)));
 
-    int maxX = static_cast<int>(width);
-    int maxY = static_cast<int>(height);
-        
-    int x = rand()%maxX;
-    int y = rand()%maxY;
+        // Création d'une distribution uniforme pour choisir un index de la liste des positions spawnables
+        std::uniform_int_distribution<int> distribution(0, s.spawnable.size() - 1);
+
+        l = distribution(generator);
+    }
+    else {
+        if (n >= (int) s.spawnable.size()) n = s.spawnable.size();
+        l = n; 
+    }
+            
+    int x = s.spawnable[l].getX();
+    int y = s.spawnable[l].getY();
     
     numPerso = textureFileInt;
     // Set grande taille
-    textureFile = listeEnnemi[7];
+    numPerso = textureFileInt;
+    // Set grande taille
+    if (textureFileInt != 14) textureFile = listeEnnemi[10];
+    else textureFile = listeEnnemi[14];
     texture.loadFromFile(reference + textureFile + run + "0" + fin_str);
     
     position.setX(x);
@@ -28,6 +40,9 @@ Ennemi::Ennemi(int textureFileInt) {
     // Redimensionner le sprite
     if (numPerso != 14) sprite.scale(scale_factor, scale_factor);
     else sprite.scale(scale_factor/4,scale_factor/4);
+
+    // Initialisation du générateur de nombres pseudo-aléatoires
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
 Ennemi::Ennemi(int textureFileInt, float x, float y) {
@@ -254,7 +269,7 @@ void Ennemi::aleatoire_mvt(Salles s) {
 
 void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
     //std::cout << "Dans alea mvt 2" << std::endl;
-    
+
     //Point positionJoueur = detecteJoueur(lJoueurs, s);
     if ((abs(objectif.getX() - position.getX()) < 30 && abs(objectif.getY() - position.getY()) < 30) || detecteJoueur(lJoueurs, s) != Point(-1,-1)) {
         //std::cout << "Change d'objectif" << std::endl;

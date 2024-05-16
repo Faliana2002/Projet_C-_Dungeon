@@ -29,6 +29,8 @@ extern int height;
 int main() {
     RenderWindow window(VideoMode(width,height), "Rungeon!");
     
+    Salles salle_test;
+    
     // Premier joueur
     Joueur j1(2, 960-16*4/2, 360-28*4/2);
     Joueur j2(1, 320-16*4/2, 360-28*4/2);
@@ -39,11 +41,16 @@ int main() {
     lJoueurs.push_back(&j2);
     //lJoueurs.push_back(&j3);
 
-    Ennemi e1(1, 600,400);
-    Ennemi e2(2,300, 384);
-    Ennemi e3(3,1000, 432);
-    Ennemi e4(4,700, 353);
-    Ennemi e5(14,532, 528);
+    //Ennemi e1(1, 600,400);
+    //Ennemi e2(2,300, 384);
+    //Ennemi e3(3,1000, 432);
+    //Ennemi e4(4,700, 353);
+    //Ennemi e5(14,532, 528);
+    Ennemi e1(1, salle_test, 0);
+    Ennemi e2(2, salle_test, 1);
+    Ennemi e3(3, salle_test, 2);
+    Ennemi e4(4, salle_test, 3);
+    Ennemi e5(14,salle_test, -1);
 
     std::vector<Ennemi*> lEnnemis;
     lEnnemis.push_back(&e1);
@@ -93,7 +100,6 @@ int main() {
     int etatJeu = 0;
     int memEtatJeu = 0;
 
-    Salles salle_test;
     salle_test.printArray(salle_test.listeAvailable);
     for (const Point& p : salle_test.voisins[0][0]) {
         std::cout << "Point accessible depuis (" << 0 << "," << 0 << ") : (" << p.getX() << "," << p.getY() << ")" << std::endl;

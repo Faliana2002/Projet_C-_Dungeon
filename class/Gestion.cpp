@@ -30,12 +30,13 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vecto
                 if (event.key.code == toucheJoueur[i][5]) {
                     if(lJoueurs[i]->armes != nullptr) lJoueurs[i]->hitEnnemis(lEnnemis, lJoueurs);
                     // Test attaque_distance
+                    /*
                     if (lJoueurs[i]->armes != nullptr && lJoueurs[i]->armes->getIndice() == 0) { // Vérifiez ici si l'indice 0 correspond bien aux armes à distance
                         Projectile munition(0, Vec2(1, 0)); // Exemple avec un vecteur directionnel prédéfini
                         Distance distanceObj;
                         distanceObj.attaque(lEnnemis, lJoueurs, *lJoueurs[i]->armes, munition);
                     }
-                    //
+                    //*/
                 }
             }
         }

@@ -31,13 +31,6 @@ class Salles {
             sprite.setScale(1,1);
             sprite.setPosition(0,0);
         }
-        /*~Salles() {
-            // Destruct pointers
-            for (int i = 0; i < n; i++) {
-                delete[] listeAvailable[i];
-            }
-            delete[] listeAvailable;
-        }*/
 
         int n = 14, m = 26;
 
@@ -45,6 +38,7 @@ class Salles {
         std::vector<Rectangle> obstacleList = {Rectangle(Point(624+240/2, 336+144/2), 240, 144), Rectangle(Point(288+48, 288+48), 96, 96)};
         std::vector<sf::RectangleShape> lineList;
         std::vector<sf::RectangleShape> lineObstacle;
+        std::vector<Point> spawnable = {Point(600,400), Point(300, 384), Point(1000, 432), Point(700, 353), Point(532, 528)};
         int thicknessLine = 2;
 
         std::vector<std::vector<std::vector<Point>>> voisins;

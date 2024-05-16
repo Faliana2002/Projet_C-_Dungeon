@@ -29,7 +29,7 @@ class Joueur : public Personnages {
         int numjoueur = 1;
 
         void mouvement(float dx, float dy);
-        void mouvement();
+        //void mouvement();
         void mouvement(Salles s);
         void debug_mvt();
         void hitEnnemis(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur);
