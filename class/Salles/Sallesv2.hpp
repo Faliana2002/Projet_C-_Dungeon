@@ -22,12 +22,13 @@ private:
 	std::vector<Point> obst;            //liste des obstacles
 	std::vector<Point> contourList;         // Points qui composent le contour
 	int n;
-    std::vector<sf::Texture> texture[8];
-    std::vector<sf::Texture> wall[5];
-    std::vector<sf::Texture> wallsection[8];
-    std::vector<sf::Sprite> sprite[26*14];
+    sf::Texture texture[8];
+    sf::Texture wall[5];
+    sf::Texture wallsection[8];
 
 public:
+    sf::Sprite sprite[26*14];
+    sf::Sprite sprite2[26*14];
 	Salles();
 	//le constructeur de salle permettra d'initialiser les salles avec une section, pas d'obstacle, pas de portes et un placement
 	Salles(const Point& c, float w, float h);
@@ -56,8 +57,7 @@ public:
 	//void contour();         // Calcul du contour de la salle
 	void printContour();    // Affichage de contourList (terminal)
 	bool insalles(Point pos);
-    void init_texture()
-
+    void init_texture();
 
 };
 

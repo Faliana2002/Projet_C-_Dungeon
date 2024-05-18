@@ -443,7 +443,7 @@ void Salles::printContour() {
 	}
 }
 
-void init_texture() {
+void Salles::init_texture() {
     srand (time(NULL));
     texture[0].loadFromFile(reference + "floor_1.png");
     texture[1].loadFromFile(reference + "floor_2.png");
@@ -462,28 +462,33 @@ void init_texture() {
     wallsection[1].loadFromFile(reference + "wall_edge_bottom_right.png");
     wallsection[2].loadFromFile(reference + "wall_edge_mid_left.png");
     wallsection[3].loadFromFile(reference + "wall_edge_mid_right.png");
-    wallsection[4].loadFromFile(reference + "wall_edge_top_left.png");
-    wallsection[5].loadFromFile(reference + "wall_edge_top_right.png");
+    wallsection[4].loadFromFile(reference + "wall_top_left.png");
+    wallsection[5].loadFromFile(reference + "wall_top_right.png");
+    wallsection[6].loadFromFile(reference + "wall_top_mid.png");
     int val;
+    int pos;
     for (float x=0; x<widths;x++){
         for (float y=0; y<heights; y++){
             if (insalles(Point(x,-y))==true){
                 val=rand()%8;
-                sprite[y*widths+x].setTexture(texture[val]);
-                sprite[y*widths+x].setScale(1,1);
-                sprite[y*widths+x].setPosition(x*valpix,-y*valpix);
+                pos=y*widths+x;
+                sprite[pos].setTexture(texture[val]);
+                sprite[pos].setScale(1,1);
+                sprite[pos].setPosition(x*valpix,-y*valpix);
             }
             else {
                 val=rand()%5;
-                sprite[y*widths+x].setTexture(wall[val]);
-                sprite[y*widths+x].setScale(1,1);
-                sprite[y*widths+x].setPosition(x*valpix,-y*valpix);
+                pos=y*widths+x;
+                sprite[pos].setTexture(wall[val]);
+                sprite[pos].setScale(1,1);
+                sprite[pos].setPosition(x*valpix,-y*valpix);
             }
         }
     }
     Point P=contourList[0];
     float difx=0;
     float dify=0;
+    int count=0;
     for (int k=1;k<=n;k++){
         if (k==n){
             difx=contourList[0].getX()-P.getX();
@@ -493,9 +498,36 @@ void init_texture() {
             difx=contourList[k].getX()-P.getX();
             dify=contourList[k].getY()-P.getY();
         }
-        if (difx!=0){
+        if (difx<0){
+            for (int i=0;i>(int)difx;i--){
+                sprite2[count].setTexture(wallsection[6]);
+                sprite2[count].setScale(1,1);
+                sprite2[count].setPosition((P.getX()+i)*valpix+valpix,-P.getY()*valpix);
+                count++;
+            }
+        }
+        else if (difx>0){
             for (int i=0;i<(int)difx;i++){
-
+                sprite2[count].setTexture(wallsection[5]);
+                sprite2[count].setScale(1,1);
+                sprite2[count].setPosition((P.getX()+i)-valpix,-P.getY()*valpix);
+                count++;
+            }
+        }
+        else if (dify>0){
+            for (int i=0;i<(int)dify;i++){
+                sprite2[count].setTexture(wallsection[2]);
+                sprite2[count].setScale(1,1);
+                sprite2[count].setPosition(P.getX()*valpix,(-P.getY()+i+1)*valpix);
+                count++;
+            }
+        }
+        else{
+            for (int i=0;i>(int)dify;i--){
+                sprite2[count].setTexture(wallsection[3]);
+                sprite2[count].setScale(1,1);
+                sprite2[count].setPosition(P.getX()*valpix,(-P.getY()+i)*valpix);
+                count++;
             }
         }
     }
