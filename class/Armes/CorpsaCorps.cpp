@@ -69,6 +69,6 @@ void CorpsaCorps::infligerDegats(std::vector<Ennemi*>& lEnnemis, std::vector<Jou
 }
 
 // A modifier, sans specification de touche
-void CorpsaCorps::attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const {
+void CorpsaCorps::attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const {
     infligerDegats(lEnnemis, lJoueur, arme);
 }

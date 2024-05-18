@@ -1,5 +1,6 @@
 #ifndef POINT_HPP
 #define POINT_HPP
+#include <cmath>
 
 class Point {
 public:
@@ -17,6 +18,10 @@ public:
 	bool operator!=( const Point& p);
 	bool operator==( const Point& p);
 	bool operator<( const Point& p) const;
+	// Calcule la distance euclidienne jusqu'à un autre point
+    float distanceTo(const Point& other) const {
+        return std::sqrt(std::pow(other.x - x, 2) + std::pow(other.y - y, 2));
+    }
 	void inverse(Point& p) {
 		float tempx = x;
 		float tempy = y;

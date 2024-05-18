@@ -37,7 +37,8 @@ class Armes {
         float getDegats() const {return degats_;}
         int getIndice() const {return indice_;}
         float getRate() const {return rate_;}
-        virtual void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const = 0;
+        float getSpeed() const {return speed_;}
+        virtual void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const = 0;
         // virtual void infligerDegats(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme) const = 0;
         // Méthode pour ajouter une arme à l'inventaire
         virtual void ajouterArmeInventaire(std::shared_ptr<Armes> arme){inventaire.push_back(arme);}
@@ -47,6 +48,7 @@ class Armes {
         float rate_;   // Fréquence à laquelle l'arme peut émettre des munitions
         int indice_;
         float scale_factor = 1.5;
+        float speed_; // Vitesse de lancement des projectiles
     public:
         float distance_attaque_;     // Distance maximale, à laquelle l'arme peut atteindre l'ennemi
         sf::Texture texture;

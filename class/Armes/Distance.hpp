@@ -24,7 +24,7 @@ class Distance : public Armes {
         Distance(int indice);
 
         // Implémentation concrète de la méthode d'attaque
-        virtual void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const override;
+        virtual void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const override;
         // void attaque_distance(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, Projectile& munition);
         void simulateKeyPress(std::vector<Joueur*>& lJoueurs, std::vector<Ennemi*>& lEnnemis, Projectile& munition);
 

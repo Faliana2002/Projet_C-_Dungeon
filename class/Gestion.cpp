@@ -1,4 +1,5 @@
 #include "Gestion.hpp"
+#include <cmath>
 
 void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vector<Joueur*>& lJoueurs, std::vector<Armes*>& lArmes, std::vector<Ennemi*>& lEnnemis) {
     if (event.type == sf::Event::KeyPressed) {
@@ -29,14 +30,44 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vecto
 
                 if (event.key.code == toucheJoueur[i][5]) {
                     if(lJoueurs[i]->armes != nullptr) lJoueurs[i]->hitEnnemis(lEnnemis, lJoueurs);
+                    
                     // Test attaque_distance
-                    /*
-                    if (lJoueurs[i]->armes != nullptr && lJoueurs[i]->armes->getIndice() == 0) { // Vérifiez ici si l'indice 0 correspond bien aux armes à distance
-                        Projectile munition(0, Vec2(1, 0)); // Exemple avec un vecteur directionnel prédéfini
-                        Distance distanceObj;
-                        distanceObj.attaque(lEnnemis, lJoueurs, *lJoueurs[i]->armes, munition);
-                    }
-                    //*/
+                    
+                    // if (lJoueurs[i]->armes != nullptr && lJoueurs[i]->armes->getIndice() == 0) { 
+                    //     // Trouver l'ennemi le plus proche pour cibler
+                    //     Ennemi* ennemiCible = nullptr;
+                    //     float distanceMin = std::numeric_limits<float>::max();
+                    //     Point positionJoueur = lJoueurs[i]->getPosition();
+
+                    //     for (Ennemi* e : lEnnemis) {
+                    //         float distance = positionJoueur.distanceTo(e->getPosition());
+                    //         if (distance < distanceMin) {
+                    //             distanceMin = distance;
+                    //             ennemiCible = e;
+                    //         }
+                    //     }
+
+                    //     if (ennemiCible != nullptr) {
+                    //         // Calculer la direction vers l'ennemi
+                    //         Vec2 directionVersEnnemi = Vec2(
+                    //             ennemiCible->position.getX() - positionJoueur.getX(),
+                    //             ennemiCible->position.getY() - positionJoueur.getY()
+                    //         ).normalize();
+
+                    //         // Créer le projectile avec la direction et la vitesse calculée
+                    //         float speed = lJoueurs[i]->armes->getSpeed();  // Assurez-vous que `getSpeed()` existe et retourne la vitesse appropriée
+                    //         Projectile munition(positionJoueur, directionVersEnnemi * speed, lJoueurs[i]->armes); 
+                    //         std::vector<Projectile> projectiles; // Supposons que vous ayez une liste de projectiles gérée quelque part dans votre jeu
+                    //         projectiles.push_back(munition);
+
+                    //         // Mettre à jour la méthode attaque si nécessaire pour qu'elle gère un vecteur de projectiles
+                    //         Distance distanceObj;
+                    //         distanceObj.attaque(lEnnemis, lJoueurs, *lJoueurs[i]->armes, projectiles); // Cette méthode devrait maintenant prendre en charge les projectiles
+                    //     }
+                    // }
+
+
+                    //
                 }
             }
         }
