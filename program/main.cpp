@@ -77,6 +77,7 @@ int main() {
     listeArmes.push_back(&c3);
     listeArmes.push_back(&c4);
     listeArmes.push_back(&d1);
+    listeArmes.push_back(&c5);
     //cout << "On a ajouté des armes" << endl;
 
     // Background texture
@@ -201,8 +202,10 @@ int main() {
                 }
             }
             for (Armes* a : listeArmes) {
+                cout << a->portee << " "; 
                 if (a->portee == false) window.draw(a->sprite);    
             }
+            cout << endl;
         }
 
 

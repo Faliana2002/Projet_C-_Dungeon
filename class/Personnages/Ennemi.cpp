@@ -2,6 +2,10 @@
 
 // Initialisation sur les zones définies
 Ennemi::Ennemi(int textureFileInt, Salles s, int n) {
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    startTimeHR = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+
     vieMax = 16;
     vie = vieMax;
     int l;
@@ -481,7 +485,12 @@ bool Ennemi::detecterEnnemi(std::vector<Joueur*>& lJoueur, const Armes& arme){
 }
 
 void Ennemi::hitEnnemis(std::vector<Joueur*>& lJoueur) {
-    if (etatHitRate > 1000/20/armes->getRate()) {
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    currentTimeHR = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+    if (currentTimeHR - startTimeHR > 1000/armes->getRate()) {
+        startTimeHR = currentTimeHR;
+        
         for (Joueur* j : lJoueur) {
             int d_attaque = (int) armes->distance_attaque_;
 
@@ -495,9 +504,7 @@ void Ennemi::hitEnnemis(std::vector<Joueur*>& lJoueur) {
 
             if (ex >= gauche && ex <= droite && ey >= haut && ey <= bas) j->recevoirDegats(armes);
         }
-        etatHitRate = 0;
     }
-    etatHitRate++;
 }
 
 // bool Ennemi::detecterEnnemi(const std::vector<std::shared_ptr<Joueur>>& joueurs, const Armes& arme) {

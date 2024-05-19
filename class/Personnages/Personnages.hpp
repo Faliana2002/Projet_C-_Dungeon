@@ -8,6 +8,7 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
+#include <chrono>
 
 extern std::string reference;
 extern std::string idle;
@@ -42,8 +43,9 @@ class Personnages {
         BarreVie barrevie;
 
         // Hit rate
-        int etatHitRate = 0;
-
+        long currentTimeHR;
+        long startTimeHR;
+        
         // Définir le facteur d'agrandissement
         float scale_factor = 3.0f;
 
@@ -67,6 +69,10 @@ class Personnages {
                 vie = 0; // Éviter les valeurs négatives
                 estVivant = false; // Marquer l'ennemi comme étant vaincu
                 std::cout << "L'ennemi a été vaincu !" << std::endl;
+                if (armes != nullptr) {
+                    armes->portee = false;
+                    armes = nullptr;
+                }
                 // Autres actions à effectuer lorsque l'ennemi est vaincu...
             } else {
                 // L'ennemi est toujours en vie

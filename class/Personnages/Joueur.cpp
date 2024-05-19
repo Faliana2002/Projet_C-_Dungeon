@@ -2,6 +2,10 @@
 
 // Constructeur à partir de la référence dans la liste listeJoueurs et de la position de départ (x,y)
 Joueur::Joueur(int textureFileInt, float x, float y) {
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    startTimeHR = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+
     numPerso = textureFileInt;
     // Set grande taille
     textureFile = listeJoueurs[2];
@@ -221,7 +225,12 @@ void Joueur::debug_mvt() {
 
 // Inflige des dégats à tous les ennemis proches
 void Joueur::hitEnnemis(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur) {
-    if (etatHitRate > 1000/20/armes->getRate()*0.75) {
+    auto now = std::chrono::system_clock::now();
+    auto duration = now.time_since_epoch();
+    currentTimeHR = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+    if (currentTimeHR - startTimeHR > 1000/armes->getRate()) {
+        startTimeHR = currentTimeHR;
+
         for (Ennemi* e : lEnnemis) {
             int d_attaque = (int) armes->distance_attaque_;
 
@@ -250,7 +259,5 @@ void Joueur::hitEnnemis(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJ
                 if (jx >= gauche && jx <= droite && jy >= haut && jy <= bas) j->recevoirDegats(armes);
             }
         }
-        etatHitRate = 0;
     }
-    etatHitRate++;
 }
