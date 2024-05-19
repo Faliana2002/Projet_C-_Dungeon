@@ -21,7 +21,7 @@ class Distance : public Armes {
 
         Distance() {}
         // Utiliser le constructeur de la classe de base
-        Distance(int indice);
+        Distance(int indice, Salles s, int n);
 
         // Implémentation concrète de la méthode d'attaque
         virtual void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const override;

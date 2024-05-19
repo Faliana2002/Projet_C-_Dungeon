@@ -1,7 +1,7 @@
 #include "CorpsaCorps.hpp"
 #include "../Personnages/Ennemi.hpp"
 
-CorpsaCorps::CorpsaCorps(int indice) {
+CorpsaCorps::CorpsaCorps(int indice, Salles s, int n) {
     indice_ = indice;
 
     int k = 100;
@@ -22,9 +22,27 @@ CorpsaCorps::CorpsaCorps(int indice) {
     textureFile = reference + weapon_str + std::get<0>(listeArmesCAC[indice]) + fin_str;
     texture.loadFromFile(textureFile);
 
+    int l;
+    if (n == -1) {
+        // Initialisation du générateur de nombres pseudo-aléatoires
+        static std::mt19937 generator(static_cast<unsigned int>(std::time(nullptr)));
+
+        // Création d'une distribution uniforme pour choisir un index de la liste des positions spawnables
+        std::uniform_int_distribution<int> distribution(0, s.spawnable.size() - 1);
+
+        l = distribution(generator);
+    }
+    else {
+        if (n >= (int) s.spawnable.size()) n = s.spawnable.size();
+        l = n; 
+    }
+            
+    int x = s.spawnable[l].getX();
+    int y = s.spawnable[l].getY();
+
     // Positionnement de l'arme sur le monde du jeu
-    position.setX(640);
-    position.setY(360);
+    position.setX(x);
+    position.setY(y);
 
     sprite.setTexture(texture);
     sprite.setPosition(position.getX(), position.getY());

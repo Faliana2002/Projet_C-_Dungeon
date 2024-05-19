@@ -12,6 +12,7 @@
 #include <memory>
 
 #include "../point.hpp"
+#include "../Salles-test/Salles.hpp"
 // #include "Projectile.hpp"
 // #include "../Personnages/Ennemi.hpp"
 // #include "../Personnages/Joueurs.hpp"

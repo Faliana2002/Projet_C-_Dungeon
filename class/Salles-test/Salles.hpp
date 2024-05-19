@@ -38,7 +38,7 @@ class Salles {
         std::vector<Rectangle> obstacleList = {Rectangle(Point(624+240/2, 336+144/2), 240, 144), Rectangle(Point(288+48, 288+48), 96, 96)};
         std::vector<sf::RectangleShape> lineList;
         std::vector<sf::RectangleShape> lineObstacle;
-        std::vector<Point> spawnable = {Point(208,64), Point(226,368), Point(334,476), Point(534,382), Point(592,222), Point(734,102), Point(916,232), Point(1016,338), Point(892,458)};
+        std::vector<Point> spawnable = {Point(180,100), Point(226,368), Point(334,476), Point(534,382), Point(592,250), Point(734,102), Point(916,232), Point(1016,338), Point(892,458)};
         int thicknessLine = 2;
 
         std::vector<std::vector<std::vector<Point>>> voisins;

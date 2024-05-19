@@ -17,7 +17,7 @@ class CorpsaCorps : public Armes {
     public:
         Armes* arme_a_ramasser; // Attribut représentant l'arme à ramasser
         // Utiliser le constructeur de la classe de base
-        CorpsaCorps(int indice);
+        CorpsaCorps(int indice, Salles s, int n);
 
         // Implémentation concrète de la méthode d'attaque
         void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const override;

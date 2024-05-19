@@ -60,14 +60,14 @@ int main() {
     lEnnemis.push_back(&e5);
 
     //cout << "On crée des armes" << endl;
-    CorpsaCorps c1(0);
-    CorpsaCorps c2(1);
-    CorpsaCorps c3(2);
-    CorpsaCorps c4(1);
-    Distance d1(0);
+    CorpsaCorps c1(0, salle_test, -1);
+    CorpsaCorps c2(1, salle_test, -1);
+    CorpsaCorps c3(2, salle_test, -1);
+    CorpsaCorps c4(1, salle_test, -1);
+    Distance d1(0, salle_test, -1);
     //cout << "On a créé des armes" << endl;
 
-    CorpsaCorps c5(0);
+    CorpsaCorps c5(0, salle_test, -1);
     e1.armes = &c5;
 
     std::vector<Armes*> listeArmes;
@@ -138,12 +138,14 @@ int main() {
         
         if (currentTime - startTime > 20) { // frame rate 50 Hz (20 ms)
 
+            cout << j1.position.getX() << " - " << j1.position.getY() << endl;
+
             //cout << "On commence la bucle" << endl;
             //for (Joueur j : listeJoueurs) j.debug_mvt(); 
             for (Joueur* j : lJoueurs) {
                 if (j->estVivant) j->mouvement(salle_test);
-            }
             
+            }
             if (etatJeu == 1){
                 //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
                 //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
