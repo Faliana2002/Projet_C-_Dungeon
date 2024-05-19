@@ -139,7 +139,7 @@ int main() {
         
         if (currentTime - startTime > 20) { // frame rate 50 Hz (20 ms)
 
-            cout << j1.position.getX() << " - " << j1.position.getY() << endl;
+            //cout << j1.position.getX() << " - " << j1.position.getY() << endl;
 
             //cout << "On commence la bucle" << endl;
             //for (Joueur j : listeJoueurs) j.debug_mvt(); 
@@ -202,10 +202,10 @@ int main() {
                 }
             }
             for (Armes* a : listeArmes) {
-                cout << a->portee << " "; 
+                //cout << a->portee << " "; 
                 if (a->portee == false) window.draw(a->sprite);    
             }
-            cout << endl;
+            //cout << endl;
         }
 
 

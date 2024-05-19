@@ -188,13 +188,14 @@ void Salles::buildVoisins() {
 }
 
 void Salles::buildListeAvailable() {
+    // Initialisation du tableau
     for (int i = 0; i < n; i++) {
         listeAvailable[i] = new int[m];
     }
 
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            if (isIn(Point(j*48, i*48))) listeAvailable[i][j] = 1;
+            if (isIn(Point(j*48 + 24, i*48 + 24))) listeAvailable[i][j] = 1;
             else listeAvailable[i][j] = 0;
         }
     }
@@ -203,7 +204,7 @@ void Salles::buildListeAvailable() {
 void Salles::printArray(int** ll) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            std::cout << std::setw(3) << ll[i][j] << " "; 
+            std::cout << std::setw(1) << ll[i][j] << " "; 
         }
         std::cout << std::endl;
     }

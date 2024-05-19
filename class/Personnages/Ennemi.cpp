@@ -374,10 +374,31 @@ void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
 
             int l = static_cast<int>(s.voisins[i][j].size());
             //std::cout << "nombre de points accessible : " << l << std::endl;
+            std::map<Point, int> listeChoix;
+            for (int dx = 0; dx <= 1; dx++) {
+                for (int dy = 0; dy <= 1; dy++) {
+                    for (Point p : s.voisins[i+dx][j+dy]) {
+                        listeChoix[p]++;
+                    }
+                }
+            }/*
+            for (int x = 0; x < 720/48; x++) {
+                for (int y = 0; y < 1280/48; y++) {
+                    if (x == i && y == j) std::cout << "8 ";
+                    else std::cout << listeChoix[Point(x,y)] << " ";
+                }
+                std::cout << std::endl;
+            }
+            std::cout << std::endl;*/
             if (l > 0) {
-                int k = rand() % l;
-                objectif.setX(s.voisins[i][j][k].getY()*48);
-                objectif.setY(s.voisins[i][j][k].getX()*48);
+                bool test_choose = false;
+                while (!test_choose) {
+                    int k = rand() % l;
+                    if (listeChoix[s.voisins[i][j][k]] == 4) test_choose = true;
+                    objectif.setX(s.voisins[i][j][k].getY()*48);
+                    objectif.setY(s.voisins[i][j][k].getX()*48);
+                }
+                
             }
             
         }
@@ -408,9 +429,18 @@ void Ennemi::aleatoire_mvt_2(const std::vector<Joueur*>& lJoueurs, Salles s) {
             else if (speedX < 0) sprite.setScale(-scale_factor/4,scale_factor/4);
         }
     }
+    bool test = true;
+    for (int dx = 0; dx <= 48; dx += 48) {
+        for (int dy = 0; dy <= 48; dy += 48) {
+            if (!s.isIn(Point(position.getX() + speedX + dx, position.getY() + speedY + dy))) test = false;
+        }
+    }
 
-    if (s.voisins[(int) ((position.getY() + speedY) / 48) ][(int) ((position.getX() + speedX) / 48)].size() != 0) mouvement(speedX,speedY, s);
-    //else std::cout << "l'enemi est bloqué l'enemi est bloqué l'enemi est bloqué l'enemi est bloqué" << std::endl;
+    if (test) mouvement(speedX,speedY, s);
+    else {
+        std::cout << "l'enemi est bloqué l'enemi est bloqué l'enemi est bloqué l'enemi est bloqué" << std::endl;
+        objectif = position;
+    }
 }
 
 // Suivi d'un joueur donné
@@ -441,17 +471,17 @@ void Ennemi::suivi(Joueur& j) {
 
 Point Ennemi::detecteJoueur(const std::vector<Joueur*>& lJoueurs, Salles s) {
     Point obj(-1,-1);
-    float distance = width;
+    float distance = 5;
     for (Joueur* j : lJoueurs) {
         if (j->estVivant) {
-            int jx = j->position.getX() / 48;
-            int jy = j->position.getY() / 48;
-            int ex = position.getX() / 48;
-            int ey = position.getY() / 48;
+            int jx = (j->position.getX()+24) / 48;
+            int jy = (j->position.getY()+24) / 48;
+            int ex = (position.getX()+24) / 48;
+            int ey = (position.getY()+24) / 48;
             for (Point p : s.voisins[ey][ex]) {
-                if (p == Point(jy, jx) && sqrt(pow(p.getX() - ey,2) + pow(p.getY() - ex, 2)) <= distance) {
+                if (p == Point(jy, jx) && sqrt(pow(jy - ey,2) + pow(jx - ex, 2)) <= distance) {
                     obj = Point(p.getY()*48, p.getX()*48);
-                    distance = sqrt(pow(p.getX() - ey,2) + pow(p.getY() - ex, 2));
+                    distance = sqrt(pow(jy - ey,2) + pow(jx - ex, 2));
                 } 
             }
         }

@@ -68,7 +68,7 @@ class Personnages {
                 // L'ennemi est vaincu
                 vie = 0; // Éviter les valeurs négatives
                 estVivant = false; // Marquer l'ennemi comme étant vaincu
-                std::cout << "L'ennemi a été vaincu !" << std::endl;
+                //std::cout << "L'ennemi a été vaincu !" << std::endl;
                 if (armes != nullptr) {
                     armes->portee = false;
                     armes = nullptr;
@@ -76,7 +76,7 @@ class Personnages {
                 // Autres actions à effectuer lorsque l'ennemi est vaincu...
             } else {
                 // L'ennemi est toujours en vie
-                std::cout << "L'ennemi subit des dégâts mais est toujours en vie." << std::endl;
+                //std::cout << "L'ennemi subit des dégâts mais est toujours en vie." << std::endl;
             }
         }
 };

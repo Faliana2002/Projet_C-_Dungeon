@@ -260,4 +260,5 @@ void Joueur::hitEnnemis(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJ
             }
         }
     }
+    else startTimeHR = currentTimeHR;
 }
