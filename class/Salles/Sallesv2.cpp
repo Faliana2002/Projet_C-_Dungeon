@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-
+std::string reference="../0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/";
 int valpix=48;
 int widths=26;
 int heights=14;
-//constructeur créant une salle avec un rectangle (dont on place le coin en haut à gauche, la taille) et créant la salle avec les couloirs d'entré et sorti
+//constructeur semi aléatoire permettant de creer une salle avec un rectangle et 2 portes sans obstacle
 Salles::Salles(const Point& c, float w, float h){
+//on initialise l'aléatoire
 	srand (time(NULL));
-	float a=w-(w/2.0)*2.0;
-	float x1,y1,x2,y2,posx,posy,debx,deby,finx,finy;
+	float x1,y1,x2,y2,posx,posy,debx,deby;
+    //on positionne les 2 points imporatnat, celui en haut à gauche, et celui en bas à droite, cela nous permet de tracer un rectangle
     x1=c.getX();
     x2=c.getX()+w;
 	y1=c.getY();
@@ -28,6 +29,7 @@ Salles::Salles(const Point& c, float w, float h){
         {x2=26.0;
         y2=14.0;
         aleatoire=0;}
+//on défini le nombre de portion a ajouter en plus de la portion de base (entre 2 à 4)
     nbes=rand()%aleatoire +2;
 //on stocke l'ensemble des point dans point map, cela va permettre de recréer la liste de point dans l'ordre à la fin
     pointMap[Point(x1,y1)]++;
@@ -37,17 +39,22 @@ Salles::Salles(const Point& c, float w, float h){
 //si le rectangle est en bord d'écran, on ne crée que 2 couloirs, un entreé, un en sortie
     if (aleatoire==0)
         {
+        //on détermine aléatoirement si la porte d'entré est à gauche ou au dessus de la porte principale
         deb=rand()%2;
+        //on se place dans le cas ou la porte est placé au dessus
         if (deb==0){
+            //on positionne le couloir menant à la porte d'entrée aléatoirement entre les 2 extrémités du rectangle initial
             posx=rand()%(int)(x2-x1-1.0)+x1;
             posy=0.0;
             pointMap[Point(posx,posy)]++;
             pointMap[Point(posx+1,posy)]++;
             pointMap[Point(posx,y1)]++;
             pointMap[Point(posx+1,y1)]++;
+            //on positionne la porte
             setdoor(Point(posx,posy));
             debx=posx;
             deby=posy;
+            //on positionne maintenant la position de la porte de sortie aléatoirement sur le coté gauche du rectangle d'origine
             posx=0.0;
             posy=-rand()%(int)(y1-y2-1.0)+y1;
             pointMap[Point(posx,posy)]++;
@@ -55,8 +62,8 @@ Salles::Salles(const Point& c, float w, float h){
             pointMap[Point(posx,posy-1)]++;
             pointMap[Point(x1,posy-1)]++;
             setdoor(Point(posx,posy));
-            //    {return false;}
             }
+        //sinon on positionne la porte d'entrée à gauche du rectangle d'origine, et on place la sortie au dessus
         else{
             posx=0.0;
             posy=-rand()%(int)(y1-y2-1.0)+y1;
@@ -65,7 +72,6 @@ Salles::Salles(const Point& c, float w, float h){
             pointMap[Point(posx,posy-1)]++;
             pointMap[Point(x1,posy-1)]++;
             setdoor(Point(posx,posy));
-            //    {return false;}
             }
             debx=posx;
             deby=posy;
@@ -76,13 +82,15 @@ Salles::Salles(const Point& c, float w, float h){
             pointMap[Point(posx,y1)]++;
             pointMap[Point(posx+1,y1)]++;
             setdoor(Point(posx,posy));
-            //    {return false;}
         }
         //sinon on peut créer entre 2 à 4 couloirs, placé aléatoirement
     else
         {
+        //on détermine le positionnement de la porte de début, pour simplifier la chose, il n'y aura que 3 cotés d'entrés possible
         deb=rand()%3;
+        //la première position d'entrée est sur le dessus du rectangle
         if (deb==0){
+            //on positionne l'entrée aléatoirement en contact avec la section de base
             posx=rand()%(int)(x2-x1-1.0)+x1;
             posy=0.0;
             pointMap[Point(posx,posy)]++;
@@ -90,11 +98,12 @@ Salles::Salles(const Point& c, float w, float h){
             pointMap[Point(posx,y1)]++;
             pointMap[Point(posx+1,y1)]++;
             setdoor(Point(posx,posy));
-            //    {return false;}
             debx=posx;
             deby=posy;
+            //on permet ensuite de placer la sortie sur l'un des coté restant
             fin=rand()%(nbes-1)+1;
             if (fin==1)
+            //on positionne ici la sortie sur le coté gauche du carré d'origine
                 {posx=0.0;
                 posy=-rand()%(int)(y1-y2-1.0)+y1;
                 pointMap[Point(posx,posy)]++;
@@ -102,7 +111,7 @@ Salles::Salles(const Point& c, float w, float h){
                 pointMap[Point(posx,posy-1)]++;
                 pointMap[Point(x1,posy-1)]++;
                 setdoor(Point(posx,posy));
-                //    {return false;}
+                //puis on positionne les coté restant en fonction du nombre de faux coté que l'on peut créer
                 for (int k=2; k<nbes;k++){
                     if (k==3){
                         posx=widths;
@@ -124,6 +133,7 @@ Salles::Salles(const Point& c, float w, float h){
                     }
                 }
             if (fin==2)
+            //on positionne ici sur le bas de la salle la sortie
                 {posx=rand()%(int)(x2-x1-1.0)+x1;
                 posy=-heights;
                 pointMap[Point(posx,posy)]++;
@@ -396,7 +406,6 @@ bool Salles::insalles(Point pos){
 //ajoute les obstacles de taille 1,1 en vérifiant qu'ils sont bien contenu dans la salle
 bool Salles::addobst(Point pos){
 	bool ans=false;
-	float ymax=30,ymin=-30;
     for (Point &O: obst){
         if (O==pos)
             {return (ans);}
