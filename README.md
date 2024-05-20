@@ -1,4 +1,4 @@
-Pour jouer au jeu vous aurez besoin d'installer la librairie sfml et la librairie ncurses
+Pour jouer au jeu vous aurez besoin d'installer la librairie sfml
 (faite attention, si votre ordinateur est trop récent, il se peut que la librairie sfml ne fonctionne pas correctement)
 a partir du dossier Projet_c-_Dungeons aller dans le dossier program, faites un make clean (pour être sur qu'aucun fichier indésirable ne traine), puis faites un make
 Vous pouvez alors éxécuter le fichier ./jeu

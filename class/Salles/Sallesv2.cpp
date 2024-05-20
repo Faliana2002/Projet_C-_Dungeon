@@ -6,6 +6,10 @@ std::string reference="../../0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1
 int valpix=48;
 int widths=26;
 int heights=14;
+//l'objectif de ce constructeur est d'être le plus minimaliste possible pour la salle, il ne crée donc que un rectangle et 2 couloirs, que l'on choisit nous même.
+//il va ensuite créer tout les points pour parcourir la salle
+//il est assez simple d'ajouter des obstacles à la salle, il suffit de choisir des points à l'intérieur de cette dernière, puis de les implémenter par la fonction addobst.
+//il suffira ensuite de parcourir la liste des obstacles pour savoir si le personnages est contre un obstacle ou non, sachant que les obstacles son de tailles 1,1 et que l'on place leur point en haut à gauche
 Salles::Salles(const Point& c, float w, float h, const Point& enter,const Point& out){
     //on fait une première série de if pour déterminer ou se situe l'entrée
     //coté gauche
@@ -163,6 +167,7 @@ Salles::Salles(const Point& c, float w, float h, const Point& enter,const Point&
     door.push_back(out);
 }
 //constructeur semi aléatoire permettant de creer une salle avec un rectangle et 2 portes sans obstacle
+//ce constructeur a un problème de boucle infinie, je pense que la dernière boucle while ne se termine pas à cause d'une variation d'un float, faisant qu'on ne revient jamais exactement au point d'origine
 Salles::Salles(const Point& c, float w, float h){
 //on initialise l'aléatoire
 	srand (time(NULL));
@@ -532,7 +537,7 @@ Salles::Salles(const Point& c, float w, float h){
         }
     }
 }
-
+//ce constructeur était prévu pour générer complètement aléatoirement une salle
 Salles::Salles(){
 //on intialise le random
 	srand (time(NULL));
@@ -560,17 +565,21 @@ Salles::Salles(){
     pointMapInverted[Point(y,x)]++;
     setdoor(Point(x,y));
 }
-
+//la fonction insalles permet, une fois que contourlist a été crée de déterminer si on est dans la salle ou non
 bool Salles::insalles(Point pos){
     bool ans=false;
     float distyh=1.0;
     float distyl=-heights-1;
+    //on test sur chacun des point de la liste
     for (Point &P: contourList){
+    //si on trouve un point au dessus à gauche de notre point de test
         if (P.getX()<=pos.getX() && P.getX()+1>=pos.getX()  && P.getY()-pos.getY()<distyh && P.getY()-pos.getY()>0)
             {distyh=P.getY()-pos.getY();}
+    //et que l'on trouve un point en dessous qui correspond aussi
         if (P.getX()<=pos.getX() && P.getX()+1>=pos.getX() && P.getY()-pos.getY()>distyl && P.getY()-pos.getY()<0)
             {distyl=P.getY()-pos.getY();}
     }
+    //alors ce point est dans la salle
     if (distyh!=1.0 && distyl!=-heights-1){
         ans=true;
     }
@@ -589,7 +598,6 @@ bool Salles::addobst(Point pos){
 }
 //ajoute les portes, en vérifiant qu'elles sont dans une zone accesible
 bool Salles::setdoor(Point pos){
-    printf("test");
 	Point p1(pos.getX(), pos.getY());
 	Point p2(pos.getX(), pos.getY()-1.0);
 	Point p3(pos.getX() +1.0,pos.getY()-1.0);
@@ -674,6 +682,7 @@ void Salles::init_texture() {
     float difx=0;
     float dify=0;
     int count=0;
+    //pour cela on parcourt contourlist jusqu'a arriver à la sortie
     for (int k=1;k<=n;k++){
         if (k==n){
             difx=contourList[0].getX()-P.getX();
@@ -683,6 +692,7 @@ void Salles::init_texture() {
             difx=contourList[k].getX()-P.getX();
             dify=contourList[k].getY()-P.getY();
         }
+        //on oriente le parcourt en fonction du prochain point
         if (difx<0){
             for (int i=0;i>(int)difx;i--){
                 sprite2[count].setTexture(wallsection[6]);

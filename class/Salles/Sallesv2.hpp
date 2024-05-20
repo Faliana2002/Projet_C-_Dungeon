@@ -30,6 +30,7 @@ public:
     sf::Sprite sprite2[26*14];
     //le générateur de base devrait créé une salle complétement aléatoirement, ainsi on aurait plusiseurs obstacles, une entré une sortie et plusieurs sections
 	Salles();
+	//ce constructeur permet de créer une salle à l'aide de son coin en haut à gauche, de ses dimensions, et de la position de la porte d'entré et de la porte de sortie
 	Salles(const Point& c, float w, float h, const Point& enter, const Point& out);
 	//le constructeur de salle permettra d'initialiser les salles avec une section, pas d'obstacle, un placement des portes aléatoires
 	Salles(const Point& c, float w, float h);
