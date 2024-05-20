@@ -6,6 +6,81 @@ std::string reference="../0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/
 int valpix=48;
 int widths=26;
 int heights=14;
+Salles(const Point& c, float w, float h, const Point& enter,const Point& out){
+    //on fait une première série de if pour déterminer ou se situe l'entrée
+    //coté gauche
+    if (enter.getX()>0 && enter.getX()<1){
+        contourList.push_back(enter);
+        contourList.push_back(Point(c.getX(),enter.getY()));
+        contourList.push_back(c);
+        //on fait une seconde série de if pour déterminer comment compléter la sortie
+        //coté droit
+        if (out.getX()<widths && out.getX()>widths-1){
+            contourList.push_back(Point(c.getX()+w,c.getY()));
+            contourList.push_back(Point(c.getX()+w,out.getY()));
+            contourList.push_back(Point(out.getX()+1,out.getY()));
+            contourList.push_back(Point(out.getX()+1,out.getY()-1));
+            contourList.push_back(Point(c.getX()+w,out.getY()-1));
+            contourList.push_back(Point(c.getX()+w,c.getY()-h));
+            contourList.push_back(Point(c.getX(),c.getY()-h));
+            contourList.push_back(Point(c.getX(),enter.getY()-1));
+            contourList.push_back(Point(enter.getX(),enter.getY()-1));
+        }
+        //coté haut
+        else if (out.getY()<0 && out.getY()>-1){
+
+        }
+        //coté bas
+        else if (out.getY()>-heights && out.getY()<-heights+1){
+
+        }
+    }
+    //coté droit
+    else if (enter.getX()<widths && enter.getX()>widths-1){
+        //coté gauche
+        if (out.getX()>0 && out.getX()<1){
+
+        }
+        //coté haut
+        else if (out.getY()<0 && out.getY()>-1){
+
+        }
+        //coté bas
+        else if (out.getY()>-heights && out.getY()<-heights+1){
+
+        }
+    }
+    //coté haut
+    else if (enter.getY()<0 && enter.getY()>-1){
+        //coté gauche
+        if (out.getX()>0 && out.getX()<1){
+
+        }
+        //coté droit
+        else if (out.getX()<widths && out.getX()>widths-1){
+
+        }
+        //coté bas
+        else if (out.getY()>-heights && out.getY()<-heights+1){
+
+        }
+    }
+    //coté bas
+    else if (enter.getY()>-heights && enter.getY()<-heights+1){
+        //coté gauche
+        if (out.getX()>0 && out.getX()<1){
+
+        }
+        //coté droit
+        else if (out.getX()<widths && out.getX()>widths-1){
+
+        }
+        //coté haut
+        else if (out.getY()<0 && out.getY()>-1){
+
+        }
+    }
+}
 //constructeur semi aléatoire permettant de creer une salle avec un rectangle et 2 portes sans obstacle
 Salles::Salles(const Point& c, float w, float h){
 //on initialise l'aléatoire
