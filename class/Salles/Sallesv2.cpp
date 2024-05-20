@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-std::string reference="../0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/";
+std::string reference="../../0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/";
 int valpix=48;
 int widths=26;
 int heights=14;
