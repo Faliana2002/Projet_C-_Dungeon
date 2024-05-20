@@ -8,6 +8,7 @@
 #include "../class/Gestion.hpp"
 #include "../class/Armes/CorpsaCorps.hpp"
 #include "../class/Armes/Distance.hpp"
+#include "../class/point.hpp"
 
 #include "../class/Salles-test/Salles.hpp"
 
@@ -28,8 +29,9 @@ extern int height;
 
 int main() {
     RenderWindow window(VideoMode(width,height), "Rungeon!");
-    
+
     Salles salle_test;
+    //Salles salle_test(Point(144,96), 960, 540, 0, 4);
     
     // Premier joueur
     Joueur j1(2, 960-16*4/2, 360-28*4/2);
@@ -101,6 +103,7 @@ int main() {
     int etatJeu = 0;
     int memEtatJeu = 0;
 
+    // Affichage du tableau des cases accessibles 
     salle_test.printArray(salle_test.listeAvailable);
     for (const Point& p : salle_test.voisins[0][0]) {
         std::cout << "Point accessible depuis (" << 0 << "," << 0 << ") : (" << p.getX() << "," << p.getY() << ")" << std::endl;
@@ -145,6 +148,7 @@ int main() {
             //for (Joueur j : listeJoueurs) j.debug_mvt(); 
             for (Joueur* j : lJoueurs) {
                 if (j->estVivant) j->mouvement(salle_test);
+                //if (j->estVivant) j->debug_mvt();
             
             }
             if (etatJeu == 1){
@@ -152,6 +156,9 @@ int main() {
                 //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
                 for (Ennemi* e : lEnnemis) {
                     if (e->estVivant) e->aleatoire_mvt_2(lJoueurs ,salle_test);
+                    //if (e->estVivant) e->debug_mvt();
+                    //if (e->estVivant) e->suivi(j1);
+                    //if (e->estVivant) e->mouvement(1,1);
                 }
                 for (Ennemi* e : lEnnemis) {
                     if (e->estVivant && e->armes != nullptr) e->hitEnnemis(lJoueurs);
@@ -166,6 +173,9 @@ int main() {
         window.clear();
 
         if (etatJeu == 1) window.draw(salle_test.sprite);
+        /*if (etatJeu == 1) {
+            for (sf::RectangleShape r : salle_test.lineList) window.draw(r);
+        }*/
 
         // Draw background
         if (etatJeu == 0) {

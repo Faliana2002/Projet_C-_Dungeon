@@ -56,6 +56,7 @@ void Joueur::mouvement(float dx, float dy) {
     
     if (etat > maxEtat) etat = 0;
 }
+
 /*
 // Mouvement en fonction de dx et dy
 void Joueur::mouvement() {
@@ -145,6 +146,7 @@ void Joueur::mouvement(Salles s) {
     int w = width_*scale_factor;
     int h = height_*scale_factor;
 
+    //position += Point(dx, dy);
     if (s.isIn(position+Point(dx,0)) && s.isIn(position+Point(dx+w,0)) && s.isIn(position+Point(dx+w,0+h)) && s.isIn(position+Point(dx,0+h))) {
         position += Point(dx,0);
     }

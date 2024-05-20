@@ -145,13 +145,15 @@ void Ennemi::mouvement(float dx, float dy, Salles s) {
 
     int w = width_*scale_factor;
     int h = height_*scale_factor;
-    
+
+    position += Point(dx, dy);
+    /*
     if (s.isIn(position+Point(dx,0)) && s.isIn(position+Point(dx+w,0)) && s.isIn(position+Point(dx+w,0+h)) && s.isIn(position+Point(dx,0+h))) {
         position += Point(dx,0);
     }
     if (s.isIn(position+Point(0,dy)) && s.isIn(position+Point(0+w,dy)) && s.isIn(position+Point(0+w,dy+h)) && s.isIn(position+Point(0,dy+h))) {
         position += Point(0,dy);
-    }
+    }*/
 
     textureFile = listeEnnemi[numPerso];
 

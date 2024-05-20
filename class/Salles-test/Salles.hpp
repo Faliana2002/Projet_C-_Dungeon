@@ -11,7 +11,7 @@
 #include "../rectangle.hpp"
 
 extern std::string reference;
-
+#include <SFML/Graphics.hpp>
 class Salles {
     public:
         Salles() {
