@@ -141,7 +141,7 @@ Salles::Salles(const Point& c, float w, float h){
                 pointMap[Point(posx,y2)]++;
                 pointMap[Point(posx+1,y2)]++;
                 setdoor(Point(posx,posy));
-                //    {return false;}
+                // et on positionne potentiellement  des faux couloirs à droite et à gauche
                 for (int k=2; k<nbes;k++){
                     if (k==3){
                         posx=widths;
@@ -162,6 +162,7 @@ Salles::Salles(const Point& c, float w, float h){
 
                     }
                 }
+            //on positionne ici la sortie sur le coté droit de la portion de base
             if (fin==3)
                 {
                 posx=widths;
@@ -171,7 +172,7 @@ Salles::Salles(const Point& c, float w, float h){
                 pointMap[Point(posx,posy-1)]++;
                 pointMap[Point(x2,posy-1)]++;
                 setdoor(Point(posx,posy));
-                //    {return false;}
+                // et on positionne potentiellement des faux couloirs sur le dessous et sur la gauche de la portion de départ
                 for (int k=2; k<nbes;k++){
                     if (k==3){
                         posx=rand()%(int)(x2-x1-1.0)+x1;
@@ -192,6 +193,7 @@ Salles::Salles(const Point& c, float w, float h){
                     }
                 }
             }
+        //on positionne ici l'entré sur le coté gauche de la portion d'origine
         else if (deb==1){
             posx=0.0;
             posy=-rand()%(int)(y1-y2-1.0)+y1;
@@ -200,10 +202,10 @@ Salles::Salles(const Point& c, float w, float h){
             pointMap[Point(posx,posy-1)]++;
             pointMap[Point(x1,posy-1)]++;
             setdoor(Point(posx,posy));
-            //    {return false;}
             debx=posx;
             deby=posy;
             fin=rand()%(nbes-2)+2;
+            //on peut alors poser la sortie sur le bas de la portion d'origine( pour des raisons de simpliciter je ne fais pas les 3 sorties possible à chaque entrée, mais une simple modification de la variable aléatoire suffirait à le permettre
             if (fin==2)
                 {posx=rand()%(int)(x2-x1-1.0)+x1;
                 posy=-heights;
@@ -212,8 +214,8 @@ Salles::Salles(const Point& c, float w, float h){
                 pointMap[Point(posx,y2)]++;
                 pointMap[Point(posx+1,y2)]++;
                 setdoor(Point(posx,posy));
-                //    {return false;}
                 for (int k=2; k<(nbes-2);k++){
+                //on peut alors poser les faux couloirs sur le coté droit de la portion d'origine
                     if (k==3){
                         posx=widths;
                         posy=-rand()%(int)(y1-y2-1.0)+y1;
@@ -222,6 +224,7 @@ Salles::Salles(const Point& c, float w, float h){
                         pointMap[Point(posx,posy-1)]++;
                         pointMap[Point(x2,posy-1)]++;
                         }
+                    //ou sur le haut de cette portion
                     if (k==2){
                         posx=rand()%(int)(x2-x1-1.0)+x1;
                         posy=0.0;
@@ -233,6 +236,7 @@ Salles::Salles(const Point& c, float w, float h){
 
                     }
                 }
+            //on peut aussi positionner la sortie sur le coté droit de la portion d'origine
             if (fin==3)
                 {posx=widths;
                 posy=-rand()%(int)(y1-y2-1.0)+y1;
@@ -241,7 +245,7 @@ Salles::Salles(const Point& c, float w, float h){
                 pointMap[Point(posx,posy-1)]++;
                 pointMap[Point(x2,posy-1)]++;
                 setdoor(Point(posx,posy));
-                //    {return false;}
+                //et positionner des faux couloirs sur le bas de la portion ou sur le coté gauche de cette dernière
                 for (int k=2; k<nbes;k++){
                     if (k==3){
                         posx=rand()%(int)(x2-x1-1.0)+x1;
@@ -263,6 +267,7 @@ Salles::Salles(const Point& c, float w, float h){
                     }
                 }
             }
+        //on positionne l'entré ici sur le bas de la portion
         else if (deb==2){
             posx=rand()%(int)(x2-x1-1.0)+x1;
             posy=-heights;
@@ -271,10 +276,10 @@ Salles::Salles(const Point& c, float w, float h){
             pointMap[Point(posx,y2)]++;
             pointMap[Point(posx+1,y2)]++;
             setdoor(Point(posx,posy));
-            //    {return false;}
             debx=posx;
             deby=posy;
             fin=rand()%(nbes-3)+3;
+            //on positionne ici la sortie sur la droite de la section de base
             if (fin==3)
                 {posx=widths;
                 posy=-rand()%(int)(y1-y2-1.0)+y1;
@@ -283,7 +288,7 @@ Salles::Salles(const Point& c, float w, float h){
                 pointMap[Point(posx,posy-1)]++;
                 pointMap[Point(x2,posy-1)]++;
                 setdoor(Point(posx,posy));
-                //    {return false;}
+                //on positionne alors des faux couloirs (potentiellement) sur le bas de la section d'origine et sur la gauche
                 for (int k=2; k<nbes;k++){
                     if (k==3){
                         posx=rand()%(int)(x2-x1-1.0)+x1;
@@ -309,46 +314,57 @@ Salles::Salles(const Point& c, float w, float h){
     }
     //on parcourt ensuite la liste en faisant des déplacement haut, bas alternés avec gauche, droite
     n=0;
+    //de base, on se déplace vers la droite vers le haut
     int dirx=1;
     int diry=1;
     int i=0;
     int j=0;
+    //si on est sur le bord droit de l'affichage, on se met à se déplacer vers la gauche
     if (debx+i==widths)
         {i--;
         dirx=0;}
+    //sion on incrémente de 1 par rapport au point d'origine
     else
         {i++;}
+    //si on est en bas de l'affichage, on inverse et on se déplace vers le haut
     if (deby+j==-heights)
         {diry=0;}
     Point P(debx+i,deby+j);
     //quand on tombe sur un point correspondant, on l'implémente dans la liste
     contourList.push_back(Point(debx,deby));
     val=1;
+    //tant que l'on est pas revenu à notre pint de départ
     while (P!=Point(debx,deby))
         {
+        //dans le cas 1 on se déplace vers la gauche ou la droite pour trouver le prochain point
         if (val==1)
             {while (pointMap[P]!=1)
+            //on avance 1 par selon x dans les point jusqu'a arriver à un point connu
                 {P=Point(debx+i,deby+j);
                 if (dirx==1)
                     {i++;}
                 else
                     {i--;}
                 }
+            //si on se retrouve sur l'un des bords de l'écran on change de sens
             if (debx+i==widths)
                 {dirx=0;}
             else if (debx+i==0.0)
                 {dirx=1;}
+            //puis on ajoute le point à la liste
             contourList.push_back(Point(debx+i,deby+j));
+            //et on se met dans le mode pour aller vers le haut ou le bas
             val=0;
             }
         else
             {while (pointMap[P]!=1)
+            //on se déplace vers le haut ou le bas pour trouver le prochain point
                 {P=Point(debx+i,deby+j);
                 if (diry==1)
                     {j++;}
                 else
                     {j--;}
-                }
+            //on change de sens si on est sur un bord
             if (deby+j==heights)
                 {diry=0;}
             else if (deby+j==0.0)
@@ -454,6 +470,7 @@ void Salles::printContour() {
 
 void Salles::init_texture() {
     srand (time(NULL));
+    //on charge l'ensemble des textures
     texture[0].loadFromFile(reference + "floor_1.png");
     texture[1].loadFromFile(reference + "floor_2.png");
     texture[2].loadFromFile(reference + "floor_3.png");
@@ -476,6 +493,7 @@ void Salles::init_texture() {
     wallsection[6].loadFromFile(reference + "wall_top_mid.png");
     int val;
     int pos;
+    //on parcourt l'ensemble de l'écran pour savoir si on est dans ou a l'extérieur de la salle
     for (float x=0; x<widths;x++){
         for (float y=0; y<heights; y++){
             if (insalles(Point(x,-y))==true){
@@ -494,6 +512,7 @@ void Salles::init_texture() {
             }
         }
     }
+    //puis on fais la deuxième couche en faisant les murs
     Point P=contourList[0];
     float difx=0;
     float dify=0;
