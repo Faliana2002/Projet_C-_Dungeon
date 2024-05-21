@@ -7,26 +7,24 @@
 #include "Projectile.cpp"
 #include "../Personnages/Ennemi.hpp"
 #include "../Personnages/Joueurs.hpp"
-// class Joueur;
-// class Ennemi;
 
 #ifndef ARMES_Distance_HPP
 #define ARMES_Distance_HPP
 
+// Liste stockée dans le fichier "declaration.hpp" regroupant l'ensemble des armes qui attaquent à distance
 extern std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesDistance;
 
-// Classe dérivée pour les armes à distance
+// Classe dérivée de la classe Armes pour les armes à distance
 class Distance : public Armes {
     public:
-
+        // Constructeur par défaut
         Distance() {}
-        // Utiliser le constructeur de la classe de base
+
+        // Constructeur dépendant des salles
         Distance(int indice, Salles s, int n);
 
         // Implémentation concrète de la méthode d'attaque
         virtual void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const override;
-        // void attaque_distance(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, Projectile& munition);
-        //void simulateKeyPress(std::vector<Joueur*>& lJoueurs, std::vector<Ennemi*>& lEnnemis, Projectile& munition);
 };
 
 #endif // ARMES_Distance_HPP

@@ -10,14 +10,14 @@
 #include "../Personnages/Personnages.hpp"
 #include "../Personnages/Joueurs.hpp"
 #include "../Personnages/Ennemi.hpp"
-// class Joueur; // Déclaration anticipée
-// class Personnages;
 #include "Armes.hpp" // Inclure seulement si nécessaire
 
+// Variable stockée dans le fichier "declaration.hpp" indiquant le projectile à lancer
 extern std::string arrowFile;
+// Même liste que dans la classe Distance regroupant les armes à distance
 extern std::vector<std::tuple<std::string, float, float, float, float, float, float>> listeArmesDistance;
 
-// Structure Vec2 avec une méthode normalize correctement définie
+// Structure Vec2 définissant les coordonnées d'un vecteur avec une méthode pour avoir la norme et deux surcharges d'opérateur
 struct Vec2 {
     float x, y;
 
@@ -48,28 +48,25 @@ struct Vec2 {
     }
 };
 
-// Classe generant les projectiles
+// Classe générant les projectiles
 class Projectile : public Armes {
     public:
-        Vec2 velocity; // Nouveau membre pour stocker la vitesse et la direction
-        sf::Texture texture; // Texture du projectile
-        sf::Sprite sprite; // Sprite associé à la texture
-        float rate_; // Taux de déplacement
-        float degats_; // Dommages causés par le projectile
-        float distance_attaque_; // Portée de l'attaque
-        std::string textureFile; // Chemin vers le fichier de texture
+        Vec2 velocity;  // Nouveau membre pour stocker la vitesse et la direction
+        sf::Texture texture;    // Texture du projectile
+        sf::Sprite sprite;  // Sprite associé à la texture
+        float rate_;    // Taux de déplacement
+        float degats_;  // Dommages causés par le projectile
+        float distance_attaque_;    // Portée de l'attaque
+        std::string textureFile;    // Chemin vers le fichier de texture
         bool toBeDeleted;
         bool active;
 
         Projectile() : toBeDeleted(false) {}
 
-
-        // Constructeur par défaut
-        // Assurez-vous que le constructeur accepte un pointeur vers Armes
+        // Constructeur
         Projectile(const Point& pos, const Vec2& vel, const Armes* arme) {};
-        // Projectile(){};
-        void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const {};
 
+        // Constructeur dépendant de la direction de l'ennemi ou du joueur
         Projectile(int indice, Vec2 direction) {
             // std::string arrowFile = "arrow";
             indice_ = indice;
@@ -105,7 +102,8 @@ class Projectile : public Armes {
             sprite.scale(scale_factor, scale_factor);
         }
 
-        void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const {};
+        // Méthode attaque redéfinie pour éviter que la classe soit abstraite lorsqu'on l'appelle
+        void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const override{};
         
         // Mise a jour de la position du projectile
         void updatePosition() {
@@ -129,7 +127,7 @@ class Projectile : public Armes {
         }
 
         void markForDeletion() {
-            toBeDeleted = true; // Marque ce projectile pour suppression
+            toBeDeleted = true; // Marque le projectile pour suppression
         }
 
         void updateProjectiles(std::vector<Projectile>& projectiles, const std::vector<Ennemi*>& ennemis) {
@@ -140,9 +138,7 @@ class Projectile : public Armes {
                 }
             }
             // Supprime tous les projectiles marqués
-            projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(), 
-                                            [](const Projectile& p) { return p.toBeDeleted; }),
-                            projectiles.end());
+            projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(), [](const Projectile& p) { return p.toBeDeleted; }), projectiles.end());
         }
 
         void deactivate() {
@@ -150,14 +146,9 @@ class Projectile : public Armes {
         }
 
 
-        // Fonction qui genere les points pour la direction
-        Point calculPoint_Ennemi(Armes& arme, Ennemi& ennemi) {
-            Point point_direct = ennemi.getPosition() - arme.position;
-            return point_direct;
-        }
-
-        Point calculPoint_Joueur(Armes& arme, Joueur& joueur){
-            Point point_direct = joueur.getPosition() - arme.position;
+        // Fonction qui génère les points pour la direction
+        Point calculPoint(Armes& arme, Personnages& personnage) {
+            Point point_direct = personnage.getPosition() - arme.position;
             return point_direct;
         }
 

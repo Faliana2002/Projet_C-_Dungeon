@@ -31,10 +31,10 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vecto
                 if (event.key.code == toucheJoueur[i][5]) {
                     if(lJoueurs[i]->armes != nullptr) lJoueurs[i]->hitEnnemis(lEnnemis, lJoueurs);
                     
-                    // Test attaque_distance
+                    // Test pour l'attaque à distance avec le lancement de projectiles
                     
                     // if (lJoueurs[i]->armes != nullptr && lJoueurs[i]->armes->getIndice() == 0) { 
-                    //     // Trouver l'ennemi le plus proche pour cibler
+                    //     // Recherche de l'ennemi le plus proche pour cibler
                     //     Ennemi* ennemiCible = nullptr;
                     //     float distanceMin = std::numeric_limits<float>::max();
                     //     Point positionJoueur = lJoueurs[i]->getPosition();
@@ -54,18 +54,17 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vecto
                     //             ennemiCible->position.getY() - positionJoueur.getY()
                     //         ).normalize();
 
-                    //         // Créer le projectile avec la direction et la vitesse calculée
-                    //         float speed = lJoueurs[i]->armes->getSpeed();  // Assurez-vous que `getSpeed()` existe et retourne la vitesse appropriée
+                    //         // Création du projectile avec la direction et la vitesse calculée
+                    //         float speed = lJoueurs[i]->armes->getSpeed(); 
                     //         Projectile munition(positionJoueur, directionVersEnnemi * speed, lJoueurs[i]->armes); 
-                    //         std::vector<Projectile> projectiles; // Supposons que vous ayez une liste de projectiles gérée quelque part dans votre jeu
+                    //         std::vector<Projectile> projectiles;
                     //         projectiles.push_back(munition);
 
-                    //         // Mettre à jour la méthode attaque si nécessaire pour qu'elle gère un vecteur de projectiles
+                    //         // Mise à jour la méthode attaque si nécessaire pour qu'elle gère un vecteur de projectiles
                     //         Distance distanceObj;
-                    //         distanceObj.attaque(lEnnemis, lJoueurs, *lJoueurs[i]->armes, projectiles); // Cette méthode devrait maintenant prendre en charge les projectiles
+                    //         distanceObj.attaque(lEnnemis, lJoueurs, *lJoueurs[i]->armes, projectiles);
                     //     }
                     // }
-
 
                     //
                 }

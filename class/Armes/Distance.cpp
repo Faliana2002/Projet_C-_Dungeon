@@ -1,5 +1,6 @@
 #include "Distance.hpp"
 
+// Définition du constructeur
 Distance::Distance(int indice, Salles s, int n) {
     indice_ = indice;
 
@@ -51,38 +52,7 @@ Distance::Distance(int indice, Salles s, int n) {
 }
 
 
-// void Distance::attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const {
-//     // Pour chaque ennemi dans la liste
-//     for (Ennemi* ennemi : lEnnemis) {
-//         Point pointDirect = munition.calculPoint_Ennemi(*ennemi->armes, *ennemi);
-//         Vec2 directionProjectile = munition.calculDirection(pointDirect);
-
-//         Vec2 directVersEnnemi = Vec2(ennemi->position.getX() - this->position.getX(), ennemi->position.getY() - this->position.getY()).normalize();
-
-//         // Vérification si le projectile est bien dirigé vers l'ennemi
-//         if (directionProjectile.x == directVersEnnemi.x && directionProjectile.y == directVersEnnemi.y) {
-//             ennemi->recevoirDegats(ennemi->armes);
-//         }
-//     }
-
-//     Joueur* joueurPrecedent = nullptr; // Pointeur vers le joueur précédent
-
-//     for (Joueur* joueur : lJoueur) {
-//         if (joueur != joueurPrecedent) { // Vérifie si le joueur actuel est différent du précédent
-//             Point pointDirect = munition.calculPoint_Joueur(*joueur->armes, *joueur);
-//             Vec2 directionProjectile = munition.calculDirection(pointDirect);
-
-//             Vec2 directionVersJoueur = Vec2(joueur->position.getX() - this->position.getX(), joueur->position.getY() - this->position.getY()).normalize();
-
-//             // Vérification si le projectile est bien dirigé vers ce joueur
-//             if (directionProjectile.x == directionVersJoueur.x && directionProjectile.y == directionVersJoueur.y) {
-//                 joueur->recevoirDegats(joueur->armes);
-//             }
-//         }
-//         joueurPrecedent = joueur; // Mettre à jour le joueur précédent avec le joueur actuel
-//     }
-// }
-
+// Définition de la méthode abstraite exploitant la direction de l'ennemi par rapport à un joueur et inversement (mais n'a pas abouti) 
 
 // void Distance::attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, Projectile& munition) const {
 //     const float ANGLE_TOLERANCE = 0.1; // Tolérance en radians pour l'angle
@@ -130,6 +100,7 @@ Distance::Distance(int indice, Salles s, int n) {
 //     }
 // }
 
+// Méthode attaque
 void Distance::attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const {
     // Lancer un projectile vers chaque ennemi
     for (auto& ennemi : lEnnemis) {

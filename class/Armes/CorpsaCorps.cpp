@@ -1,6 +1,7 @@
 #include "CorpsaCorps.hpp"
 #include "../Personnages/Ennemi.hpp"
 
+// Définition du constructeur
 CorpsaCorps::CorpsaCorps(int indice, Salles s, int n) {
     indice_ = indice;
 
@@ -64,21 +65,11 @@ void CorpsaCorps::infligerDegats(std::vector<Ennemi*>& lEnnemis, std::vector<Jou
             if (ennemi && ennemi->detecterEnnemi(lJoueur, arme)) {
                 ennemiDetecte = true;
 
-                // Appliquer les dégâts à l'ennemi détecté
-                //ennemi->recevoirDegats(&arme);  // Assurez-vous que recevoirDegats attend une référence à Armes
-
-                // // Optionnel : Jouer une animation d'attaque
-                // sprite.playAnimation("attaque");
-
-                // Optionnel : Jouer un effet sonore
-                // jouerSon("sonAttaque");
-
                 // Un ennemi a été touché, donc sortie de la boucle
                 break;
             }
         }
     }
-    
 
     // Vérifier si aucun ennemi n'a été détecté et touché
     if (!ennemiDetecte) {
@@ -86,7 +77,7 @@ void CorpsaCorps::infligerDegats(std::vector<Ennemi*>& lEnnemis, std::vector<Jou
     }
 }
 
-// A modifier, sans specification de touche
+// Méthode attaque
 void CorpsaCorps::attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const {
     infligerDegats(lEnnemis, lJoueur, arme);
 }
