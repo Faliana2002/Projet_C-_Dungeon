@@ -184,7 +184,7 @@ int main() {
 
         if (memEtatJeu == 0 && etatJeu == 1) {
             for (Joueur* j : lJoueurs) {
-                j->position = Point(0,144);
+                j->position = salle_test.planES[salle_test.planID][0];
                 j->mouvement(0,0);
             }
         }

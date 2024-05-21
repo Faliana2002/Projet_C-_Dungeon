@@ -213,7 +213,9 @@ void Joueur::mouvement(Salles s) {
 
 // Vitesse 1 sur les deux axes pour des tests
 void Joueur::debug_mvt() {
+    std::cout << "on tente mvt" << std::endl;
     mouvement(speedX,speedY);
+    std::cout << "le mvt est passé" << std::endl;
             
     if (position.getX() + speedX + width_*scale_factor > width || position.getX() + speedX < 0) {
         speedX *= -1;
@@ -222,6 +224,7 @@ void Joueur::debug_mvt() {
     if (position.getY() + speedY + height_*scale_factor > height || position.getY() + speedY < 0) {
         speedY *= -1;
     }
+    std::cout << "debug est fini" << std::endl;
 
 }
 

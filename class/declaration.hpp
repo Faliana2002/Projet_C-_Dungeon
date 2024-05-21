@@ -10,11 +10,12 @@ std::string idle = "_idle_anim_f";
 std::string run = "_run_anim_f";
 std::string fin_str = ".png";
 std::string weapon_str = "weapon_";
-std::string wall_edge_str = "wall_egde_";
+std::string wall_edge_str = "wall_edge_";
 std::string fountain_anim_str1 = "wall_fountain_";
 std::string fountain_anim_str2 = "anim_f_";
-std::string floor_str = "floor_";
+std::string floor_str = "floor";
 std::string spikes_anim_str = "_anim_f";
+std::string wall_str = "wall_";
 
 int nbLJoueur = 9;
 int nbLEnnemi = 17;
@@ -150,6 +151,12 @@ std::string listeWallsOther[] = {"fountain_top_1",
                                  "top_mid",
                                  "top_right"};
 
+std::string listeWalls[] = {"hole_1",
+                            "hole_2",
+                            "left",
+                            "mid",
+                            "right"};
+
 std::string listeFloor[] = {"_1",
                             "_2",
                             "_3",
@@ -162,6 +169,8 @@ std::string listeFloor[] = {"_1",
                             "stairs"};
 
 std::string spikes_anim = "spikes";
+
+std::string banner[] = {"banner_red", "banner_blue"};
 
 /*
 bombe

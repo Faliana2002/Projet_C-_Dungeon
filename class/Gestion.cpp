@@ -3,7 +3,8 @@
 
 void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vector<Joueur*>& lJoueurs, std::vector<Armes*>& lArmes, std::vector<Ennemi*>& lEnnemis) {
     if (event.type == sf::Event::KeyPressed) {
-        for (int i = 0; i < nbJoueur; i++) {
+        for (int i = 0; i < 2; i++) {
+            
             if (lJoueurs[i]->estVivant) {
                 // Haut-bas
                 if (event.key.code == toucheJoueur[i][0]) lJoueurs[i]->speedY = -2;
@@ -27,7 +28,6 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vecto
                         lJoueurs[i]->armes = nullptr;
                     }
                 }
-
                 if (event.key.code == toucheJoueur[i][5]) {
                     if(lJoueurs[i]->armes != nullptr) lJoueurs[i]->hitEnnemis(lEnnemis, lJoueurs);
                     
@@ -72,14 +72,13 @@ void Gestion::entryManager(sf::Event event, sf::RenderWindow& window, std::vecto
             }
         }
     }
-    
     else if (event.type == sf::Event::KeyReleased) {
         for (int i = 0; i < nbJoueur; i++) {
             if (event.key.code == toucheJoueur[i][0] || event.key.code == toucheJoueur[i][1]) lJoueurs[i]->speedY = 0;
             if (event.key.code == toucheJoueur[i][2] || event.key.code == toucheJoueur[i][3]) lJoueurs[i]->speedX = 0;
         }
     }
-
+    
     if (event.key.code == sf::Keyboard::T) {
         for (int i = 0; i < nbJoueur; i++) {
             lJoueurs[i]->rtp = 0;   // rpt : Ready To Play
