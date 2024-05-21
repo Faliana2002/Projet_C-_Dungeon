@@ -45,6 +45,7 @@ class Ennemi : public Personnages {
         bool detecterEnnemi(std::vector<Joueur*>& lJoueur, const Armes& arme);
         Point detecteJoueur(const std::vector<Joueur*>& lJoueurs, Salles s);
         void hitEnnemis(std::vector<Joueur*>& lJoueur);
+        void respawn(Salles s);
 };
 
 #endif

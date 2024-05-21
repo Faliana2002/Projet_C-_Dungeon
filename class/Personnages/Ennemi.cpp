@@ -1,5 +1,23 @@
 #include "Ennemi.hpp"
 
+void Ennemi::respawn(Salles s) {
+    static std::mt19937 generator(static_cast<unsigned int>(std::time(nullptr)));
+    // Création d'une distribution uniforme pour choisir un index de la liste des positions spawnables
+    std::uniform_int_distribution<int> distribution(0, s.planSpawnable[s.planID].size() - 1);
+    int l = distribution(generator);
+
+    int x = s.planSpawnable[s.planID][l].getX();
+    int y = s.planSpawnable[s.planID][l].getY();
+    
+    position.setX(x);
+    position.setY(y);
+    objectif.setX(x);
+    objectif.setY(y);
+
+    estVivant = true;
+    vie = vieMax;
+}
+
 // Initialisation sur les zones définies
 Ennemi::Ennemi(int textureFileInt, Salles s, int n) {
     auto now = std::chrono::system_clock::now();
@@ -14,7 +32,7 @@ Ennemi::Ennemi(int textureFileInt, Salles s, int n) {
         static std::mt19937 generator(static_cast<unsigned int>(std::time(nullptr)));
 
         // Création d'une distribution uniforme pour choisir un index de la liste des positions spawnables
-        std::uniform_int_distribution<int> distribution(0, s.spawnable.size() - 1);
+        std::uniform_int_distribution<int> distribution(0, s.planSpawnable[s.planID].size() - 1);
 
         l = distribution(generator);
     }
@@ -23,8 +41,8 @@ Ennemi::Ennemi(int textureFileInt, Salles s, int n) {
         l = n; 
     }
             
-    int x = s.spawnable[l].getX();
-    int y = s.spawnable[l].getY();
+    int x = s.planSpawnable[s.planID][l].getX();
+    int y = s.planSpawnable[s.planID][l].getY();
     
     numPerso = textureFileInt;
     // Set grande taille

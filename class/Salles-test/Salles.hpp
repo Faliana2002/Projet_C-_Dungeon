@@ -15,21 +15,24 @@ extern std::vector<Point> contourList1;
 extern std::vector<Rectangle> obstacleList1;
 extern std::string nom1;
 extern std::vector<Point> ES1;
+extern std::vector<Point> spawnable1;
 extern std::vector<Point> contourList2;
 extern std::vector<Rectangle> obstacleList2;
 extern std::string nom2;
 extern std::vector<Point> ES2;
+extern std::vector<Point> spawnable2;
 extern std::vector<Point> contourList3;
 extern std::vector<Rectangle> obstacleList3;
 extern std::string nom3;
 extern std::vector<Point> ES3;
+extern std::vector<Point> spawnable3;
 
 extern std::string reference;
 #include <SFML/Graphics.hpp>
 class Salles {
     public:
         Salles() {
-            planID = 3;
+            planID = 1;
             planContour.push_back(contourList);
             planContour.push_back(contourList1);
             planContour.push_back(contourList2);
@@ -46,6 +49,10 @@ class Salles {
             planES.push_back(ES1);
             planES.push_back(ES2);
             planES.push_back(ES3);
+            planSpawnable.push_back(spawnable);
+            planSpawnable.push_back(spawnable1);
+            planSpawnable.push_back(spawnable2);
+            planSpawnable.push_back(spawnable3);
 
             getLine();
             voisins.resize(n, std::vector<std::vector<Point>>(m));
@@ -70,6 +77,7 @@ class Salles {
         std::vector<std::vector<Rectangle>> planObstacle;
         std::vector<std::string> planNom;
         std::vector<std::vector<Point>> planES;
+        std::vector<std::vector<Point>> planSpawnable;
         int planID;
         int maxPlanID = 0;
 
@@ -77,7 +85,7 @@ class Salles {
         std::vector<Rectangle> obstacleList = {Rectangle(Point(624+240/2, 336+144/2), 240, 144), Rectangle(Point(288+48, 288+48), 96, 96)};
         std::vector<sf::RectangleShape> lineList;
         std::vector<sf::RectangleShape> lineObstacle;
-        std::vector<Point> spawnable = {Point(864, 10)};
+        std::vector<Point> spawnable = {Point(768, 10), Point(432,528), Point(1104, 384), Point(864,192)};
         //std::vector<Point> spawnable = {Point(180,100), Point(226,368), Point(334,476), Point(534,382), Point(592,250), Point(734,102), Point(916,232), Point(1016,338), Point(892,458)};
         int thicknessLine = 2;
 

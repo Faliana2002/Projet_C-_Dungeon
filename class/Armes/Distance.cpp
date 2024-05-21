@@ -1,5 +1,18 @@
 #include "Distance.hpp"
 
+void Distance::respawn(Salles s) {
+    static std::mt19937 generator(static_cast<unsigned int>(std::time(nullptr)));
+    // Création d'une distribution uniforme pour choisir un index de la liste des positions spawnables
+    std::uniform_int_distribution<int> distribution(0, s.planSpawnable[s.planID].size() - 1);
+    int l = distribution(generator);
+
+    int x = s.planSpawnable[s.planID][l].getX();
+    int y = s.planSpawnable[s.planID][l].getY();
+    
+    position.setX(x);
+    position.setY(y);   
+}
+
 Distance::Distance(int indice, Salles s, int n) {
     indice_ = indice;
 
@@ -27,17 +40,17 @@ Distance::Distance(int indice, Salles s, int n) {
         static std::mt19937 generator(static_cast<unsigned int>(std::time(nullptr)));
 
         // Création d'une distribution uniforme pour choisir un index de la liste des positions spawnables
-        std::uniform_int_distribution<int> distribution(0, s.spawnable.size() - 1);
+        std::uniform_int_distribution<int> distribution(0, s.planSpawnable[s.planID].size() - 1);
 
         l = distribution(generator);
     }
     else {
-        if (n >= (int) s.spawnable.size()) n = s.spawnable.size();
+        if (n >= (int) s.planSpawnable[s.planID].size()) n = s.planSpawnable[s.planID].size();
         l = n; 
     }
             
-    int x = s.spawnable[l].getX();
-    int y = s.spawnable[l].getY();
+    int x = s.planSpawnable[s.planID][l].getX();
+    int y = s.planSpawnable[s.planID][l].getY();
 
     // Positionnement de l'arme sur le monde du jeu
     position.setX(x);

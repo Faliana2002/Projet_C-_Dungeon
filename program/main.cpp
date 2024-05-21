@@ -155,8 +155,8 @@ int main() {
                 //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
                 //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
                 for (Ennemi* e : lEnnemis) {
-                    if (e->estVivant) e->aleatoire_mvt_2(lJoueurs ,salle_test);
-                    //if (e->estVivant) e->debug_mvt();
+                    //if (e->estVivant) e->aleatoire_mvt_2(lJoueurs ,salle_test);
+                    if (e->estVivant) e->debug_mvt();
                     //if (e->estVivant) e->suivi(j1);
                     //if (e->estVivant) e->mouvement(1,1);
                 }
@@ -171,6 +171,31 @@ int main() {
 
         // Clear the window
         window.clear();
+
+        int d = 0;
+        for (Joueur* j : lJoueurs) {
+            d += sqrt( pow(j->position.getX() - salle_test.planES[salle_test.planID][1].getX(), 2) + pow(j->position.getY() - salle_test.planES[salle_test.planID][1].getY(), 2) );
+        }
+        //std::cout << d << std::endl;
+        int nb_ennemi = 0;
+        for (Ennemi* e : lEnnemis) {
+            if (e->estVivant) nb_ennemi++;
+        }
+        if (d < 100 && nb_ennemi != 0-1) {
+            salle_test.planID++;
+            if (salle_test.planID > 3) salle_test.planID = 0;
+            for (Joueur* j : lJoueurs) {
+                j->vie = j->vieMax;
+                j->estVivant = true;
+                j->position = salle_test.planES[salle_test.planID][0];
+                j->mouvement(0,0);
+            }
+            for (Ennemi* e : lEnnemis) {
+                e->respawn(salle_test);
+                e->mouvement(0,0);
+            }
+            salle_test.init_texture();
+        }
 
         if (etatJeu == 1) window.draw(salle_test.sprite);
         /*if (etatJeu == 1) {
