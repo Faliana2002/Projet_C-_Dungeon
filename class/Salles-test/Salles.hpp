@@ -90,7 +90,7 @@ class Salles {
         std::vector<std::vector<Point>> planES;
         std::vector<std::vector<Point>> planSpawnable;
         int planID;
-        int maxPlanID = 0;
+        int maxPlanID = 3;
 
         std::vector<Point> contourList = {Point(0,96),Point(96,96),Point(96,48),Point(288,48),Point(288,144),Point(432,144),Point(432,192),Point(672,192),Point(672,48),Point(720,48),Point(720,0),Point(864,0),Point(864,96),Point(912,96),Point(912,144),Point(960,144),Point(960,192),Point(1056,192),Point(1056,96),Point(1152,96),Point(1152,480),Point(1008,480),Point(1008,576),Point(624,576),Point(624,624),Point(288,624),Point(288,480),Point(192,480),Point(192,384),Point(48,384),Point(48,240),Point(0,240),Point(0,96)};
         std::vector<Rectangle> obstacleList = {Rectangle(Point(624+240/2, 336+144/2), 240, 144), Rectangle(Point(288+48, 288+48), 96, 96)};
