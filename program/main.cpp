@@ -71,6 +71,7 @@ int main() {
 
     CorpsaCorps c5(0, salle_test, -1);
     e1.armes = &c5;
+    e2.armes = &c1;
 
     std::vector<Armes*> listeArmes;
     //cout << "On ajoute des armes" << endl;
@@ -155,8 +156,8 @@ int main() {
                 //for (Ennemi e : listeEnnemis) e.debug_mvt(); 
                 //for (Ennemi* e : lEnnemis) e->aleatoire_mvt(salle_test);
                 for (Ennemi* e : lEnnemis) {
-                    //if (e->estVivant) e->aleatoire_mvt_2(lJoueurs ,salle_test);
-                    if (e->estVivant) e->debug_mvt();
+                    if (e->estVivant) e->aleatoire_mvt_2(lJoueurs ,salle_test);
+                    //if (e->estVivant) e->debug_mvt();
                     //if (e->estVivant) e->suivi(j1);
                     //if (e->estVivant) e->mouvement(1,1);
                 }
@@ -194,7 +195,13 @@ int main() {
                 e->respawn(salle_test);
                 e->mouvement(0,0);
             }
-            salle_test.init_texture();
+            for (int i = 0; i < 5; i++) {
+                if (listeArmes[i]->portee == false && lEnnemis[i]->armes == nullptr) {
+                    listeArmes[i]->portee == true;
+                    lEnnemis[i]->armes = listeArmes[i];
+                }
+            }
+            salle_test.respawn();
         }
 
         if (etatJeu == 1) window.draw(salle_test.sprite);

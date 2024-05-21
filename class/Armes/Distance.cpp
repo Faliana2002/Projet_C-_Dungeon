@@ -1,18 +1,5 @@
 #include "Distance.hpp"
 
-void Distance::respawn(Salles s) {
-    static std::mt19937 generator(static_cast<unsigned int>(std::time(nullptr)));
-    // Création d'une distribution uniforme pour choisir un index de la liste des positions spawnables
-    std::uniform_int_distribution<int> distribution(0, s.planSpawnable[s.planID].size() - 1);
-    int l = distribution(generator);
-
-    int x = s.planSpawnable[s.planID][l].getX();
-    int y = s.planSpawnable[s.planID][l].getY();
-    
-    position.setX(x);
-    position.setY(y);   
-}
-
 Distance::Distance(int indice, Salles s, int n) {
     indice_ = indice;
 

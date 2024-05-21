@@ -64,6 +64,17 @@ class Salles {
             std::cout << "Init texture terminé" << std::endl;
         };
 
+        void respawn() {
+            getLine();
+            voisins.resize(n, std::vector<std::vector<Point>>(m));
+            buildListeAvailable();
+            buildVoisins();
+            std::cout << "Voisins terminés" << std::endl;
+
+            init_texture();
+            std::cout << "Init texture terminé" << std::endl;
+        };
+
         void init_texture() {
             texture.loadFromFile(reference + planNom[planID]);
             sprite.setTexture(texture);

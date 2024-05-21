@@ -27,7 +27,6 @@ class Distance : public Armes {
         virtual void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const override;
         // void attaque_distance(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, Projectile& munition);
         //void simulateKeyPress(std::vector<Joueur*>& lJoueurs, std::vector<Ennemi*>& lEnnemis, Projectile& munition);
-        void respawn(Salles s);
 };
 
 #endif // ARMES_Distance_HPP

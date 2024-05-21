@@ -22,7 +22,6 @@ class CorpsaCorps : public Armes {
         // Implémentation concrète de la méthode d'attaque
         void attaque(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme, std::vector<Projectile>& projectiles) const override;
         void infligerDegats(std::vector<Ennemi*>& lEnnemis, std::vector<Joueur*>& lJoueur, const Armes& arme) const;
-        void respawn(Salles s);
 };
 
 #endif // ARMES_CorpsaCorps_HPP
